@@ -282,18 +282,6 @@ http://localhost:8080/swagger-ui/index.html
 
 ---
 
-## 🎨 Design Philosophy
-
-ExpenseTracker Pro follows the **"Anti-Gravity" design language** — a custom aesthetic system built from scratch:
-
-- **Color Palette:** Deep navy backgrounds (`#0a0e1a`) with indigo (`#6366f1`) and cyan (`#22d3ee`) accents
-- **Typography:** Inter font family with 900-weight gradient headings
-- **Glass Effects:** Multi-layer `backdrop-filter: blur()` with semi-transparent borders
-- **Animations:** Spring-based physics via Framer Motion for organic, natural movement
-- **Data Viz:** Force-simulation D3.js charts with real-time collision detection
-
----
-
 ## 📧 Email System
 
 The application sends beautifully designed HTML emails:
@@ -406,70 +394,6 @@ erDiagram
 | **Reports** | Monthly breakdown with percentage bars and PDF export |
 | **Profile** | User management with password update capability |
 | **Welcome Email** | Dark-mode HTML email with gradient CTA button |
-
----
-
-## 🔄 Data Flow
-
-```
-┌─────────────┐     HTTP/JSON      ┌──────────────────┐      JDBC       ┌───────────┐
-│   React UI  │ ◄──────────────► │  Spring Boot API  │ ◄──────────► │   MySQL   │
-│  (Vercel)   │   Bearer JWT       │    (Render)       │              │ (Railway) │
-└─────────────┘                    └──────────────────┘              └───────────┘
-                                           │
-                                           │ SMTP (Async)
-                                           ▼
-                                    ┌──────────────┐
-                                    │  Gmail SMTP  │
-                                    │   Server     │
-                                    └──────────────┘
-```
-
-### Request Lifecycle
-
-1. **User Action** → React component triggers an API call via Axios
-2. **JWT Interceptor** → Axios automatically attaches `Authorization: Bearer <token>` header
-3. **Spring Security Filter** → `JwtAuthenticationFilter` validates the token
-4. **Controller** → Receives the request and delegates to the Service layer
-5. **Service** → Executes business logic, checks `@Cacheable` for cached results
-6. **Repository** → Spring Data JPA generates optimized SQL queries
-7. **Response** → DTO is serialized to JSON and returned to the frontend
-8. **Cache Eviction** → On mutations (`POST/PUT/DELETE`), `@CacheEvict` clears stale data
-
----
-
-## 🧪 Testing the Application
-
-### Manual Testing Checklist
-
-#### Authentication Flow
-- [ ] Register a new account with valid email
-- [ ] Verify welcome email arrives in inbox
-- [ ] Login with registered credentials
-- [ ] Verify JWT token is stored in localStorage
-- [ ] Access protected routes while authenticated
-- [ ] Verify redirect to `/login` when token expires
-- [ ] Logout and confirm token is cleared
-
-#### Transaction CRUD
-- [ ] Add an income transaction (e.g., "Salary" — ₹50,000)
-- [ ] Add multiple expense transactions with different categories
-- [ ] Edit an existing transaction's amount and category
-- [ ] Delete a transaction and verify removal
-- [ ] Verify dashboard stats update after each operation
-
-#### Reports & Analytics
-- [ ] Dashboard displays correct balance, income, expense, savings rate
-- [ ] Pie chart shows correct category distribution
-- [ ] D3 Bubble Chart renders with physics and drag interaction
-- [ ] Monthly report table shows correct income vs expense breakdown
-- [ ] Summary report shows category percentages with progress bars
-- [ ] PDF export downloads correctly formatted document
-
-#### Profile & Security
-- [ ] View profile information
-- [ ] Update password successfully
-- [ ] Verify old password no longer works after change
 
 ---
 
