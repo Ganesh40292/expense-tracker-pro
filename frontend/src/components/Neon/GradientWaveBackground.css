@@ -1,0 +1,70 @@
+/* Animated gradient "wave" background */
+
+.gradient-wave-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+
+  background: linear-gradient(120deg,
+    rgba(99,102,241,0.55),
+    rgba(59,130,246,0.45),
+    rgba(16,185,129,0.35),
+    rgba(139,92,246,0.45)
+  );
+
+  /* Helps the browser animate the gradient smoothly */
+  filter: saturate(140%);
+  opacity: 0.95;
+}
+
+/* Two pseudo-layers to create a more "wave" feeling */
+.gradient-wave-bg::before,
+.gradient-wave-bg::after {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(99,102,241,0.55) 0%, rgba(99,102,241,0) 55%),
+    radial-gradient(circle at 85% 30%, rgba(59,130,246,0.45) 0%, rgba(59,130,246,0) 55%),
+    radial-gradient(circle at 30% 85%, rgba(16,185,129,0.35) 0%, rgba(16,185,129,0) 60%),
+    radial-gradient(circle at 70% 80%, rgba(139,92,246,0.40) 0%, rgba(139,92,246,0) 60%);
+
+  filter: blur(28px);
+  opacity: 0.9;
+  animation: gradient-wave-drift 10s ease-in-out infinite;
+}
+
+.gradient-wave-bg::after {
+  animation-duration: 14s;
+  opacity: 0.7;
+  transform: translate3d(0,0,0) scale(1.02);
+}
+
+@keyframes gradient-wave-drift {
+  0% {
+    transform: translate3d(-2%, -1%, 0) scale(1.02) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(2%, -2.5%, 0) scale(1.05) rotate(6deg);
+  }
+  50% {
+    transform: translate3d(4%, 2.5%, 0) scale(1.03) rotate(0deg);
+  }
+  75% {
+    transform: translate3d(-1.5%, 3%, 0) scale(1.06) rotate(-5deg);
+  }
+  100% {
+    transform: translate3d(-2%, -1%, 0) scale(1.02) rotate(0deg);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-wave-bg::before,
+  .gradient-wave-bg::after {
+    animation: none !important;
+  }
+}
+

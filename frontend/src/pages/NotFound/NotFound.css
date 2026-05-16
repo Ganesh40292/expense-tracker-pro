@@ -1,0 +1,23 @@
+.notfound-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.notfound-card {
+  text-align: center;
+}
+
+.notfound-card h1 {
+  font-size: 80px;
+  margin: 0;
+  color: var(--primary);
+}
+
+.notfound-card p {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin: 8px 0 24px;
+}

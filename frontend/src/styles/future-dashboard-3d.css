@@ -1,0 +1,17 @@
+/* Extra 3D layering for FutureDashboard */
+
+.future-dashboard {
+  position: relative;
+}
+
+.future-dashboard > .neon3d {
+  /* keep background behind content */
+  z-index: 0;
+}
+
+.future-dashboard__header,
+.future-dashboard__content {
+  position: relative;
+  z-index: 1;
+}
+

@@ -1,0 +1,31 @@
+/* ═══════════════════════════════════════════════════════════
+   PROTECTED LAYOUT — Anti-Gravity Shell
+   ═══════════════════════════════════════════════════════════ */
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+.layout__body {
+  display: flex;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.layout__content {
+  flex: 1;
+  padding: 28px 32px;
+  overflow-y: auto;
+  position: relative;
+  min-height: calc(100vh - var(--navbar-height));
+}
+
+@media (max-width: 768px) {
+  .layout__content {
+    padding: 20px 16px;
+  }
+}

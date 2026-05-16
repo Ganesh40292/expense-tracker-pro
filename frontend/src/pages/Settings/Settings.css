@@ -1,0 +1,82 @@
+/* ═══════════════════════════════════════════════════════════
+   SETTINGS — Anti-Gravity Glassmorphic
+   ═══════════════════════════════════════════════════════════ */
+
+.settings-subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.settings-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  padding: 4px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  width: fit-content;
+}
+
+.settings-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+}
+
+.settings-tab--active {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--primary);
+}
+
+.settings-tab:hover:not(.settings-tab--active) {
+  color: var(--text);
+}
+
+.settings-card {
+  max-width: 520px;
+}
+
+.settings-card__inner {
+  padding: 28px;
+}
+
+.settings-card__inner h2 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #fff, var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.settings-muted {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.settings-muted code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid var(--border);
+  color: var(--primary);
+}

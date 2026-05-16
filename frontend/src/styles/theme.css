@@ -1,0 +1,30 @@
+/* Theme transitions */
+* {
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+[data-theme='dark'] .auth-card,
+[data-theme='dark'] .transaction-form-card,
+[data-theme='dark'] .profile-card {
+  background: var(--card-bg);
+  border-color: var(--border);
+}
+
+[data-theme='dark'] .form-group input,
+[data-theme='dark'] .form-group select {
+  background: #0f172a;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme='dark'] .transactions-table th {
+  background: #0f172a;
+}
+
+[data-theme='dark'] .badge-income {
+  background: rgba(16, 185, 129, 0.15);
+}
+
+[data-theme='dark'] .badge-expense {
+  background: rgba(239, 68, 68, 0.15);
+}

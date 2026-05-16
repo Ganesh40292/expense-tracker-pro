@@ -1,0 +1,87 @@
+/* Animated 3D level dashboard overlays */
+
+/* 3D frame glow */
+.future-dashboard-3d {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.future-dashboard-3d::before {
+  content: '';
+  position: absolute;
+  inset: -24px;
+  border-radius: 28px;
+  z-index: -2;
+  pointer-events: none;
+
+  background:
+    radial-gradient(900px circle at 15% 5%, rgba(99,102,241,0.35) 0%, transparent 55%),
+    radial-gradient(760px circle at 90% 10%, rgba(59,130,246,0.26) 0%, transparent 55%),
+    radial-gradient(720px circle at 50% 110%, rgba(16,185,129,0.18) 0%, transparent 60%),
+    linear-gradient(135deg,
+      rgba(99,102,241,0.12) 0%,
+      rgba(59,130,246,0.08) 35%,
+      rgba(16,185,129,0.05) 70%,
+      rgba(248,250,252,0) 100%);
+
+  filter: blur(10px);
+  opacity: 0.95;
+}
+
+/* moving perspective sheen */
+.future-dashboard-3d::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 26px;
+  z-index: -1;
+  pointer-events: none;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    rgba(99,102,241,0.20) 30%,
+    rgba(56,189,248,0.12) 50%,
+    rgba(255,255,255,0) 72%
+  );
+
+  opacity: 0.75;
+  transform: translateZ(-1px);
+  animation: dashboard-sheen 6s ease-in-out infinite;
+}
+
+@keyframes dashboard-sheen {
+  0% { transform: translate3d(-6%, 0, -1px) rotateZ(0deg); }
+  50% { transform: translate3d(6%, -2%, -1px) rotateZ(1deg); }
+  100% { transform: translate3d(-6%, 0, -1px) rotateZ(0deg); }
+}
+
+/* Make cards feel 3D */
+.neo-card,
+.glass-panel {
+  transform-style: preserve-3d;
+}
+
+/* Extra hover depth */
+.neo-card:hover {
+  transform: translateY(-6px) translateZ(14px);
+}
+
+.glass-panel:hover {
+  transform: translateZ(14px) translateY(-4px);
+  transition: transform 0.3s ease;
+}
+
+/* Ensure main content sits above background effects */
+.future-dashboard__content,
+.future-dashboard__header {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .future-dashboard-3d::after {
+    animation: none;
+  }
+}
+

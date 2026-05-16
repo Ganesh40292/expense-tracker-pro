@@ -1,0 +1,13 @@
+/* Wrapper tweaks for globally mounting 3D neon background */
+
+.neon3d-wrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.35;
+}
+
+
+
+
