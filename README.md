@@ -40,15 +40,18 @@
 - **Aurora Glassmorphism Design** — Premium frosted-glass UI with dynamic mesh-gradient backgrounds
 - **3D Tilt Cards** — Mouse-tracking perspective transforms using Framer Motion springs
 - **Interactive D3.js Bubble Chart** — Drag-and-drop physics simulation where category bubbles bounce and collide
+- **AI Intelligence Hub** — Custom dashboard offering smart financial insights, budget recommendations, and predictive visualizations
+- **Admin Control Panel** — Full platform monitoring dashboard with system health metrics, security audits, and user management
+- **Receipt OCR Scanner** — Interactive OCR interface to upload and automatically parse receipt details into transactions
 - **Animated Counters** — Smooth number transitions for financial statistics
 - **Responsive Layout** — Fully adaptive from desktop to mobile
 
 ### 🔐 Backend — Enterprise Architecture
-- **Stateless JWT Authentication** — Secure token-based auth with BCrypt password hashing
+- **Stateless JWT Authentication** — Secure token-based auth with BCrypt hashing and Refresh Token rotation
 - **Spring Boot Caching Layer** — `@Cacheable` on analytics queries with automatic `@CacheEvict` on mutations
-- **Automated Email System** — Styled HTML welcome emails on registration via Gmail SMTP
-- **Scheduled Cron Jobs** — Monthly financial report emails sent automatically on the 1st of every month
-- **RESTful API Design** — Clean controller-service-repository architecture with DTO pattern
+- **Automated Email System** — Styled HTML welcome, password reset, and monthly summary emails sent asynchronously
+- **Scheduled Cron Jobs** — Automated scheduler processing recurring transactions and monthly reports
+- **RESTful API Design** — Clean controller-service-repository architecture with DTO and mapper patterns
 - **Swagger/OpenAPI Docs** — Auto-generated interactive API documentation
 
 ### 📊 Analytics & Reporting
@@ -57,12 +60,13 @@
 - **Category Breakdown** — Pie charts and percentage-bar tables
 - **PDF Export** — One-click professional PDF generation with `jsPDF` + `autoTable`
 
-### 🛡️ Security
+### 🛡️ Security & Integrity
 - **BCrypt Password Hashing** — Military-grade encryption for all user passwords
-- **JWT Token Validation** — Every API request is authenticated via Bearer tokens
-- **Data Ownership Enforcement** — Users can only access their own transactions
-- **CORS Protection** — Whitelisted origins with credentials support
-- **XSS/CSRF Protection** — Stateless architecture eliminates CSRF attack vectors
+- **Refresh Token Rotation** — Protection against replay attacks and stale logins
+- **API Rate Limiting** — Bucket4j-based request rate limiting per user/IP
+- **Request Sanitization Filter** — Automatic prevention of XSS and SQL injection payloads
+- **Audit Logging** — Secure logs tracking administrative and security-critical actions
+- **Data Ownership Enforcement** — Strictly scoped user databases ensuring isolation
 
 ---
 
@@ -489,17 +493,17 @@ This ensures React Router handles client-side routing correctly.
 - [x] Spring Cache for high-performance analytics
 - [x] Docker containerization
 - [x] Cloud deployment configuration (Vercel + Render + Railway)
+- [x] Dark/Light mode theme toggle
+- [x] AI-powered spending insights and predictions
+- [x] Budget goal tracking with progress indicators
+- [x] Multi-currency support with live exchange rates
 
 ### Planned 🚧
 - [ ] OAuth2 — "Login with Google" integration
 - [ ] WebSocket real-time dashboard updates
-- [ ] Budget goal tracking with progress indicators
-- [ ] Dark/Light mode theme toggle
 - [ ] `Ctrl+K` command palette for power users
 - [ ] CSV/Excel import for bulk transactions
-- [ ] Multi-currency support with live exchange rates
 - [ ] Push notifications for budget alerts
-- [ ] AI-powered spending insights and predictions
 - [ ] Mobile-responsive PWA (Progressive Web App)
 
 ---
@@ -521,10 +525,10 @@ This ensures React Router handles client-side routing correctly.
 ## 📊 Project Stats
 
 ```
-Frontend:  ~40 components, ~15 pages, ~12 custom CSS files
-Backend:   ~20 Java classes, ~8 REST endpoints, ~3 scheduled services
-Database:  2 core entities with relational mapping
-Emails:    2 custom HTML templates (Welcome + Monthly Report)
+Frontend:  ~55 components, ~26 pages, ~20 custom CSS files
+Backend:   ~50 Java classes, ~16 REST endpoints, ~4 scheduled services
+Database:  9 core entities with relational mapping
+Emails:    3 custom HTML templates (Welcome + Monthly Report + Password Reset)
 ```
 
 ---
