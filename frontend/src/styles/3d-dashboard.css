@@ -85,3 +85,19 @@
   }
 }
 
+@media (max-width: 768px) {
+  .future-dashboard-3d::before {
+    inset: -10px;
+    filter: none;
+    opacity: 0.6;
+  }
+  .future-dashboard-3d::after {
+    animation: none !important;
+    opacity: 0;
+  }
+  .neo-card:hover,
+  .glass-panel:hover {
+    transform: none !important;
+  }
+}
+

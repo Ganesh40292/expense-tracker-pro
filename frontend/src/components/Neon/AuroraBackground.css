@@ -9,7 +9,7 @@
   pointer-events: none;
   overflow: hidden;
   /* Add an animated base layer so there's NO solid color anywhere */
-  background: linear-gradient(45deg, #0a0e1a, #1a1025, #0a192f, #0a0e1a);
+  background: var(--aurora-bg-gradient);
   background-size: 400% 400%;
   animation: aurora-base-pan 15s ease infinite;
 }
@@ -153,3 +153,45 @@
     animation: none !important;
   }
 }
+
+@media (max-width: 768px) {
+  .aurora-bg__orb {
+    filter: blur(25px) !important;
+  }
+  .aurora-bg__orb--1 {
+    width: 250px;
+    height: 250px;
+  }
+  .aurora-bg__orb--2 {
+    width: 220px;
+    height: 220px;
+  }
+  .aurora-bg__orb--3 {
+    width: 200px;
+    height: 200px;
+  }
+  .aurora-bg__mesh {
+    animation: aurora-mesh-drift 30s ease-in-out infinite;
+    filter: blur(20px) saturate(120%);
+  }
+  .aurora-bg__grid {
+    animation: none !important;
+    opacity: 0.25;
+  }
+}
+
+/* Light theme overrides for softer glow opacity */
+[data-theme='light'] .aurora-bg__mesh {
+  opacity: 0.55;
+  filter: blur(35px) saturate(140%);
+}
+
+[data-theme='light'] .aurora-bg__orb {
+  opacity: 0.45;
+  filter: blur(50px);
+}
+
+[data-theme='light'] .aurora-bg__grid {
+  opacity: 0.25;
+}
+

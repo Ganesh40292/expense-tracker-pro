@@ -13,7 +13,7 @@ public interface ReportRepository
         extends JpaRepository<Transaction, Long> {
 
     @Query("""
-            SELECT COALESCE(SUM(t.amount), 0)
+            SELECT COALESCE(SUM(t.baseAmount), 0)
             FROM Transaction t
             WHERE t.type = com.expensetracker.enums.TransactionType.INCOME
             AND t.user.id = :userId
@@ -24,7 +24,7 @@ public interface ReportRepository
     );
 
     @Query("""
-            SELECT COALESCE(SUM(t.amount), 0)
+            SELECT COALESCE(SUM(t.baseAmount), 0)
             FROM Transaction t
             WHERE t.type = com.expensetracker.enums.TransactionType.EXPENSE
             AND t.user.id = :userId
@@ -36,7 +36,7 @@ public interface ReportRepository
 
     @Query("""
             SELECT t.category AS category,
-                   SUM(t.amount) AS total
+                   SUM(t.baseAmount) AS total
             FROM Transaction t
             WHERE t.user.id = :userId
             AND t.type = com.expensetracker.enums.TransactionType.EXPENSE
@@ -51,9 +51,9 @@ public interface ReportRepository
     @Query("""
             SELECT FUNCTION('MONTHNAME', t.transactionDate) AS month,
                    SUM(CASE WHEN t.type = com.expensetracker.enums.TransactionType.INCOME
-                       THEN t.amount ELSE 0 END) AS income,
+                       THEN t.baseAmount ELSE 0 END) AS income,
                    SUM(CASE WHEN t.type = com.expensetracker.enums.TransactionType.EXPENSE
-                       THEN t.amount ELSE 0 END) AS expense
+                       THEN t.baseAmount ELSE 0 END) AS expense
             FROM Transaction t
             WHERE t.user.id = :userId
             AND t.status = com.expensetracker.enums.TransactionStatus.COMPLETED

@@ -1,0 +1,104 @@
+# ═══════════════════════════════════════════════════════════
+#  ExpenseTracker — Docker Compose Orchestration
+#  Run: docker-compose up -d
+# ═══════════════════════════════════════════════════════════
+
+services:
+
+  # ── MySQL Database ──────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: expense-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-expense_tracker}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./database/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - expense-net
+
+  # ── Spring Boot Backend ─────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: expense-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      # Database — uses Docker DNS hostname "mysql"
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-expense_tracker}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${DB_USERNAME:-root}
+      DB_PASSWORD: ${DB_PASSWORD}
+      # Spring
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      SHOW_SQL: ${SHOW_SQL:-false}
+      PORT: 8080
+      # JWT
+      JWT_SECRET: ${JWT_SECRET}
+      # Email
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      # CORS
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    volumes:
+      - receipt-uploads:/app/uploads
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/api/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    networks:
+      - expense-net
+
+  # ── React + Nginx Frontend ──────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
+    container_name: expense-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:80/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - expense-net
+
+# ── Networks ──────────────────────────────────────────────
+networks:
+  expense-net:
+    driver: bridge
+    name: expense-tracker-network
+
+# ── Volumes ───────────────────────────────────────────────
+volumes:
+  mysql-data:
+    name: expense-mysql-data
+  receipt-uploads:
+    name: expense-receipt-uploads

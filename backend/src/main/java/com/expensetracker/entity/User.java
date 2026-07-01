@@ -33,8 +33,17 @@ public class User extends BaseEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('USER', 'ADMIN') DEFAULT 'USER'")
+    @Column(nullable = false, length = 20, columnDefinition = "VARCHAR(20) DEFAULT 'USER'")
     private UserRole role = UserRole.USER;
+
+    @Column(name = "default_currency", length = 3)
+    private String defaultCurrency = "INR";
+
+    @Column(name = "monthly_income", precision = 12, scale = 2, columnDefinition = "DECIMAL(12,2) DEFAULT 50000.00")
+    private java.math.BigDecimal monthlyIncome = new java.math.BigDecimal("50000.00");
+
+    @Column(nullable = false)
+    private boolean enabled = true;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
@@ -85,6 +94,14 @@ public class User extends BaseEntity {
         this.role = role;
     }
 
+    public String getDefaultCurrency() {
+        return defaultCurrency;
+    }
+
+    public void setDefaultCurrency(String defaultCurrency) {
+        this.defaultCurrency = defaultCurrency;
+    }
+
     public List<Transaction> getTransactions() {
         return transactions;
     }
@@ -99,5 +116,21 @@ public class User extends BaseEntity {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public java.math.BigDecimal getMonthlyIncome() {
+        return monthlyIncome;
+    }
+
+    public void setMonthlyIncome(java.math.BigDecimal monthlyIncome) {
+        this.monthlyIncome = monthlyIncome;
     }
 }

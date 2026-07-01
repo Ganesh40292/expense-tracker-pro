@@ -11,6 +11,9 @@ public class UpdateProfileRequest {
     @Email(message = "Invalid email")
     private String email;
 
+    private String defaultCurrency;
+    private java.math.BigDecimal monthlyIncome;
+
     public UpdateProfileRequest() {
     }
 
@@ -28,5 +31,21 @@ public class UpdateProfileRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDefaultCurrency() {
+        return defaultCurrency;
+    }
+
+    public void setDefaultCurrency(String defaultCurrency) {
+        this.defaultCurrency = defaultCurrency;
+    }
+
+    public java.math.BigDecimal getMonthlyIncome() {
+        return monthlyIncome;
+    }
+
+    public void setMonthlyIncome(java.math.BigDecimal monthlyIncome) {
+        this.monthlyIncome = monthlyIncome;
     }
 }

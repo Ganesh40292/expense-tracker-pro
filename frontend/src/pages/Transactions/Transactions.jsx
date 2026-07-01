@@ -2,15 +2,20 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import useTransactions from '../../hooks/useTransactions'
-import { formatCurrency } from '../../utils/formatCurrency'
+import { useFilteredTransactions } from '../../hooks/useFilteredTransactions'
+import AdvancedFilterPanel from '../../components/AdvancedFilterPanel/AdvancedFilterPanel'
+import { formatCurrency, convertCurrency } from '../../utils/formatCurrency'
+import useAuth from '../../hooks/useAuth'
+import ExportCenter from '../../components/ExportCenter/ExportCenter'
 import { CATEGORIES, TRANSACTION_TYPES } from '../../utils/constants'
-import { exportNodeToPDF } from '../../utils/exportReportsToPDF'
 import {
   FaPlus,
-  FaFilePdf,
+  FaFileExport,
   FaArrowLeft,
   FaTrash,
   FaTimes,
+  FaReceipt,
+  FaUndo,
 } from 'react-icons/fa'
 import './Transactions.css'
 
@@ -19,7 +24,7 @@ const rowVariants = {
   visible: (i) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.03, duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+    transition: { delay: i * 0.02, duration: 0.35, ease: [0.16, 1, 0.3, 1] },
   }),
 }
 
@@ -32,6 +37,12 @@ function Transactions() {
     deleteTransaction,
   } = useTransactions()
 
+  const filterState = useFilteredTransactions(transactions)
+  const { filteredTransactions } = filterState
+  
+  const { user } = useAuth()
+  const [isExportCenterOpen, setIsExportCenterOpen] = useState(false)
+
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({
     title: '',
@@ -40,7 +51,9 @@ function Transactions() {
     category: CATEGORIES[0],
     transactionDate: new Date().toISOString().split('T')[0],
     description: '',
+    currency: user?.defaultCurrency || 'INR',
   })
+  const [paymentMethod, setPaymentMethod] = useState('Cash')
   const [formError, setFormError] = useState('')
 
   useEffect(() => {
@@ -61,7 +74,16 @@ function Transactions() {
     }
 
     try {
-      await addTransaction({ ...form, amount: parseFloat(form.amount) })
+      // Serialize paymentMethod into the description database field
+      const prefix = `[${paymentMethod}] `
+      const serializedDescription = form.description ? prefix + form.description.trim() : `[${paymentMethod}]`
+
+      await addTransaction({
+        ...form,
+        description: serializedDescription,
+        amount: parseFloat(form.amount),
+      })
+
       setForm({
         title: '',
         amount: '',
@@ -69,7 +91,9 @@ function Transactions() {
         category: CATEGORIES[0],
         transactionDate: new Date().toISOString().split('T')[0],
         description: '',
+        currency: user?.defaultCurrency || 'INR',
       })
+      setPaymentMethod('Cash')
       setShowForm(false)
     } catch (err) {
       setFormError(err.response?.data?.message || 'Failed to add transaction')
@@ -100,17 +124,14 @@ function Transactions() {
           <motion.button
             type="button"
             className="btn-primary"
+            style={{ background: 'var(--theme-color, #10b981)', color: '#fff' }}
             whileHover={{ scale: 1.03, y: -2 }}
             whileTap={{ scale: 0.97 }}
-            onClick={() => {
-              const root = document.getElementById('transactions-root')
-              if (!root) return
-              exportNodeToPDF(root, { filename: 'expense-tracker-transactions.pdf' })
-            }}
-            disabled={loading || transactions.length === 0}
+            onClick={() => setIsExportCenterOpen(true)}
+            disabled={loading || filteredTransactions.length === 0}
           >
-            <FaFilePdf size={13} />
-            Export PDF
+            <FaFileExport size={13} />
+            Export Report
           </motion.button>
 
           <motion.button
@@ -131,6 +152,7 @@ function Transactions() {
         </div>
       </div>
 
+      {/* ── New Transaction Form overlay ── */}
       <AnimatePresence>
         {showForm && (
           <motion.div
@@ -153,6 +175,17 @@ function Transactions() {
                     <label htmlFor="tx-amount">Amount</label>
                     <input id="tx-amount" name="amount" type="number" step="0.01" min="0.01" placeholder="0.00" value={form.amount} onChange={handleChange} required />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="tx-currency">Currency</label>
+                    <select id="tx-currency" name="currency" value={form.currency} onChange={handleChange}>
+                      <option value="INR">INR (₹)</option>
+                      <option value="USD">USD ($)</option>
+                      <option value="EUR">EUR (€)</option>
+                      <option value="GBP">GBP (£)</option>
+                      <option value="JPY">JPY (¥)</option>
+                      <option value="AED">AED (د.إ)</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="form-row">
@@ -164,6 +197,13 @@ function Transactions() {
                     </select>
                   </div>
                   <div className="form-group">
+                    <label htmlFor="tx-date">Date</label>
+                    <input id="tx-date" name="transactionDate" type="date" value={form.transactionDate} onChange={handleChange} required />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
                     <label htmlFor="tx-category">Category</label>
                     <select id="tx-category" name="category" value={form.category} onChange={handleChange}>
                       {CATEGORIES.map((cat) => (
@@ -171,17 +211,19 @@ function Transactions() {
                       ))}
                     </select>
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="tx-payment">Payment Method</label>
+                    <select id="tx-payment" value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
+                      {['Cash', 'UPI', 'Credit Card', 'Debit Card', 'Bank Transfer', 'Wallet'].map((pm) => (
+                        <option key={pm} value={pm}>{pm}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label htmlFor="tx-date">Date</label>
-                    <input id="tx-date" name="transactionDate" type="date" value={form.transactionDate} onChange={handleChange} required />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="tx-desc">Description</label>
-                    <input id="tx-desc" name="description" type="text" placeholder="Optional description" value={form.description} onChange={handleChange} />
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="tx-desc">Description (Notes)</label>
+                  <input id="tx-desc" name="description" type="text" placeholder="Optional notes details" value={form.description} onChange={handleChange} />
                 </div>
 
                 <button type="submit" className="btn-primary">Add Transaction</button>
@@ -191,11 +233,28 @@ function Transactions() {
         )}
       </AnimatePresence>
 
+      {/* ── Advanced Search and Filters console ── */}
+      {!loading && transactions.length > 0 && (
+        <AdvancedFilterPanel filterState={filterState} rawTransactions={transactions} />
+      )}
+
+      {/* ── Transactions Listing ── */}
       {loading ? (
         <p className="loading-text">Loading transactions...</p>
       ) : transactions.length === 0 ? (
-        <div className="empty-state">
-          <p>No transactions yet. Add your first one!</p>
+        <div className="empty-state glass-card">
+          <FaReceipt size={36} style={{ color: 'var(--text-secondary)', opacity: 0.5, marginBottom: 12 }} />
+          <h3>No transactions yet</h3>
+          <p>Add your first income or expense transaction to begin tracking.</p>
+        </div>
+      ) : filteredTransactions.length === 0 ? (
+        <div className="empty-state glass-card">
+          <FaReceipt size={36} style={{ color: 'var(--text-secondary)', opacity: 0.5, marginBottom: 12 }} />
+          <h3>No search results match filters</h3>
+          <p>Try refining your categories, amount criteria, or keyword query terms.</p>
+          <button type="button" onClick={filterState.clearAllFilters} className="btn-secondary" style={{ marginTop: 12 }}>
+            <FaUndo size={11} /> Clear All Filters
+          </button>
         </div>
       ) : (
         <div className="glass-card tx-table-card">
@@ -204,15 +263,15 @@ function Transactions() {
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Title</th>
-                  <th>Category</th>
+                  <th>Title & Notes</th>
+                  <th>Category & Payment</th>
                   <th>Type</th>
                   <th>Amount</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((t, i) => (
+                {filteredTransactions.map((t, i) => (
                   <motion.tr
                     key={t.id}
                     custom={i}
@@ -221,19 +280,40 @@ function Transactions() {
                     animate="visible"
                     className="tx-table__row"
                   >
-                    <td className="tx-table__date">{t.transactionDate}</td>
-                    <td className="tx-table__title">{t.title}</td>
-                    <td><span className="tx-table__category">{t.category}</span></td>
-                    <td>
+                    <td className="tx-table__date" data-label="Date">{t.transactionDate}</td>
+                    <td className="tx-table__title" data-label="Title & Notes">
+                      <div className="tx-title-container">
+                        <span className="tx-title-text">{t.title}</span>
+                        {t.cleanDescription && (
+                          <span className="tx-desc-text">{t.cleanDescription}</span>
+                        )}
+                      </div>
+                    </td>
+                    <td data-label="Category & Payment">
+                      <div className="tx-cat-container">
+                        <span className="tx-table__category">{t.category}</span>
+                        <span className="badge-payment">{t.paymentMethod}</span>
+                      </div>
+                    </td>
+                    <td data-label="Type">
                       <span className={`badge badge-${t.type?.toLowerCase()}`}>
                         {t.type}
                       </span>
                     </td>
-                    <td className={`amount-${t.type?.toLowerCase()}`}>
+                    <td className={`amount-${t.type?.toLowerCase()}`} data-label="Amount">
                       {t.type === 'INCOME' ? '+' : '-'}
-                      {formatCurrency(t.amount)}
+                      {t.currency?.toUpperCase() === (user?.defaultCurrency || 'INR').toUpperCase() ? (
+                        formatCurrency(t.amount)
+                      ) : (
+                        <>
+                          {formatCurrency(convertCurrency(t.baseAmount, user?.defaultCurrency || 'INR'))}
+                          <span className="tx-original-amount" style={{ fontSize: '11px', opacity: 0.7, marginLeft: '6px', display: 'block' }}>
+                            ({formatCurrency(t.amount, null, t.currency)})
+                          </span>
+                        </>
+                      )}
                     </td>
-                    <td>
+                    <td data-label="Actions">
                       <motion.button
                         type="button"
                         className="btn-delete"
@@ -252,6 +332,13 @@ function Transactions() {
           </div>
         </div>
       )}
+
+      <ExportCenter 
+        isOpen={isExportCenterOpen}
+        onClose={() => setIsExportCenterOpen(false)}
+        transactions={filteredTransactions}
+        user={user}
+      />
     </motion.main>
   )
 }

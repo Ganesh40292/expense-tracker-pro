@@ -3,26 +3,55 @@ package com.expensetracker.dto.response;
 public class AuthResponse {
 
     private String token;
+    private String refreshToken;
     private String message;
     private Long userId;
     private String name;
     private String email;
+    private String defaultCurrency;
+    private String role;
+    private java.math.BigDecimal monthlyIncome;
 
     public AuthResponse() {
     }
 
-    public AuthResponse(String token, String message) {
+    public AuthResponse(String token, String refreshToken, String message) {
         this.token = token;
+        this.refreshToken = refreshToken;
         this.message = message;
     }
 
-    public AuthResponse(String token, String message,
+    public AuthResponse(String token, String refreshToken, String message,
                         Long userId, String name, String email) {
         this.token = token;
+        this.refreshToken = refreshToken;
         this.message = message;
         this.userId = userId;
         this.name = name;
         this.email = email;
+    }
+
+    public AuthResponse(String token, String refreshToken, String message,
+                        Long userId, String name, String email, String defaultCurrency) {
+        this.token = token;
+        this.refreshToken = refreshToken;
+        this.message = message;
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.defaultCurrency = defaultCurrency;
+    }
+
+    public AuthResponse(String token, String refreshToken, String message,
+                        Long userId, String name, String email, String defaultCurrency, String role) {
+        this.token = token;
+        this.refreshToken = refreshToken;
+        this.message = message;
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.defaultCurrency = defaultCurrency;
+        this.role = role;
     }
 
     public String getToken() {
@@ -31,6 +60,14 @@ public class AuthResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public String getMessage() {
@@ -63,5 +100,29 @@ public class AuthResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDefaultCurrency() {
+        return defaultCurrency;
+    }
+
+    public void setDefaultCurrency(String defaultCurrency) {
+        this.defaultCurrency = defaultCurrency;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public java.math.BigDecimal getMonthlyIncome() {
+        return monthlyIncome;
+    }
+
+    public void setMonthlyIncome(java.math.BigDecimal monthlyIncome) {
+        this.monthlyIncome = monthlyIncome;
     }
 }

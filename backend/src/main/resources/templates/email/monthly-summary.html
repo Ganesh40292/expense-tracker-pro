@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Financial Summary</title>
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        .header {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+        .header p {
+            color: #9ca3af;
+            margin: 5px 0 0 0;
+            font-size: 14px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 20px;
+            margin-top: 0;
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .stats-grid {
+            display: table;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .stat-box {
+            display: table-cell;
+            width: 33.33%;
+            text-align: center;
+            padding: 15px;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+        }
+        .stat-box:first-child { border-radius: 8px 0 0 8px; border-right: none; }
+        .stat-box:last-child { border-radius: 0 8px 8px 0; border-left: none; }
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .val-income { color: #10b981; }
+        .val-expense { color: #ef4444; }
+        .val-savings { color: #3b82f6; }
+        
+        .insight-box {
+            background-color: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+        .insight-box h3 {
+            margin: 0 0 10px 0;
+            color: #1f2937;
+            font-size: 16px;
+        }
+        .insight-box p {
+            margin: 0;
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #1f2937;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background-color 0.3s ease;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer a {
+            color: #6b7280;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Monthly Financial Summary</h1>
+            <p th:text="${monthYear}">Month Year</p>
+        </div>
+        <div class="content">
+            <h2 class="greeting">Here's your spending wrap-up, <span th:text="${name}">User</span>.</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-label">Income</div>
+                    <div class="stat-value val-income" th:text="${totalIncome}">+₹0.00</div>
+                </div>
+                <div class="stat-box" style="border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb;">
+                    <div class="stat-label">Expenses</div>
+                    <div class="stat-value val-expense" th:text="${totalExpense}">-₹0.00</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Net Savings</div>
+                    <div class="stat-value val-savings" th:text="${netSavings}">₹0.00</div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>Smart Insights</h3>
+                <p th:text="${insightText}">You saved X% of your income this month. Your highest spending category was Y.</p>
+            </div>
+
+            <div class="btn-container">
+                <a th:href="${dashboardUrl}" class="btn">View Full Analytics</a>
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; <span th:text="${year}">2026</span> Expense Tracker. All rights reserved.</p>
+            <p>
+                You're receiving this because you enabled Monthly Summaries in your 
+                <a th:href="${settingsUrl}">Notification Settings</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

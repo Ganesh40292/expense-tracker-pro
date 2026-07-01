@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import {
   LineChart,
   Line,
@@ -8,12 +9,33 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
+import useTheme from '../../hooks/useTheme'
 
 const LineChartComponent = ({ data }) => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640)
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Dynamic Theme-Aware Styling Variables
+  const gridColor = isDark ? 'rgba(99, 102, 241, 0.08)' : 'rgba(99, 102, 241, 0.15)'
+  const axisColor = isDark ? 'rgba(124, 141, 181, 0.6)' : 'rgba(71, 85, 105, 0.8)'
+  const axisLineColor = isDark ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.2)'
+  const tooltipBg = isDark ? 'rgba(15, 20, 40, 0.95)' : 'rgba(255, 255, 255, 0.95)'
+  const tooltipBorder = isDark ? '1px solid rgba(99, 102, 241, 0.2)' : '1px solid rgba(99, 102, 241, 0.15)'
+  const tooltipTextColor = isDark ? '#f0f4ff' : '#0f172a'
+  const legendTextColor = isDark ? 'rgba(124, 141, 181, 0.9)' : 'rgba(71, 85, 105, 0.9)'
+  const dotStrokeColor = isDark ? 'rgba(15, 20, 40, 0.6)' : 'rgba(255, 255, 255, 0.8)'
+
   return (
     <div className="chart-wrap chart-wrap--line">
       <ResponsiveContainer>
-        <LineChart data={data}>
+        <LineChart data={data} margin={isMobile ? { left: -10, right: 4 } : undefined}>
           <defs>
             <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stopColor="#818cf8" />
@@ -21,38 +43,39 @@ const LineChartComponent = ({ data }) => {
             </linearGradient>
           </defs>
           <CartesianGrid
-            stroke="rgba(99, 102, 241, 0.08)"
+            stroke={gridColor}
             strokeDasharray="4 6"
             vertical={false}
           />
           <XAxis
             dataKey="name"
-            stroke="rgba(124, 141, 181, 0.6)"
-            tick={{ fontSize: 12 }}
-            axisLine={{ stroke: 'rgba(99, 102, 241, 0.1)' }}
+            stroke={axisColor}
+            tick={{ fontSize: isMobile ? 10 : 12, fill: axisColor }}
+            axisLine={{ stroke: axisLineColor }}
           />
           <YAxis
-            stroke="rgba(124, 141, 181, 0.6)"
-            tick={{ fontSize: 12 }}
-            axisLine={{ stroke: 'rgba(99, 102, 241, 0.1)' }}
+            stroke={axisColor}
+            tick={{ fontSize: isMobile ? 10 : 12, fill: axisColor }}
+            axisLine={{ stroke: axisLineColor }}
+            width={isMobile ? 40 : 60}
           />
 
           <Tooltip
             contentStyle={{
-              background: 'rgba(15, 20, 40, 0.9)',
-              border: '1px solid rgba(99, 102, 241, 0.2)',
+              background: tooltipBg,
+              border: tooltipBorder,
               backdropFilter: 'blur(16px)',
               borderRadius: 14,
-              color: '#f0f4ff',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
+              color: tooltipTextColor,
+              boxShadow: isDark ? '0 20px 60px rgba(0, 0, 0, 0.4)' : '0 20px 60px rgba(99, 102, 241, 0.1)',
               fontSize: 13,
             }}
           />
 
           <Legend
             wrapperStyle={{
-              color: 'rgba(124, 141, 181, 0.9)',
-              fontSize: 12,
+              color: legendTextColor,
+              fontSize: isMobile ? 11 : 12,
             }}
           />
 
@@ -60,9 +83,9 @@ const LineChartComponent = ({ data }) => {
             type="monotone"
             dataKey="amount"
             stroke="url(#lineGradient)"
-            strokeWidth={3}
-            dot={{ r: 4, fill: '#818cf8', stroke: 'rgba(15, 20, 40, 0.6)', strokeWidth: 2 }}
-            activeDot={{ r: 6, fill: '#22d3ee', stroke: '#818cf8', strokeWidth: 2 }}
+            strokeWidth={isMobile ? 2 : 3}
+            dot={{ r: isMobile ? 3 : 4, fill: '#818cf8', stroke: dotStrokeColor, strokeWidth: 2 }}
+            activeDot={{ r: isMobile ? 5 : 6, fill: '#22d3ee', stroke: '#818cf8', strokeWidth: 2 }}
           />
         </LineChart>
       </ResponsiveContainer>

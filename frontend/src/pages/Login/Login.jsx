@@ -24,8 +24,10 @@ function Login() {
           id: response.userId,
           name: response.name,
           email: response.email,
+          defaultCurrency: response.defaultCurrency,
         },
         response.token,
+        response.refreshToken,
       )
       navigate('/dashboard')
     } catch (err) {

@@ -16,6 +16,9 @@ public class TransactionRequest {
     @Positive(message = "Amount must be positive")
     private BigDecimal amount;
 
+    @NotBlank(message = "Currency is required")
+    private String currency;
+
     @NotBlank(message = "Type is required")
     private String type;
 
@@ -28,6 +31,8 @@ public class TransactionRequest {
     private String description;
 
     private String status;
+
+    private Long receiptId;
 
     public TransactionRequest() {
     }
@@ -46,6 +51,14 @@ public class TransactionRequest {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public String getType() {
@@ -86,5 +99,13 @@ public class TransactionRequest {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getReceiptId() {
+        return receiptId;
+    }
+
+    public void setReceiptId(Long receiptId) {
+        this.receiptId = receiptId;
     }
 }

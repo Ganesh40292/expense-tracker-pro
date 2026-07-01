@@ -22,4 +22,8 @@ public interface EmailService {
      * @param totalExpense total expense for the month
      */
     void sendMonthlyReportEmail(String toEmail, String userName, String totalIncome, String totalExpense);
+
+    void sendPasswordResetEmail(String toEmail, String userName, String token);
+
+    void sendMonthlySummaryEmail(String toEmail, String userName, java.math.BigDecimal income, java.math.BigDecimal expense, java.math.BigDecimal savings, String insight);
 }

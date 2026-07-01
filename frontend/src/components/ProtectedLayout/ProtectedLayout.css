@@ -6,7 +6,9 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
+  overflow-x: hidden;
 }
 
 .layout__body {
@@ -22,10 +24,18 @@
   overflow-y: auto;
   position: relative;
   min-height: calc(100vh - var(--navbar-height));
+  min-height: calc(100dvh - var(--navbar-height));
+  min-width: 0;
 }
 
 @media (max-width: 768px) {
   .layout__content {
     padding: 20px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout__content {
+    padding: 14px 12px;
   }
 }

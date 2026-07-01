@@ -1,20 +1,39 @@
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import * as d3 from 'd3'
+import useTheme from '../../hooks/useTheme'
 
 const COLORS = ['#818cf8', '#22d3ee', '#a78bfa', '#34d399', '#fbbf24', '#fb7185', '#c084fc']
 
 export default function BubbleChartComponent({ data }) {
   const containerRef = useRef(null)
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+
+  // ResizeObserver for responsive re-rendering
+  useEffect(() => {
+    if (!containerRef.current) return
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect
+        setDimensions({ width, height: height || 300 })
+      }
+    })
+    observer.observe(containerRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     if (!data || data.length === 0 || !containerRef.current) return
+    if (dimensions.width === 0) return
 
     // Filter out zero values and prepare nodes
     const validData = data.filter((d) => (d.expense || d.value) > 0)
     if (validData.length === 0) return
 
-    const width = containerRef.current.clientWidth
-    const height = containerRef.current.clientHeight || 300
+    const width = dimensions.width
+    const height = dimensions.height
 
     // Clear previous renders
     d3.select(containerRef.current).selectAll('*').remove()
@@ -98,7 +117,7 @@ export default function BubbleChartComponent({ data }) {
       .text((d) => d.name)
       .attr('text-anchor', 'middle')
       .attr('dy', '-0.2em')
-      .style('fill', '#fff')
+      .style('fill', isDark ? '#fff' : '#0f172a')
       .style('font-size', (d) => Math.min(d.r / 3.5, 14) + 'px')
       .style('font-weight', '700')
       .style('pointer-events', 'none')
@@ -109,7 +128,7 @@ export default function BubbleChartComponent({ data }) {
       .text((d) => '₹' + Math.round(d.expense || d.value))
       .attr('text-anchor', 'middle')
       .attr('dy', '1.2em')
-      .style('fill', 'rgba(255,255,255,0.8)')
+      .style('fill', isDark ? 'rgba(255,255,255,0.8)' : 'rgba(15,23,42,0.8)')
       .style('font-size', (d) => Math.min(d.r / 4, 12) + 'px')
       .style('font-family', 'monospace')
       .style('pointer-events', 'none')
@@ -145,7 +164,7 @@ export default function BubbleChartComponent({ data }) {
     return () => {
       simulation.stop()
     }
-  }, [data])
+  }, [data, dimensions, theme])
 
   return (
     <div className="chart-wrap chart-wrap--bubble" style={{ height: '100%', minHeight: '300px' }}>

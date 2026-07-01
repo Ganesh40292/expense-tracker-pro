@@ -1,8 +1,10 @@
-import { formatCurrency } from '../../utils/formatCurrency';
+import { formatCurrency, convertCurrency } from '../../utils/formatCurrency';
+import useAuth from '../../hooks/useAuth';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 
 const TransactionRow = ({ transaction, onDelete, onEdit }) => {
-    const { id, title, amount, type, category, transactionDate } = transaction;
+    const { id, title, amount, type, category, transactionDate, currency, baseAmount } = transaction;
+    const { user } = useAuth();
 
     return (
         <tr>
@@ -15,7 +17,17 @@ const TransactionRow = ({ transaction, onDelete, onEdit }) => {
                 </span>
             </td>
             <td className={`amount-${type.toLowerCase()}`}>
-                {type === 'INCOME' ? '+' : '-'}{formatCurrency(amount)}
+                {type === 'INCOME' ? '+' : '-'}
+                {currency?.toUpperCase() === (user?.defaultCurrency || 'INR').toUpperCase() ? (
+                    formatCurrency(amount)
+                ) : (
+                    <>
+                        {formatCurrency(convertCurrency(baseAmount, user?.defaultCurrency || 'INR'))}
+                        <span className="tx-original-amount" style={{ fontSize: '11px', opacity: 0.7, marginLeft: '6px', display: 'block' }}>
+                            ({formatCurrency(amount, null, currency)})
+                        </span>
+                    </>
+                )}
             </td>
             <td>
                 <div className="action-buttons">

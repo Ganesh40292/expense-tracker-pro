@@ -17,11 +17,17 @@ public class TransactionMapper {
         response.setId(transaction.getId());
         response.setTitle(transaction.getTitle());
         response.setAmount(transaction.getAmount());
+        response.setCurrency(transaction.getCurrency());
+        response.setBaseAmount(transaction.getBaseAmount());
         response.setType(transaction.getType().name());
         response.setCategory(transaction.getCategory());
         response.setTransactionDate(transaction.getTransactionDate());
         response.setDescription(transaction.getDescription());
         response.setStatus(transaction.getStatus().name());
+        
+        if (transaction.getReceipt() != null) {
+            response.setReceiptId(transaction.getReceipt().getId());
+        }
 
         return response;
     }
@@ -34,6 +40,9 @@ public class TransactionMapper {
 
         transaction.setTitle(request.getTitle());
         transaction.setAmount(request.getAmount());
+        if (request.getCurrency() != null) {
+            transaction.setCurrency(request.getCurrency());
+        }
         transaction.setType(TransactionType.valueOf(request.getType()));
         transaction.setCategory(request.getCategory());
         transaction.setTransactionDate(request.getTransactionDate());

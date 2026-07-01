@@ -16,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,6 +32,12 @@ public class Transaction extends BaseEntity {
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal amount;
+
+    @Column(nullable = false, length = 3, columnDefinition = "VARCHAR(3) DEFAULT 'INR'")
+    private String currency = "INR";
+
+    @Column(name = "base_amount", nullable = false, precision = 12, scale = 2, columnDefinition = "DECIMAL(12,2) DEFAULT 0.00")
+    private BigDecimal baseAmount = BigDecimal.ZERO;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "ENUM('INCOME', 'EXPENSE')")
@@ -52,6 +59,10 @@ public class Transaction extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receipt_id")
+    private Receipt receipt;
 
     public Transaction() {
     }
@@ -78,6 +89,22 @@ public class Transaction extends BaseEntity {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public BigDecimal getBaseAmount() {
+        return baseAmount;
+    }
+
+    public void setBaseAmount(BigDecimal baseAmount) {
+        this.baseAmount = baseAmount;
     }
 
     public TransactionType getType() {
@@ -126,5 +153,13 @@ public class Transaction extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Receipt getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
     }
 }

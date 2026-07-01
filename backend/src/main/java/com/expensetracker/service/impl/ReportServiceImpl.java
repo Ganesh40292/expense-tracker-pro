@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import com.expensetracker.entity.User;
 import com.expensetracker.repository.ReportRepository;
+import com.expensetracker.repository.UserRepository;
+import com.expensetracker.service.ExchangeRateService;
 import com.expensetracker.service.ReportService;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -20,6 +24,12 @@ public class ReportServiceImpl
     @Autowired
     private ReportRepository reportRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ExchangeRateService exchangeRateService;
+
     @Override
     @Cacheable(value = "monthlyReportCache", key = "#userId")
     public Object getMonthlyReport(Long userId) {
@@ -27,13 +37,22 @@ public class ReportServiceImpl
         List<Object[]> rows =
                 reportRepository.getMonthlyReportByUserId(userId);
 
+        User user = userRepository.findById(userId).orElseThrow();
+        String userCurrency = user.getDefaultCurrency() != null ? user.getDefaultCurrency() : "INR";
+
         List<Map<String, Object>> result = new ArrayList<>();
 
         for (Object[] row : rows) {
+            BigDecimal baseIncome = (BigDecimal) row[1];
+            BigDecimal baseExpense = (BigDecimal) row[2];
+            
+            BigDecimal income = exchangeRateService.convert(baseIncome, "USD", userCurrency);
+            BigDecimal expense = exchangeRateService.convert(baseExpense, "USD", userCurrency);
+
             Map<String, Object> entry = new HashMap<>();
             entry.put("month", row[0]);
-            entry.put("income", row[1]);
-            entry.put("expense", row[2]);
+            entry.put("income", income);
+            entry.put("expense", expense);
             result.add(entry);
         }
 
@@ -47,12 +66,18 @@ public class ReportServiceImpl
         List<Object[]> rows =
                 reportRepository.getExpenseSummaryByUserId(userId);
 
+        User user = userRepository.findById(userId).orElseThrow();
+        String userCurrency = user.getDefaultCurrency() != null ? user.getDefaultCurrency() : "INR";
+
         List<Map<String, Object>> result = new ArrayList<>();
 
         for (Object[] row : rows) {
+            BigDecimal baseTotal = (BigDecimal) row[1];
+            BigDecimal total = exchangeRateService.convert(baseTotal, "USD", userCurrency);
+            
             Map<String, Object> entry = new HashMap<>();
             entry.put("category", row[0]);
-            entry.put("total", row[1]);
+            entry.put("total", total);
             result.add(entry);
         }
 

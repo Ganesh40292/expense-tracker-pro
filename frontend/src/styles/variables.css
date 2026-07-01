@@ -30,6 +30,9 @@
   --glass-bg: rgba(15, 20, 40, 0.45);
   --glass-border: rgba(99, 102, 241, 0.15);
   --glass-border-hover: rgba(99, 102, 241, 0.35);
+  --input-bg: rgba(15, 20, 40, 0.5);
+  --vignette-bg: rgba(10, 14, 26, 0.4);
+  --aurora-bg-gradient: linear-gradient(45deg, #0a0e1a, #1a1025, #0a192f, #0a0e1a);
 
   /* ── Typography ── */
   --text: #f0f4ff;
@@ -71,4 +74,47 @@
   /* ── Layout ── */
   --sidebar-width: 260px;
   --navbar-height: 68px;
+}
+
+/* ── Light Theme Overrides ── */
+[data-theme='light'] {
+  --bg: #f8fafc;
+  --bg-elevated: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-bg-solid: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(99, 102, 241, 0.12);
+  --glass-border-hover: rgba(99, 102, 241, 0.25);
+  --input-bg: rgba(255, 255, 255, 0.75);
+  --vignette-bg: rgba(255, 255, 255, 0.6);
+  --aurora-bg-gradient: linear-gradient(45deg, #f8fafc, #f1f5f9, #e2e8f0, #f8fafc);
+
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  --border: rgba(99, 102, 241, 0.08);
+  --border-strong: rgba(99, 102, 241, 0.16);
+
+  --shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+  --shadow-lg: 0 8px 32px rgba(99, 102, 241, 0.12);
+  --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.1);
+  --shadow-card: 0 8px 40px rgba(99, 102, 241, 0.06), 0 0 60px rgba(99, 102, 241, 0.03);
+  --shadow-neon-primary: 0 0 20px rgba(99, 102, 241, 0.12);
+  --shadow-neon-cyan: 0 0 20px rgba(34, 211, 238, 0.08);
+  --shadow-neon-success: 0 0 20px rgba(52, 211, 153, 0.08);
+  --shadow-neon-danger: 0 0 20px rgba(251, 113, 133, 0.08);
+}
+
+/* ── Responsive variable overrides ── */
+@media (max-width: 900px) {
+  :root {
+    --sidebar-width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 56px;
+  }
 }

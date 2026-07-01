@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import Navbar from '../Navbar/Navbar';
@@ -10,6 +11,7 @@ import './ProtectedLayout.css'
 const ProtectedLayout = () => {
     const { isAuthenticated } = useAuth();
     const location = useLocation();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     // Check if we are exactly on the dashboard page
     const isDashboard = location.pathname === '/dashboard' || location.pathname === '/';
@@ -18,12 +20,20 @@ const ProtectedLayout = () => {
         return <Navigate to="/login" replace />;
     }
 
+    const handleToggleSidebar = () => {
+        setSidebarOpen((prev) => !prev);
+    };
+
+    const handleCloseSidebar = () => {
+        setSidebarOpen(false);
+    };
+
     return (
         <div className="layout">
             <AuroraBackground />
-            <Navbar />
+            <Navbar onToggleSidebar={handleToggleSidebar} />
             <div className="layout__body">
-                <Sidebar />
+                <Sidebar isOpen={sidebarOpen} onClose={handleCloseSidebar} />
                 <main className="layout__content" style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
                     <div style={{ flex: '1 0 auto' }}>
                         <Outlet />

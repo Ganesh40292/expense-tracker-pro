@@ -115,3 +115,29 @@
   }
 }
 
+@media (max-width: 768px) {
+  .orb {
+    width: 144px !important;
+    height: 144px !important;
+    filter: blur(20px) !important;
+  }
+  .orb--c {
+    width: 168px !important;
+    height: 168px !important;
+  }
+  .orb--d {
+    width: 156px !important;
+    height: 156px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .neon-bg__grid {
+    animation: none !important;
+    opacity: 0.15;
+  }
+  .neon-bg__mesh {
+    opacity: 0.5;
+  }
+}
+

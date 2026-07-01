@@ -87,10 +87,11 @@ function MonthlyReports() {
                   <tbody>
                     {monthlyData.map((row, index) => (
                       <tr key={index}>
-                        <td>{row.month}</td>
-                        <td className="amount-income">{formatCurrency(row.income || 0)}</td>
-                        <td className="amount-expense">{formatCurrency(row.expense || 0)}</td>
+                        <td data-label="Month">{row.month}</td>
+                        <td className="amount-income" data-label="Income">{formatCurrency(row.income || 0)}</td>
+                        <td className="amount-expense" data-label="Expense">{formatCurrency(row.expense || 0)}</td>
                         <td
+                          data-label="Net"
                           className={
                             (row.income || 0) - (row.expense || 0) >= 0
                               ? 'amount-income'

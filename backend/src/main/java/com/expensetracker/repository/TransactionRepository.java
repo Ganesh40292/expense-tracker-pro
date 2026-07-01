@@ -28,4 +28,6 @@ public interface TransactionRepository
             Long userId,
             String type
     );
+
+    java.util.Optional<Transaction> findByReceiptId(Long receiptId);
 }

@@ -1,0 +1,65 @@
+# ═══════════════════════════════════════════════════════════
+#  ExpenseTracker — Development Override
+#  Run: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+# ═══════════════════════════════════════════════════════════
+
+services:
+
+  # ── MySQL (same as base, just expose for local tools) ───
+  mysql:
+    ports:
+      - "3306:3306"
+
+  # ── Backend with hot-reload ─────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: expense-backend-dev
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-expense_tracker}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: ${DB_USERNAME:-root}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SHOW_SQL: "true"
+      PORT: 8080
+      JWT_SECRET: ${JWT_SECRET:-DevSecretKeyThatIsAtLeast32BytesLong!!}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      FRONTEND_URL: http://localhost:5173
+    volumes:
+      - ./backend/src:/app/src:ro
+      - ./backend/pom.xml:/app/pom.xml:ro
+      - receipt-uploads:/app/uploads
+      - maven-cache:/root/.m2
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/api/health || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+
+  # ── Frontend with Vite HMR ─────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: expense-frontend-dev
+    environment:
+      VITE_API_URL: http://localhost:8080/api
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/public:/app/public
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:5173/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  maven-cache:
+    name: expense-maven-cache

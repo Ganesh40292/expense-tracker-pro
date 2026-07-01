@@ -34,3 +34,7 @@ build/
 
 ### Environment ###
 .env
+
+### Generated/Local test files ###
+sent-emails/
+

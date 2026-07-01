@@ -13,6 +13,7 @@ import com.expensetracker.entity.User;
 import com.expensetracker.repository.ReportRepository;
 import com.expensetracker.repository.UserRepository;
 import com.expensetracker.service.EmailService;
+import com.expensetracker.service.AiIntelligenceService;
 
 @Service
 public class ReportSchedulerService {
@@ -28,6 +29,9 @@ public class ReportSchedulerService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private AiIntelligenceService aiIntelligenceService;
+
     // Run at 10:00 AM on the 1st day of every month
     @Scheduled(cron = "0 0 10 1 * ?")
     public void sendMonthlyReportsToAllUsers() {
@@ -40,16 +44,24 @@ public class ReportSchedulerService {
         for (User user : users) {
             try {
                 BigDecimal income = reportRepository.getTotalIncomeByUserId(user.getId());
+                if (income == null) income = BigDecimal.ZERO;
                 BigDecimal expense = reportRepository.getTotalExpenseByUserId(user.getId());
+                if (expense == null) expense = BigDecimal.ZERO;
 
-                String incomeStr = income != null ? income.toString() : "0.00";
-                String expenseStr = expense != null ? expense.toString() : "0.00";
+                BigDecimal savings = income.subtract(expense);
+                if (savings.compareTo(BigDecimal.ZERO) < 0) {
+                    savings = BigDecimal.ZERO;
+                }
 
-                emailService.sendMonthlyReportEmail(
+                String aiSummary = aiIntelligenceService.generateMonthlySummaryInsight(user.getId());
+
+                emailService.sendMonthlySummaryEmail(
                     user.getEmail(),
                     user.getName(),
-                    incomeStr,
-                    expenseStr
+                    income,
+                    expense,
+                    savings,
+                    aiSummary
                 );
 
                 emailsSent++;

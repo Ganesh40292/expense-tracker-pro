@@ -1,30 +1,34 @@
-/* Theme transitions */
-* {
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-}
+/* ═══════════════════════════════════════════════════════════
+   THEME TRANSITIONS — Cyber Fintech Smooth Shift
+   ═══════════════════════════════════════════════════════════ */
 
-[data-theme='dark'] .auth-card,
-[data-theme='dark'] .transaction-form-card,
-[data-theme='dark'] .profile-card {
-  background: var(--card-bg);
-  border-color: var(--border);
-}
-
-[data-theme='dark'] .form-group input,
-[data-theme='dark'] .form-group select {
-  background: #0f172a;
-  border-color: var(--border);
-  color: var(--text);
-}
-
-[data-theme='dark'] .transactions-table th {
-  background: #0f172a;
-}
-
-[data-theme='dark'] .badge-income {
-  background: rgba(16, 185, 129, 0.15);
-}
-
-[data-theme='dark'] .badge-expense {
-  background: rgba(239, 68, 68, 0.15);
+/* Target only visual containers and text components to prevent Framer Motion transform conflicts */
+body,
+.layout,
+.layout__content,
+.navbar,
+.sidebar,
+.neo-card,
+.glass-panel,
+.tx-table-card,
+.table-wrapper,
+.report-card,
+.profile-card,
+.modal-content,
+.form-group input,
+.form-group select,
+.form-group textarea,
+.btn-primary,
+.btn-secondary,
+.btn-delete,
+.btn-logout,
+h1, h2, h3, h4, h5, h6,
+p, span, td, th, a, svg,
+.sidebar__link,
+.sidebar__link-icon {
+  transition: 
+    background-color var(--duration-normal) var(--ease-out-expo), 
+    border-color var(--duration-normal) var(--ease-out-expo), 
+    color var(--duration-normal) var(--ease-out-expo), 
+    box-shadow var(--duration-normal) var(--ease-out-expo) !important;
 }

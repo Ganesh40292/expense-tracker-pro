@@ -35,6 +35,19 @@ function TransactionDetails() {
 
   if (loading) return <Loader />
 
+  let paymentMethod = 'Cash'
+  let cleanDescription = ''
+  if (transaction) {
+    cleanDescription = transaction.description || ''
+    if (cleanDescription) {
+      const match = cleanDescription.match(/^\[(Cash|UPI|Credit Card|Debit Card|Bank Transfer|Wallet)\]\s*(.*)/i)
+      if (match) {
+        paymentMethod = match[1]
+        cleanDescription = match[2]
+      }
+    }
+  }
+
   return (
     <main className="transactions-page">
       <div className="transactions-header">
@@ -73,10 +86,16 @@ function TransactionDetails() {
               {formatCurrency(transaction.amount)}
             </div>
           </div>
-          {transaction.description ? (
+          <div className="detail-row">
+            <div className="detail-label">Payment Method</div>
+            <div className="detail-value">
+              <span className="badge-payment">{paymentMethod}</span>
+            </div>
+          </div>
+          {cleanDescription ? (
             <div className="detail-row">
-              <div className="detail-label">Description</div>
-              <div className="detail-value">{transaction.description}</div>
+              <div className="detail-label">Description (Notes)</div>
+              <div className="detail-value">{cleanDescription}</div>
             </div>
           ) : null}
         </div>
@@ -88,4 +107,5 @@ function TransactionDetails() {
 }
 
 export default TransactionDetails
+
 

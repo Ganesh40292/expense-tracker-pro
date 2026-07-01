@@ -24,3 +24,34 @@
   height: 320px;
 }
 
+.chart-wrap--bubble {
+  height: 100%;
+  min-height: 300px;
+}
+
+/* ── Responsive chart heights ── */
+@media (max-width: 768px) {
+  .chart-wrap,
+  .chart-wrap--pie,
+  .chart-wrap--line,
+  .chart-wrap--bar {
+    height: 260px;
+  }
+
+  .chart-wrap--bubble {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-wrap,
+  .chart-wrap--pie,
+  .chart-wrap--line,
+  .chart-wrap--bar {
+    height: 220px;
+  }
+
+  .chart-wrap--bubble {
+    min-height: 200px;
+  }
+}

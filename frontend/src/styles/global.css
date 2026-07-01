@@ -31,8 +31,29 @@ body {
   overflow-x: hidden;
 }
 
+/* ── Media overflow protection ── */
+img,
+svg,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Reduced motion (accessibility + perf) ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 #root {
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
 }
 
@@ -82,6 +103,7 @@ a:hover {
   justify-content: center;
   gap: 8px;
   padding: 12px 24px;
+  min-height: 44px;
   border: 1px solid rgba(99, 102, 241, 0.35);
   border-radius: var(--radius-lg);
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.08));
@@ -122,6 +144,7 @@ a:hover {
   justify-content: center;
   gap: 8px;
   padding: 12px 24px;
+  min-height: 44px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--glass-bg);
@@ -171,6 +194,7 @@ a:hover {
   align-items: center;
   gap: 6px;
   padding: 8px 18px;
+  min-height: 44px;
   border: 1px solid rgba(251, 113, 133, 0.2);
   border-radius: var(--radius-lg);
   background: rgba(251, 113, 133, 0.06);
@@ -369,7 +393,7 @@ a:hover {
   border-radius: var(--radius-lg);
   font-size: 15px;
   font-family: var(--font-sans);
-  background: rgba(15, 20, 40, 0.5);
+  background: var(--input-bg);
   color: var(--text);
   transition: all var(--duration-normal) var(--ease-out-expo);
   outline: none;
@@ -377,8 +401,8 @@ a:hover {
 
 /* Fix for invisible options in dropdowns */
 .form-group select option {
-  background-color: #0f1428;
-  color: #f0f4ff;
+  background-color: var(--bg-elevated);
+  color: var(--text);
 }
 
 .form-group input::placeholder {

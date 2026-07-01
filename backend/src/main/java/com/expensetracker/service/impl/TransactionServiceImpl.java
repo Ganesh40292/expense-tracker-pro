@@ -9,14 +9,17 @@ import org.springframework.stereotype.Service;
 
 import com.expensetracker.dto.request.TransactionRequest;
 import com.expensetracker.dto.response.TransactionResponse;
+import com.expensetracker.entity.Receipt;
 import com.expensetracker.entity.Transaction;
 import com.expensetracker.entity.User;
 import com.expensetracker.exception.ResourceNotFoundException;
 import com.expensetracker.exception.UnauthorizedException;
 import com.expensetracker.mapper.TransactionMapper;
+import com.expensetracker.repository.ReceiptRepository;
 import com.expensetracker.repository.TransactionRepository;
 import com.expensetracker.repository.UserRepository;
 import com.expensetracker.security.UserPrincipal;
+import com.expensetracker.service.ExchangeRateService;
 import com.expensetracker.service.TransactionService;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,6 +34,12 @@ public class TransactionServiceImpl
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ReceiptRepository receiptRepository;
+
+    @Autowired
+    private ExchangeRateService exchangeRateService;
 
     private User getCurrentUser() {
         Authentication auth =
@@ -53,7 +62,8 @@ public class TransactionServiceImpl
     @Caching(evict = {
         @CacheEvict(value = "dashboardCache", allEntries = true),
         @CacheEvict(value = "monthlyReportCache", allEntries = true),
-        @CacheEvict(value = "expenseSummaryCache", allEntries = true)
+        @CacheEvict(value = "expenseSummaryCache", allEntries = true),
+        @CacheEvict(value = "aiIntelligenceCache", allEntries = true)
     })
     public TransactionResponse addTransaction(
             TransactionRequest request) {
@@ -66,6 +76,18 @@ public class TransactionServiceImpl
                 );
 
         transaction.setUser(currentUser);
+        
+        if (request.getReceiptId() != null) {
+            Receipt receipt = receiptRepository.findByIdAndUserId(request.getReceiptId(), currentUser.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Receipt not found"));
+            transaction.setReceipt(receipt);
+        }
+
+        // Calculate base amount for unified aggregations
+        transaction.setBaseAmount(exchangeRateService.getBaseAmount(
+                transaction.getAmount(), 
+                transaction.getCurrency()
+        ));
 
         transactionRepository.save(transaction);
 
@@ -114,7 +136,8 @@ public class TransactionServiceImpl
     @Caching(evict = {
         @CacheEvict(value = "dashboardCache", allEntries = true),
         @CacheEvict(value = "monthlyReportCache", allEntries = true),
-        @CacheEvict(value = "expenseSummaryCache", allEntries = true)
+        @CacheEvict(value = "expenseSummaryCache", allEntries = true),
+        @CacheEvict(value = "aiIntelligenceCache", allEntries = true)
     })
     public TransactionResponse updateTransaction(
             Long id,
@@ -138,6 +161,16 @@ public class TransactionServiceImpl
 
         transaction.setTitle(request.getTitle());
         transaction.setAmount(request.getAmount());
+        if (request.getCurrency() != null) {
+            transaction.setCurrency(request.getCurrency());
+        }
+        
+        // Recalculate base amount on update
+        transaction.setBaseAmount(exchangeRateService.getBaseAmount(
+                transaction.getAmount(), 
+                transaction.getCurrency()
+        ));
+
         transaction.setType(com.expensetracker.enums.TransactionType.valueOf(request.getType()));
         transaction.setCategory(request.getCategory());
         transaction.setTransactionDate(
@@ -146,6 +179,14 @@ public class TransactionServiceImpl
         transaction.setDescription(
                 request.getDescription()
         );
+
+        if (request.getReceiptId() != null) {
+            Receipt receipt = receiptRepository.findByIdAndUserId(request.getReceiptId(), currentUser.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Receipt not found"));
+            transaction.setReceipt(receipt);
+        } else {
+            transaction.setReceipt(null);
+        }
 
         transactionRepository.save(transaction);
 
@@ -157,7 +198,8 @@ public class TransactionServiceImpl
     @Caching(evict = {
         @CacheEvict(value = "dashboardCache", allEntries = true),
         @CacheEvict(value = "monthlyReportCache", allEntries = true),
-        @CacheEvict(value = "expenseSummaryCache", allEntries = true)
+        @CacheEvict(value = "expenseSummaryCache", allEntries = true),
+        @CacheEvict(value = "aiIntelligenceCache", allEntries = true)
     })
     public void deleteTransaction(Long id) {
 

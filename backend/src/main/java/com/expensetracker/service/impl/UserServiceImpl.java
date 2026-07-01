@@ -18,6 +18,7 @@ import com.expensetracker.mapper.UserMapper;
 import com.expensetracker.repository.UserRepository;
 import com.expensetracker.security.UserPrincipal;
 import com.expensetracker.service.UserService;
+import com.expensetracker.service.AuditService;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuditService auditService;
 
     private void validateUserOwnership(Long id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -63,8 +67,17 @@ public class UserServiceImpl implements UserService {
 
         user.setName(request.getName());
         user.setEmail(request.getEmail());
+        if (request.getDefaultCurrency() != null) {
+            user.setDefaultCurrency(request.getDefaultCurrency());
+        }
+        if (request.getMonthlyIncome() != null) {
+            user.setMonthlyIncome(request.getMonthlyIncome());
+        }
 
         userRepository.save(user);
+
+        // Audit log
+        auditService.log(user.getId(), "PROFILE_UPDATED", "Profile updated: name and/or email changed");
 
         return UserMapper.mapToUserResponse(user);
     }
@@ -82,6 +95,9 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
+
+        // Audit log
+        auditService.log(user.getId(), "PASSWORD_CHANGED", "Password changed via profile settings");
 
         return new ApiResponse(true, "Password updated successfully");
     }

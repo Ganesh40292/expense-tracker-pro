@@ -42,7 +42,22 @@ public class JwtAuthenticationFilter
 
             token = authHeader.substring(7);
 
-            email = jwtUtil.extractEmail(token);
+            // Check if token is expired — signal frontend to refresh
+            if (jwtUtil.isTokenExpired(token)) {
+                response.setHeader("X-Token-Expired", "true");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write(
+                        "{\"error\":\"Token Expired\",\"message\":\"Access token has expired. Please refresh.\"}"
+                );
+                return;
+            }
+
+            try {
+                email = jwtUtil.extractEmail(token);
+            } catch (Exception ex) {
+                // Invalid token — let Spring Security handle it
+            }
         }
 
         if (email != null &&
@@ -54,6 +69,15 @@ public class JwtAuthenticationFilter
                             .loadUserByUsername(email);
 
             if (jwtUtil.validateToken(token)) {
+
+                if (!userDetails.isEnabled()) {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.setContentType("application/json");
+                    response.getWriter().write(
+                            "{\"error\":\"Forbidden\",\"message\":\"Your account has been deactivated. Please contact support.\"}"
+                    );
+                    return;
+                }
 
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(

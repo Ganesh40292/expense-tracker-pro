@@ -92,9 +92,9 @@ function SummaryReports() {
                   <tbody>
                     {summaryData.map((row, index) => (
                       <tr key={index}>
-                        <td>{row.category}</td>
-                        <td>{formatCurrency(row.total || 0)}</td>
-                        <td>
+                        <td data-label="Category">{row.category}</td>
+                        <td data-label="Total">{formatCurrency(row.total || 0)}</td>
+                        <td data-label="Percentage">
                           <div className="percentage-bar">
                             <div
                               className="percentage-fill"

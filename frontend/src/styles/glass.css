@@ -16,6 +16,7 @@
   backdrop-filter: blur(16px);
   box-shadow: var(--glass-shadow);
   -webkit-backdrop-filter: blur(16px);
+  word-break: break-word;
 }
 
 .glass-hover {
@@ -26,6 +27,12 @@
   transform: translateY(-6px);
   border-color: rgba(99, 102, 241, 0.55);
   background: rgba(255, 255, 255, 0.09);
+}
+
+@media (max-width: 768px) {
+  .glass-hover:hover {
+    transform: none;
+  }
 }
 
 .glass__glow {
