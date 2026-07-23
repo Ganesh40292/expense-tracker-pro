@@ -25,8 +25,14 @@ public class AuditService {
      */
     @Async
     public void log(Long userId, String action, String details, HttpServletRequest request) {
-        String ipAddress = extractIp(request);
-        String userAgent = request.getHeader("User-Agent");
+        String ipAddress = null;
+        String userAgent = null;
+        if (request != null) {
+            try {
+                ipAddress = extractIp(request);
+                userAgent = request.getHeader("User-Agent");
+            } catch (Exception ignored) {}
+        }
 
         AuditLog auditLog = new AuditLog(userId, action, details, ipAddress, userAgent);
         auditLogRepository.save(auditLog);
@@ -51,10 +57,14 @@ public class AuditService {
     }
 
     private String extractIp(HttpServletRequest request) {
-        String xForwardedFor = request.getHeader("X-Forwarded-For");
-        if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
-            return xForwardedFor.split(",")[0].trim();
+        try {
+            String xForwardedFor = request.getHeader("X-Forwarded-For");
+            if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
+                return xForwardedFor.split(",")[0].trim();
+            }
+            return request.getRemoteAddr();
+        } catch (Exception e) {
+            return "127.0.0.1";
         }
-        return request.getRemoteAddr();
     }
 }

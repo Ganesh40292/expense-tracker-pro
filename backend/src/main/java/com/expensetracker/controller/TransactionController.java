@@ -49,6 +49,12 @@ public class TransactionController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTransaction(@PathVariable Long id) {
+        transactionService.deleteTransaction(id);
+        return ResponseEntity.ok("Transaction moved to trash");
+    }
+
     @GetMapping("/trash")
     public ResponseEntity<List<TransactionResponse>> getTrashTransactions() {
         List<TransactionResponse> response = transactionService.getTrashTransactions();

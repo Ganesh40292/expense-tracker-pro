@@ -32,8 +32,8 @@ const BarChartComponent = ({ data }) => {
   const legendTextColor = isDark ? 'rgba(124, 141, 181, 0.9)' : 'rgba(71, 85, 105, 0.9)'
 
   return (
-    <div className="chart-wrap chart-wrap--bar">
-      <ResponsiveContainer>
+    <div className="chart-wrap chart-wrap--bar" style={{ width: '100%', minWidth: 0 }}>
+      <ResponsiveContainer width="100%" height={300} minWidth={0}>
         <BarChart data={data} margin={isMobile ? { left: -10, right: 4 } : undefined}>
           <defs>
             <linearGradient id="barIncome" x1="0" y1="0" x2="0" y2="1">

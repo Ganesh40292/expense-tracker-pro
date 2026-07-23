@@ -33,8 +33,8 @@ const LineChartComponent = ({ data }) => {
   const dotStrokeColor = isDark ? 'rgba(15, 20, 40, 0.6)' : 'rgba(255, 255, 255, 0.8)'
 
   return (
-    <div className="chart-wrap chart-wrap--line">
-      <ResponsiveContainer>
+    <div className="chart-wrap chart-wrap--line" style={{ width: '100%', minWidth: 0 }}>
+      <ResponsiveContainer width="100%" height={300} minWidth={0}>
         <LineChart data={data} margin={isMobile ? { left: -10, right: 4 } : undefined}>
           <defs>
             <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">

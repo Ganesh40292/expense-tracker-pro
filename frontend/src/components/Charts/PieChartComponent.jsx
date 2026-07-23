@@ -23,8 +23,8 @@ const PieChartComponent = ({ data }) => {
   const legendTextColor = isDark ? 'rgba(124, 141, 181, 0.9)' : 'rgba(71, 85, 105, 0.9)'
 
   return (
-    <div className="chart-wrap chart-wrap--pie">
-      <ResponsiveContainer>
+    <div className="chart-wrap chart-wrap--pie" style={{ width: '100%', minWidth: 0 }}>
+      <ResponsiveContainer width="100%" height={260} minWidth={0}>
         <PieChart>
           <Pie
             data={data}
