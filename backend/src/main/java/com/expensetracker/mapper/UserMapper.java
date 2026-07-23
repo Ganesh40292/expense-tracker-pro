@@ -14,6 +14,7 @@ public class UserMapper {
         response.setEmail(user.getEmail());
         response.setDefaultCurrency(user.getDefaultCurrency());
         response.setMonthlyIncome(user.getMonthlyIncome());
+        response.setAvatarUrl(user.getAvatarUrl());
 
         return response;
     }

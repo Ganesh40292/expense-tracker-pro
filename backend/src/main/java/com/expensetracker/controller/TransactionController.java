@@ -49,11 +49,37 @@ public class TransactionController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTransaction(
-            @PathVariable Long id) {
+    @GetMapping("/trash")
+    public ResponseEntity<List<TransactionResponse>> getTrashTransactions() {
+        List<TransactionResponse> response = transactionService.getTrashTransactions();
+        return ResponseEntity.ok(response);
+    }
 
-        transactionService.deleteTransaction(id);
-        return ResponseEntity.ok("Transaction deleted successfully");
+    @PutMapping("/{id}/restore")
+    public ResponseEntity<TransactionResponse> restoreTransaction(@PathVariable Long id) {
+        TransactionResponse response = transactionService.restoreTransaction(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}/permanent")
+    public ResponseEntity<String> permanentDeleteTransaction(@PathVariable Long id) {
+        transactionService.permanentDeleteTransaction(id);
+        return ResponseEntity.ok("Transaction permanently deleted");
+    }
+
+    @PostMapping("/import")
+    public ResponseEntity<List<TransactionResponse>> importTransactions(
+            @RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        List<TransactionResponse> response = transactionService.importTransactionsFromCsv(file);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/export/csv")
+    public ResponseEntity<byte[]> exportTransactionsCsv() {
+        byte[] csvData = transactionService.exportTransactionsToCsv();
+        org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+        headers.setContentType(org.springframework.http.MediaType.parseMediaType("text/csv"));
+        headers.setContentDisposition(org.springframework.http.ContentDisposition.attachment().filename("transactions.csv").build());
+        return new ResponseEntity<>(csvData, headers, org.springframework.http.HttpStatus.OK);
     }
 }

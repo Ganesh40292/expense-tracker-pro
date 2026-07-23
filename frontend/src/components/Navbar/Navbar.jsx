@@ -85,6 +85,16 @@ const Navbar = ({ onToggleSidebar }) => {
             <span className="status-pill__dot" />
             Live
           </span>
+
+          <button
+            type="button"
+            onClick={() => onOpenCommandPalette && onOpenCommandPalette()}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-700/50 hover:border-cyan-500/50 text-slate-300 hover:text-white text-xs font-medium transition-all shadow-inner ml-3 cursor-pointer"
+          >
+            <span className="text-cyan-400 font-bold">⌘</span>
+            <span className="hidden sm:inline">Search...</span>
+            <kbd className="px-1 py-0.5 text-[10px] bg-slate-800 rounded border border-slate-700 text-slate-400 font-mono">Ctrl K</kbd>
+          </button>
         </div>
       </div>
 
@@ -117,7 +127,11 @@ const Navbar = ({ onToggleSidebar }) => {
                 aria-haspopup="true"
               >
                 <div className="navbar__avatar" aria-hidden="true">
-                  <FaUserCircle size={20} />
+                  {user.avatarUrl ? (
+                    <img src={user.avatarUrl} alt={user.name} className="w-5 h-5 rounded-full object-cover border border-cyan-500/40" />
+                  ) : (
+                    <FaUserCircle size={20} />
+                  )}
                 </div>
                 <div className="navbar__profile-info">
                   <div className="navbar__profile-name">{user.name}</div>

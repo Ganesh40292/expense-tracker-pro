@@ -3,16 +3,19 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import useAuth from '../../hooks/useAuth'
 import api from '../../services/api'
-import { FaArrowLeft, FaUser, FaLock } from 'react-icons/fa'
+import { FaArrowLeft, FaUser, FaLock, FaCamera } from 'react-icons/fa'
+import { useToast } from '../../context/ToastContext'
 import './Profile.css'
 
 function Profile() {
   const { user, loginUser, token } = useAuth()
+  const { showToast } = useToast()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const [showPasswordSection, setShowPasswordSection] = useState(false)
 
   // Password state
@@ -30,6 +33,28 @@ function Profile() {
     }
   }, [user])
 
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    setUploadingAvatar(true)
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const res = await api.post(`/users/profile/${user.id}/avatar`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+
+      loginUser({ ...user, avatarUrl: res.data.avatarUrl }, token)
+      showToast('Profile picture updated!', 'success')
+    } catch (err) {
+      showToast('Failed to upload profile picture', 'error')
+    } finally {
+      setUploadingAvatar(false)
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setMessage('')
@@ -43,13 +68,16 @@ function Profile() {
           id: response.data.id,
           name: response.data.name,
           email: response.data.email,
+          avatarUrl: response.data.avatarUrl || user?.avatarUrl,
         },
         token,
       )
       setMessage('Profile updated successfully!')
+      showToast('Profile updated!', 'success')
       setShowPasswordSection(true)
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to update profile')
+      showToast('Profile update failed', 'error')
     } finally {
       setLoading(false)
     }
@@ -103,14 +131,32 @@ function Profile() {
       {/* ── Profile Info Card ── */}
       <div className="profile-card glass-card">
         <div className="profile-card__inner">
-          <motion.div
-            className="profile-avatar-lg"
-            whileHover={{ scale: 1.05, rotate: 2 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-          >
-            <span>{user?.name?.charAt(0)?.toUpperCase() || 'U'}</span>
-            <div className="profile-avatar-lg__ring" aria-hidden="true" />
-          </motion.div>
+          <div className="relative group cursor-pointer self-center mb-4">
+            <input
+              type="file"
+              accept="image/*"
+              id="avatar-upload-input"
+              onChange={handleAvatarChange}
+              className="hidden"
+            />
+            <label htmlFor="avatar-upload-input" className="cursor-pointer block relative">
+              <motion.div
+                className="profile-avatar-lg overflow-hidden"
+                whileHover={{ scale: 1.05, rotate: 2 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+              >
+                {user?.avatarUrl ? (
+                  <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover rounded-full" />
+                ) : (
+                  <span>{user?.name?.charAt(0)?.toUpperCase() || 'U'}</span>
+                )}
+                <div className="profile-avatar-lg__ring" aria-hidden="true" />
+              </motion.div>
+              <div className="absolute bottom-0 right-0 p-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full shadow-lg border border-slate-800 transition-all">
+                <FaCamera className="w-3.5 h-3.5" />
+              </div>
+            </label>
+          </div>
 
           {message && (
             <motion.div

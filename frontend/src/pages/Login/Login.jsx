@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import useAuth from '../../hooks/useAuth'
 import { login } from '../../services/authService'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const { loginUser } = useAuth()
@@ -81,14 +83,26 @@ function Login() {
 
             <div className="form-group">
               <label htmlFor="login-password">Password</label>
-              <input
-                id="login-password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="relative flex items-center">
+                <input
+                  id="login-password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ paddingRight: '2.5rem' }}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 text-slate-400 hover:text-cyan-400 transition-colors p-1"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                >
+                  {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
+                </button>
+              </div>
             </div>
 
             <button type="submit" className="btn-primary" disabled={loading}>

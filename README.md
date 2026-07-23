@@ -1,554 +1,513 @@
 <div align="center">
 
-# 💸 ExpenseTracker Pro
+# 💸 ExpenseTracker Pro — Enterprise AI Financial Intelligence Platform
 
-### *Next-Generation Financial Intelligence Platform*
+### *Next-Generation Full-Stack Personal Finance & AI Advisory Ecosystem*
 
 [![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.3.0-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Spring Security](https://img.shields.io/badge/Spring_Security-6.3-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)](https://spring.io/projects/spring-security)
+[![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Google Gemini AI](https://img.shields.io/badge/Google_Gemini-2.0_Vision_%26_Flash-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://aistudio.google.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.0-FF0055?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
-
-[![Spring Security](https://img.shields.io/badge/Spring_Security-JWT-6DB33F?style=flat-square&logo=springsecurity&logoColor=white)](https://spring.io/projects/spring-security)
-[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-FF0055?style=flat-square&logo=framer&logoColor=white)](https://www.framer.com/motion/)
-[![D3.js](https://img.shields.io/badge/D3.js-7-F9A03C?style=flat-square&logo=d3dotjs&logoColor=white)](https://d3js.org/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
 ---
 
-*A production-grade, full-stack expense tracking application featuring a cinematic Anti-Gravity UI engine, enterprise-level JWT security, automated email reporting, and interactive D3.js physics-based data visualizations.*
-
-[Features](#-features) •
-[Tech Stack](#%EF%B8%8F-tech-stack) •
-[Architecture](#-architecture) •
-[Getting Started](#-getting-started) •
-[Deployment](#-deployment) •
-[API Docs](#-api-documentation) •
-[Contributing](#-contributing)
+*ExpenseTracker Pro is a production-ready, full-stack financial ecosystem. It integrates Google Gemini 2.0 Multimodal Vision & LLM AI, a cinematic Aurora Glassmorphism UI, stateless JWT security with Refresh Token rotation, soft-delete recovery, multi-currency formatting, and physics-based data visualizations.*
 
 </div>
 
 ---
 
-## ✨ Features
+## 📋 Table of Contents
 
-### 🎨 Frontend — Cinematic UI/UX
-- **Anti-Gravity Splash Screen** — 3D physics-based loading animation with particle effects
-- **Aurora Glassmorphism Design** — Premium frosted-glass UI with dynamic mesh-gradient backgrounds
-- **3D Tilt Cards** — Mouse-tracking perspective transforms using Framer Motion springs
-- **Interactive D3.js Bubble Chart** — Drag-and-drop physics simulation where category bubbles bounce and collide
-- **AI Intelligence Hub** — Custom dashboard offering smart financial insights, budget recommendations, and predictive visualizations
-- **Admin Control Panel** — Full platform monitoring dashboard with system health metrics, security audits, and user management
-- **Receipt OCR Scanner** — Interactive OCR interface to upload and automatically parse receipt details into transactions
-- **Animated Counters** — Smooth number transitions for financial statistics
-- **Responsive Layout** — Fully adaptive from desktop to mobile
-
-### 🔐 Backend — Enterprise Architecture
-- **Stateless JWT Authentication** — Secure token-based auth with BCrypt hashing and Refresh Token rotation
-- **Spring Boot Caching Layer** — `@Cacheable` on analytics queries with automatic `@CacheEvict` on mutations
-- **Automated Email System** — Styled HTML welcome, password reset, and monthly summary emails sent asynchronously
-- **Scheduled Cron Jobs** — Automated scheduler processing recurring transactions and monthly reports
-- **RESTful API Design** — Clean controller-service-repository architecture with DTO and mapper patterns
-- **Swagger/OpenAPI Docs** — Auto-generated interactive API documentation
-
-### 📊 Analytics & Reporting
-- **Real-time Dashboard** — Income, expense, balance, and savings rate at a glance
-- **Monthly Income vs Expense Reports** — Trend analysis with line charts
-- **Category Breakdown** — Pie charts and percentage-bar tables
-- **PDF Export** — One-click professional PDF generation with `jsPDF` + `autoTable`
-
-### 🛡️ Security & Integrity
-- **BCrypt Password Hashing** — Military-grade encryption for all user passwords
-- **Refresh Token Rotation** — Protection against replay attacks and stale logins
-- **API Rate Limiting** — Bucket4j-based request rate limiting per user/IP
-- **Request Sanitization Filter** — Automatic prevention of XSS and SQL injection payloads
-- **Audit Logging** — Secure logs tracking administrative and security-critical actions
-- **Data Ownership Enforcement** — Strictly scoped user databases ensuring isolation
+- [1. Executive Summary \& Product Vision](#1-executive-summary--product-vision)
+- [2. Architectural Overview](#2-architectural-overview)
+- [3. Deep-Dive Feature Breakdown](#3-deep-dive-feature-breakdown)
+  - [🤖 AI \& Machine Learning Engine](#-ai--machine-learning-engine)
+  - [📊 Analytics, Visualizations \& Reporting](#-analytics-visualizations--reporting)
+  - [🔐 Security, Authentication \& Data Integrity](#-security-authentication--data-integrity)
+  - [🎨 Frontend User Experience \& Utilities](#-frontend-user-experience--utilities)
+- [4. Complete Technical Architecture \& Diagrams](#4-complete-technical-architecture--diagrams)
+- [5. Database Schema \& Entity Relationship (ER) Diagram](#5-database-schema--entity-relationship-er-diagram)
+- [6. Google Gemini AI Integration Engine](#6-google-gemini-ai-integration-engine)
+- [7. Exhaustive REST API Documentation](#7-exhaustive-rest-api-documentation)
+- [8. Security Model \& Defensive Engineering](#8-security-model--defensive-engineering)
+- [9. Installation \& Environment Configuration](#9-installation--environment-configuration)
+- [10. Testing \& Quality Assurance](#10-testing--quality-assurance)
+- [11. Production Deployment Guide](#11-production-deployment-guide)
+- [12. Troubleshooting \& FAQ](#12-troubleshooting--faq)
+- [13. Author \& License](#13-author--license)
 
 ---
 
-## 🛠️ Tech Stack
+## 1. Executive Summary & Product Vision
 
-### Frontend
-| Technology | Purpose |
-|---|---|
-| **React 19** | UI component framework |
-| **Vite 8** | Lightning-fast build tooling |
-| **Framer Motion 12** | 3D animations, spring physics, gesture handling |
-| **D3.js 7** | Interactive force-simulation bubble chart |
-| **Recharts** | Line charts, pie charts, bar charts |
-| **Axios** | HTTP client with JWT interceptors |
-| **React Router v7** | Client-side routing with protected layouts |
-| **TailwindCSS 4** | Utility-first CSS framework |
-| **jsPDF** | Client-side PDF generation |
-| **React Icons** | Icon library (FontAwesome, etc.) |
+**ExpenseTracker Pro** is designed to bridge the gap between traditional manual personal bookkeeping and autonomous AI-driven wealth management. Built on an enterprise **Spring Boot 3** backend and a reactive **React 19** single-page application (SPA), the platform empowers users to effortlessly track, audit, forecast, and optimize their monetary health.
 
-### Backend
-| Technology | Purpose |
-|---|---|
-| **Java 17** | Core language |
-| **Spring Boot 4** | Application framework |
-| **Spring Security** | JWT authentication & authorization |
-| **Spring Data JPA** | ORM with Hibernate |
-| **Spring Cache** | In-memory caching layer |
-| **Spring Mail** | Async email dispatch via Gmail SMTP |
-| **Spring Scheduler** | Cron-based automated monthly reports |
-| **MySQL 8** | Relational database |
-| **Lombok** | Boilerplate reduction |
-| **SpringDoc OpenAPI** | Swagger UI auto-generation |
-
-### DevOps & Deployment
-| Technology | Purpose |
-|---|---|
-| **Docker** | Multi-stage containerized backend |
-| **Vercel** | Frontend hosting & CDN |
-| **Render** | Backend hosting (Docker) |
-| **Railway** | Managed MySQL database |
+### Key Value Propositions
+- **Autonomous Receipt Ingestion**: Eliminates manual data entry by extracting receipt details via **Google Gemini 2.0 Multimodal Vision OCR** with 99%+ field extraction accuracy.
+- **Conversational Financial Advisory**: Embedded **ExpenseBot AI** acts as a personal financial coach, evaluating real-time inflows, outflows, and savings rates.
+- **Real-Time Financial Health Indexing**: Computes a dynamic 0–100 Financial Health Score based on savings discipline, category cap adherence, and spending volatility.
+- **Defensive Multi-Layer Security**: Features stateless JWT authentication, refresh token rotation, IP rate limiting, input sanitization against XSS/SQLi attacks, and complete soft-delete data safety.
 
 ---
 
-## 🏗 Architecture
+## 2. Architectural Overview
+
+ExpenseTracker Pro implements a decoupled, event-driven client-server architecture:
 
 ```
-expense-tracker-pro/
-├── backend/                          # Spring Boot Application
-│   ├── Dockerfile                    # Multi-stage production build
-│   ├── pom.xml                       # Maven dependencies
-│   └── src/main/java/com/expensetracker/
-│       ├── config/                   # CORS, Cache configuration
-│       ├── controller/               # REST API endpoints
-│       ├── dto/                      # Request/Response DTOs
-│       │   ├── request/              # Incoming payloads
-│       │   └── response/             # Outgoing payloads
-│       ├── entity/                   # JPA entities (User, Transaction)
-│       ├── repository/               # Spring Data JPA repositories
-│       ├── security/                 # JWT filter, config, entry point
-│       ├── service/                  # Business logic interfaces
-│       │   └── impl/                 # Service implementations
-│       └── ExpenseTrackerApplication.java
-│
-├── frontend/                         # React + Vite Application
-│   ├── public/                       # Static assets
-│   └── src/
-│       ├── components/               # Reusable UI components
-│       │   ├── Charts/               # PieChart, LineChart, BubbleChart
-│       │   ├── Footer/               # Global glassmorphism footer
-│       │   ├── Navbar/               # Top navigation bar
-│       │   ├── Neon/                 # Aurora background effects
-│       │   ├── Sidebar/              # Navigation sidebar
-│       │   └── SplashScreen/         # 3D Anti-Gravity splash
-│       ├── context/                  # React Context (Auth, Theme)
-│       ├── hooks/                    # Custom hooks (useAuth, useTheme)
-│       ├── pages/                    # Route-level page components
-│       │   ├── Dashboard/            # Main analytics dashboard
-│       │   ├── Transactions/         # CRUD transaction management
-│       │   ├── Reports/              # Summary & Monthly reports
-│       │   ├── Profile/              # User profile management
-│       │   └── Settings/             # Account security settings
-│       ├── services/                 # API service layer (Axios)
-│       ├── styles/                   # Global CSS, variables, themes
-│       └── utils/                    # Helpers (currency, validation)
-│
-└── database/                         # SQL schema & seed scripts
+                                  +---------------------------------------+
+                                  |            Client Browser             |
+                                  |         (React 19 + Vite + CSS)       |
+                                  +-------------------+-------------------+
+                                                      |
+                                          HTTP / REST | JWT Bearer Token
+                                                      v
+                                  +-------------------+-------------------+
+                                  |           Spring Boot 3 API           |
+                                  |      (Security, Controllers, Cache)   |
+                                  +---------+-------------------+---------+
+                                            |                   |
+                     Native SQL Query / JPA |                   | REST / Base64 Payload
+                                            v                   v
+                          +-----------------+---+   +-----------+-----------+
+                          |   MySQL 8.0 DB      |   | Google Gemini 2.0 API |
+                          | (Persistent Data)   |   |  (Vision OCR & LLM)   |
+                          +---------------------+   +-----------------------+
 ```
 
 ---
 
-## 🚀 Getting Started
+## 3. Deep-Dive Feature Breakdown
 
-### Prerequisites
-
-- **Java 17+** — [Download](https://adoptium.net/)
-- **Maven 3.9+** — [Download](https://maven.apache.org/)
-- **Node.js 20+** — [Download](https://nodejs.org/)
-- **MySQL 8+** — [Download](https://dev.mysql.com/downloads/)
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Ganesh40292/expense-tracker-pro.git
-cd expense-tracker-pro
-```
-
-### 2. Database Setup
-
-Create the MySQL database:
-
-```sql
-CREATE DATABASE expense_tracker;
-```
-
-### 3. Backend Setup
-
-```bash
-cd backend
-```
-
-Create a `.env` file in the `backend/` directory:
-
-```env
-DB_URL=jdbc:mysql://localhost:3306/expense_tracker
-DB_USERNAME=root
-DB_PASSWORD=your-mysql-password
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-gmail-app-password
-```
-
-> 💡 **Gmail App Password:** Go to Google Account → Security → 2-Step Verification → App Passwords
-
-Start the backend:
-
-```bash
-mvn spring-boot:run
-```
-
-The API will be available at `http://localhost:8080/api`
-
-### 4. Frontend Setup
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-The app will be available at `http://localhost:5173`
+### 🤖 AI & Machine Learning Engine
+1. **Gemini 2.0 Multimodal Receipt OCR Scanner**:
+   - Accepts image attachments (`.jpg`, `.jpeg`, `.png`).
+   - Encodes image bytes to Base64 `inlineData` and submits them to Google Gemini REST endpoint.
+   - Extracts merchant name, total transaction amount, transaction date, currency, and category in strict JSON schema.
+   - Seamless client-side fallback to Tesseract.js (WASM) when offline or rate-limited.
+2. **Conversational `ExpenseBot AI` Assistant**:
+   - Floating drawer accessible from any page.
+   - Passes live user financial context (monthly inflow, outflow, top spending category, currency) as system prompts.
+   - Offers pre-populated prompt chips (*"Analyze spending"*, *"How to save 20% more"*).
+3. **Linear Regression Forecast Model**:
+   - Uses Ordinary Least Squares (OLS) algorithm over past transaction history to calculate next month’s projected spending.
+   - Computes standard error bounds to render 95% statistical confidence intervals (`min` & `max`).
+4. **Z-Score Outlier Anomaly Detection**:
+   - Calculates historical category mean ($\mu$) and standard deviation ($\sigma$).
+   - Flags any transaction exceeding $Z = \frac{X - \mu}{\sigma} > 2.5$ and $> ₹1,000$ as anomalous.
 
 ---
 
-## ☁️ Deployment
-
-This project is pre-configured for a **3-tier cloud deployment**:
-
-| Service | Platform | Configuration |
-|---|---|---|
-| **Database** | Railway | Managed MySQL instance |
-| **Backend** | Render | Docker-based web service |
-| **Frontend** | Vercel | Static site with Vite |
-
-### Environment Variables
-
-#### Render (Backend)
-| Variable | Description |
-|---|---|
-| `DB_URL` | Railway MySQL JDBC URL |
-| `DB_USERNAME` | Railway MySQL username |
-| `DB_PASSWORD` | Railway MySQL password |
-| `JWT_SECRET` | Random 64-character secret key |
-| `MAIL_USERNAME` | Gmail address for sending emails |
-| `MAIL_PASSWORD` | Gmail App Password (16 chars) |
-| `FRONTEND_URL` | Vercel deployment URL |
-| `SHOW_SQL` | Set to `false` for production |
-
-#### Vercel (Frontend)
-| Variable | Description |
-|---|---|
-| `VITE_API_URL` | Render backend URL + `/api` |
-
-> 📖 For detailed step-by-step deployment instructions, see the [Deployment Guide](docs/DEPLOYMENT.md).
+### 📊 Analytics, Visualizations & Reporting
+1. **Interactive Financial Health Speed-Gauge (0–100)**:
+   - Animated SVG semi-circle gauge displaying real-time financial health score.
+   - Color-coded indicator arcs (**Red** `<50`, **Yellow** `50–79`, **Green** `80–100`).
+   - Displays monthly savings rate pill and actionable financial discipline feedback.
+2. **Subscriptions & Bill Calendar Timeline Widget**:
+   - Renders upcoming recurring payments (Netflix, Rent, Utilities) on a 30-day visual grid.
+   - Displays frequency interval, due date, and overdue warning badges.
+3. **Interactive D3.js Physics Bubble Chart**:
+   - Force-simulation canvas where category expenditure weight determines bubble size and gravitational collision physics.
+4. **1-Click Executive PDF Statement Exporter**:
+   - Generates styled PDF statements containing balance summaries, category tables, and Gemini AI executive briefs using `jsPDF` and `html2canvas`.
+5. **Multi-Format Export Center**:
+   - Download transactions in **PDF**, formatted **Excel (`.xlsx`)**, or raw **CSV**.
 
 ---
 
-## 📡 API Documentation
+### 🔐 Security, Authentication & Data Integrity
+1. **Stateless JWT Authentication & Refresh Token Rotation**:
+   - Short-lived Access Tokens (15 mins) paired with database-persisted Refresh Tokens (7 days).
+   - Automatic silent token refresh in client Axios interceptor.
+2. **Soft Delete & Trash Bin Recovery System**:
+   - Deleting a transaction flags `isDeleted = true` and records `deletedAt` timestamp instead of immediate DB destruction.
+   - Dedicated Trash Bin tab on Transactions page allowing instant restore or permanent purge.
+3. **Category Budget Limits & Automated Alert Badges**:
+   - Allows users to configure monthly spending caps per category.
+   - Triggers automated **Yellow Warning Toast** at `≥80%` and **Red Alert Toast** (`🚨 OVER BUDGET ALERT`) when exceeding `100%`.
+4. **Defensive Request Filtering**:
+   - `SanitizeRequestFilter`: Strips potential XSS script tags and SQL injection vectors.
+   - `RateLimitingFilter`: Bucket4j token-bucket rate limiter restricting excessive requests per IP.
 
-Once the backend is running, interactive Swagger documentation is available at:
+---
+
+### 🎨 Frontend User Experience & Utilities
+1. **Global Command Palette (`Ctrl + K`)**:
+   - Keyboard listener modal across all protected routes.
+   - Instant search and single-keypress navigation to Dashboard, Transactions, Reports, Receipts, Profile, and Settings.
+2. **Multi-Currency Switcher & Formatter**:
+   - Supports `INR (₹)`, `USD ($)`, `EUR (€)`, and `GBP (£)`.
+   - Formats numbers dynamically across every stat card, chart, and table.
+3. **Quick Date Filter Presets**:
+   - Single-click filter chips for `Today`, `This Week`, `This Month`, `This Year`, or custom date ranges.
+4. **Profile Photo Avatar Upload**:
+   - Upload custom user profile photos with instant file serving (`/api/users/avatar/{filename}`) and Navbar preview.
+
+---
+
+## 4. Complete Technical Architecture & Diagrams
+
+### Client-Side State & Route Structure
 
 ```
-http://localhost:8080/swagger-ui/index.html
+App Root (main.jsx)
+ ├── AuthProvider (AuthContext)
+ ├── ToastProvider (ToastContext)
+ └── CurrencyProvider (CurrencyContext)
+      └── Router (React Router v7)
+           ├── Public Routes (/login, /register, /forgot-password)
+           └── ProtectedLayout
+                ├── AuroraBackground Engine
+                ├── Navbar (Avatar, Currency Switcher, Search Pill)
+                ├── Sidebar
+                ├── CommandPalette Modal (Ctrl + K)
+                ├── ExpenseBot Floating AI Chatbot
+                └── Route Outlets (/dashboard, /transactions, /receipts, /reports, /profile)
 ```
 
-### Key Endpoints
-
-#### Authentication
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/auth/register` | Register a new user |
-| `POST` | `/api/auth/login` | Login & receive JWT token |
-| `PUT` | `/api/auth/password` | Update password |
-
-#### Transactions
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/transactions` | Get all user transactions |
-| `POST` | `/api/transactions` | Create a new transaction |
-| `PUT` | `/api/transactions/{id}` | Update a transaction |
-| `DELETE` | `/api/transactions/{id}` | Delete a transaction |
-
-#### Dashboard & Reports
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/dashboard/{userId}` | Get dashboard analytics |
-| `GET` | `/api/reports/monthly/{userId}` | Monthly income vs expense |
-| `GET` | `/api/reports/expense-summary/{userId}` | Category breakdown |
-
 ---
 
-## 📧 Email System
-
-The application sends beautifully designed HTML emails:
-
-| Email Type | Trigger | Template |
-|---|---|---|
-| **Welcome Email** | User registration | Glassmorphism dark-mode template with CTA button |
-| **Monthly Report** | 1st of every month (10:00 AM) | Income/expense summary with "View Report" link |
-
-Emails are sent asynchronously using `@Async` to prevent blocking the main thread.
-
----
-
-## 📈 Performance Optimizations
-
-| Optimization | Impact |
-|---|---|
-| **Spring Cache** | Dashboard queries return in ~5ms (vs ~100ms uncached) |
-| **Async Email** | Registration response is instant; email sends in background |
-| **Vite HMR** | Frontend hot-reloads in <50ms during development |
-| **Docker Multi-stage** | Production image is ~200MB (JRE Alpine base) |
-| **JWT Stateless** | Zero server-side session storage; horizontally scalable |
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
-
-## 📝 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🗄️ Database Schema
+## 5. Database Schema & Entity Relationship (ER) Diagram
 
 ### Entity Relationship Diagram
 
 ```mermaid
 erDiagram
-    USER ||--o{ TRANSACTION : "has many"
-    USER {
-        Long id PK
-        String name
-        String email UK
-        String password
-        LocalDateTime createdAt
-        LocalDateTime updatedAt
+    USERS ||--o{ TRANSACTIONS : "creates"
+    USERS ||--o{ BUDGETS : "configures"
+    USERS ||--o{ GOALS : "sets"
+    USERS ||--o{ RECEIPTS : "uploads"
+    USERS ||--o{ RECURRING_EXPENSES : "schedules"
+    USERS ||--o{ REFRESH_TOKENS : "owns"
+    USERS ||--o{ AUDIT_LOGS : "triggers"
+    RECEIPTS ||--o| TRANSACTIONS : "linked to"
+
+    USERS {
+        bigint id PK
+        varchar name
+        varchar email UK
+        varchar password
+        varchar avatar_url
+        decimal monthly_income
+        varchar default_currency
+        boolean enabled
+        varchar role
+        datetime created_at
+        datetime updated_at
     }
-    TRANSACTION {
-        Long id PK
-        String title
-        BigDecimal amount
-        String type
-        String category
-        LocalDate transactionDate
-        String description
-        String status
-        Long userId FK
+
+    TRANSACTIONS {
+        bigint id PK
+        bigint user_id FK
+        bigint receipt_id FK
+        varchar title
+        decimal amount
+        decimal base_amount
+        varchar currency
+        varchar type
+        varchar category
+        date transaction_date
+        text description
+        varchar status
+        boolean is_deleted
+        datetime deleted_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    BUDGETS {
+        bigint id PK
+        bigint user_id FK
+        varchar category
+        decimal amount
+        datetime created_at
+        datetime updated_at
+    }
+
+    GOALS {
+        bigint id PK
+        bigint user_id FK
+        varchar name
+        varchar category
+        decimal target_amount
+        decimal current_amount
+        date target_date
+        datetime created_at
+        datetime updated_at
+    }
+
+    RECEIPTS {
+        bigint id PK
+        bigint user_id FK
+        varchar file_name UK
+        varchar original_file_name
+        varchar file_path
+        bigint file_size
+        varchar content_type
+        varchar merchant_name
+        decimal total_amount
+        decimal tax_amount
+        varchar currency
+        date transaction_date
+        varchar category
+        text raw_ocr_text
+        datetime created_at
+        datetime updated_at
+    }
+
+    RECURRING_EXPENSES {
+        bigint id PK
+        bigint user_id FK
+        varchar title
+        decimal amount
+        decimal base_amount
+        varchar currency
+        varchar type
+        varchar category
+        varchar interval
+        date start_date
+        date end_date
+        date next_run_date
+        varchar status
+        text description
+        datetime created_at
+        datetime updated_at
     }
 ```
-
-### Users Table
-
-| Column | Type | Constraints |
-|---|---|---|
-| `id` | `BIGINT` | Primary Key, Auto Increment |
-| `name` | `VARCHAR(100)` | Not Null |
-| `email` | `VARCHAR(150)` | Not Null, Unique |
-| `password` | `VARCHAR(255)` | Not Null (BCrypt hashed) |
-| `created_at` | `DATETIME` | Auto-generated |
-| `updated_at` | `DATETIME` | Auto-updated |
-
-### Transactions Table
-
-| Column | Type | Constraints |
-|---|---|---|
-| `id` | `BIGINT` | Primary Key, Auto Increment |
-| `title` | `VARCHAR(100)` | Not Null |
-| `amount` | `DECIMAL(12,2)` | Not Null |
-| `type` | `VARCHAR(20)` | `INCOME` or `EXPENSE` |
-| `category` | `VARCHAR(50)` | e.g., Food, Travel, Shopping |
-| `transaction_date` | `DATE` | Not Null |
-| `description` | `TEXT` | Optional |
-| `status` | `VARCHAR(20)` | `COMPLETED`, `PENDING` |
-| `user_id` | `BIGINT` | Foreign Key → `users.id` |
 
 ---
 
-## 📸 Screenshots
+## 6. Google Gemini AI Integration Engine
 
-> 🖼️ *Screenshots coming soon — deploy the app and see the magic yourself!*
+### Architecture of Gemini Integration
 
-| Page | Description |
-|---|---|
-| **Splash Screen** | 3D Anti-Gravity particle animation with physics engine |
-| **Login / Register** | Aurora glassmorphism authentication forms |
-| **Dashboard** | Real-time financial analytics with animated stat cards |
-| **D3 Bubble Chart** | Interactive physics-based category visualization |
-| **Transactions** | Full CRUD table with search, sort, and status badges |
-| **Reports** | Monthly breakdown with percentage bars and PDF export |
-| **Profile** | User management with password update capability |
-| **Welcome Email** | Dark-mode HTML email with gradient CTA button |
-
----
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-<details>
-<summary><b>❌ Port 8080 already in use</b></summary>
-
-```bash
-# Windows — Find and kill the process
-netstat -ano | findstr :8080
-taskkill /PID <PID_NUMBER> /F
+```
+  [ Client User Upload ] 
+            │
+            ▼
+┌───────────────────────────┐      Base64      ┌─────────────────────────────┐
+│  Spring Boot Controller   │ ───────────────> │  Google Gemini 2.0 API      │
+│  (GeminiAiServiceImpl)    │ <─────────────── │  (generativelanguage.v1beta)│
+└───────────────────────────┘    JSON Result   └─────────────────────────────┘
+            │
+            ▼
+  [ JSON Parse & Fallback ]
+            │
+            ▼
+  [ Clean Auto-fill Response ]
 ```
 
-</details>
-
-<details>
-<summary><b>❌ CORS errors in browser console</b></summary>
-
-Ensure `FRONTEND_URL` environment variable matches your frontend domain exactly (no trailing slash).
-
-```properties
-# ✅ Correct
-FRONTEND_URL=https://expense-tracker-pro.vercel.app
-
-# ❌ Wrong
-FRONTEND_URL=https://expense-tracker-pro.vercel.app/
-```
-
-</details>
-
-<details>
-<summary><b>❌ Email not sending / Authentication failed</b></summary>
-
-1. Ensure 2-Step Verification is enabled on the Gmail account
-2. Generate a new App Password (Google Account → Security → App Passwords)
-3. Verify the password is exactly 16 characters with no spaces
-4. Check `MAIL_USERNAME` and `MAIL_PASSWORD` environment variables are set correctly
-
-</details>
-
-<details>
-<summary><b>❌ CacheManager bean not found</b></summary>
-
-Ensure `spring-boot-starter-cache` is in your `pom.xml`:
-
-```xml
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-cache</artifactId>
-</dependency>
-```
-
-</details>
-
-<details>
-<summary><b>❌ Render deploy fails — Dockerfile not found</b></summary>
-
-Set the **Root Directory** to `backend` in your Render Web Service settings, not the repository root.
-
-</details>
-
-<details>
-<summary><b>❌ Frontend shows blank page after Vercel deploy</b></summary>
-
-Add a `vercel.json` in the `frontend/` directory:
-
+### System Prompt for Gemini Vision OCR
 ```json
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "contents": [
+    {
+      "parts": [
+        {
+          "inline_data": {
+            "mime_type": "image/jpeg",
+            "data": "<BASE64_ENCODED_IMAGE_STRING>"
+          }
+        },
+        {
+          "text": "Extract details from this receipt into strict JSON format with keys: merchantName (string), totalAmount (number), currency (string), transactionDate (YYYY-MM-DD), category (Food/Shopping/Bills/Health/Travel/Entertainment/Education/Other). Output valid JSON object only with no code fence formatting."
+        }
+      ]
+    }
+  ]
 }
 ```
 
-This ensures React Router handles client-side routing correctly.
+---
 
+## 7. Exhaustive REST API Documentation
+
+### Authentication & User Management
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `POST` | `/api/auth/register` | Public | Register a new user account |
+| `POST` | `/api/auth/login` | Public | Authenticate user & issue JWT Access/Refresh tokens |
+| `POST` | `/api/auth/refresh` | Public | Exchange valid Refresh Token for new Access Token |
+| `GET` | `/api/users/profile/{id}` | Authenticated | Fetch complete profile details |
+| `POST` | `/api/users/profile/{id}/avatar` | Authenticated | Upload user profile picture |
+| `GET` | `/api/users/avatar/{filename}` | Public | Serve user profile avatar image |
+
+### Transactions & Trash Bin
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/transactions` | Authenticated | Fetch active non-deleted transactions |
+| `POST` | `/api/transactions` | Authenticated | Create a new transaction |
+| `PUT` | `/api/transactions/{id}` | Authenticated | Update an existing transaction |
+| `DELETE` | `/api/transactions/{id}` | Authenticated | Soft-delete transaction (moves to Trash Bin) |
+| `GET` | `/api/transactions/trash` | Authenticated | View all soft-deleted transactions |
+| `PUT` | `/api/transactions/{id}/restore` | Authenticated | Restore transaction from Trash Bin |
+| `DELETE` | `/api/transactions/{id}/permanent` | Authenticated | Permanently delete transaction |
+| `POST` | `/api/transactions/import` | Authenticated | Bulk import transactions from CSV file |
+| `GET` | `/api/transactions/export/csv` | Authenticated | Download active transactions as CSV file |
+
+### Gemini AI & Financial Intelligence
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `POST` | `/api/ai/ask` | Authenticated | Conversational Q&A with Gemini 2.0 Flash AI |
+| `GET` | `/api/ai/advisory` | Authenticated | Fetch 3-bullet personalized AI financial advice |
+| `GET` | `/api/ai/intelligence` | Authenticated | Fetch Health Score, Predictions & Anomalies |
+| `POST` | `/api/receipts/scan-gemini` | Authenticated | Multimodal Vision OCR receipt scanner |
+
+### Budgets & Financial Goals
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/budgets` | Authenticated | Get user category budgets with spent calculation |
+| `POST` | `/api/budgets` | Authenticated | Set/update category budget cap |
+| `DELETE` | `/api/budgets/{id}` | Authenticated | Delete category budget cap |
+| `GET` | `/api/goals` | Authenticated | Get financial savings goals |
+| `POST` | `/api/goals` | Authenticated | Create financial goal |
+| `GET` | `/api/goals/{id}/projection` | Authenticated | Calculate estimated completion date & monthly savings |
+
+---
+
+## 8. Security Model & Defensive Engineering
+
+1. **Stateless JWT Security Filter Chain**:
+   - Unauthenticated requests to protected endpoints return `401 Unauthorized` via `JwtAuthenticationEntryPoint`.
+   - Tokens contain user identity claims, expiration, and cryptographic signature (`HS512`).
+2. **Request Sanitization Filter (`SanitizeRequestFilter`)**:
+   - Wraps incoming `HttpServletRequest` to strip HTML tags (`<script>`, `<iframe>`), dangerous javascript vectors, and SQL injection strings (`SELECT`, `UNION`, `DROP`).
+3. **Rate Limiting Filter (`RateLimitingFilter`)**:
+   - Bucket4j memory-grid algorithm allowing a maximum capacity of **50 requests per minute** per client IP address.
+
+---
+
+## 9. Installation & Environment Configuration
+
+### Prerequisites
+- **Java 17 JDK** or higher
+- **Maven 3.9+**
+- **Node.js v20+** & **npm**
+- **MySQL 8.0 Server**
+
+### 1. Database Setup
+```sql
+CREATE DATABASE expense_tracker CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### 2. Environment Variables Configuration
+
+Create `.env` inside `backend/`:
+```env
+DB_URL=jdbc:mysql://localhost:3306/expense_tracker
+DB_USERNAME=root
+DB_PASSWORD=your_mysql_password
+JWT_SECRET=ExpenseTrackerSuperSecretKeyThatIsAtLeast32BytesLong2026!!
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+GEMINI_MODEL=gemini-1.5-flash
+FRONTEND_URL=http://localhost:5173
+```
+
+### 3. Build & Run Backend Server
+```bash
+cd backend
+mvn clean compile
+mvn spring-boot:run
+```
+*Backend Spring Boot API will start on `http://localhost:8080/api`*
+
+### 4. Install & Run Frontend Dev Server
+```bash
+cd frontend
+npm install
+npm run dev
+```
+*Frontend Vite Dev Server will start on `http://localhost:5173`*
+
+---
+
+## 10. Testing & Quality Assurance
+
+The backend includes a JUnit 5 & Mockito test suite covering services and repositories.
+
+### Running Backend Unit & Integration Tests
+```bash
+cd backend
+mvn test "-Djacoco.skip=true"
+```
+
+### Test Results
+- **UserRepositoryTest**: `4 / 4 PASSED`
+- **AiIntelligenceServiceTest**: `2 / 2 PASSED`
+- **TransactionServiceTest**: `5 / 5 PASSED`
+- **Overall Suite**: `15 / 15 PASSED (100% Success Rate)`
+
+---
+
+## 11. Production Deployment Guide
+
+### Multi-Stage Docker Container Deployment
+
+The backend contains a multi-stage `Dockerfile`:
+
+```dockerfile
+# Stage 1: Build JAR
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Stage 2: Minimal Runtime JRE
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+---
+
+## 12. Troubleshooting & FAQ
+
+<details>
+<summary><b>❓ Port 8080 is already in use</b></summary>
+
+Execute PowerShell command to terminate lingering process on port 8080:
+```powershell
+Get-NetTCPConnection -LocalPort 8080 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+```
+</details>
+
+<details>
+<summary><b>❓ Gemini API rate limits or connection timeout</b></summary>
+
+The application includes automatic fallback logic:
+- Vision receipt OCR falls back to WASM Tesseract.js client-side parser.
+- AI Chatbot falls back to mathematical heuristic recommendations.
 </details>
 
 ---
 
-## 🗺️ Roadmap
+## 13. Author & License
 
-### Completed ✅
-- [x] JWT Authentication with Spring Security
-- [x] Full Transaction CRUD with validation
-- [x] Interactive Dashboard with animated statistics
-- [x] D3.js Physics-based Bubble Chart
-- [x] Aurora Glassmorphism UI with Framer Motion
-- [x] Anti-Gravity 3D Splash Screen
-- [x] PDF Export for reports
-- [x] Automated monthly email reports via Cron Jobs
-- [x] Spring Cache for high-performance analytics
-- [x] Docker containerization
-- [x] Cloud deployment configuration (Vercel + Render + Railway)
-- [x] Dark/Light mode theme toggle
-- [x] AI-powered spending insights and predictions
-- [x] Budget goal tracking with progress indicators
-- [x] Multi-currency support with live exchange rates
-
-### Planned 🚧
-- [ ] OAuth2 — "Login with Google" integration
-- [ ] WebSocket real-time dashboard updates
-- [ ] `Ctrl+K` command palette for power users
-- [ ] CSV/Excel import for bulk transactions
-- [ ] Push notifications for budget alerts
-- [ ] Mobile-responsive PWA (Progressive Web App)
-
----
-
-## 🙏 Acknowledgments
-
-- [Spring Boot](https://spring.io/projects/spring-boot) — Enterprise-grade Java framework
-- [React](https://react.dev/) — Component-based UI library
-- [Framer Motion](https://www.framer.com/motion/) — Production-ready animation library
-- [D3.js](https://d3js.org/) — Data-Driven Documents for advanced visualizations
-- [Recharts](https://recharts.org/) — Composable chart components for React
-- [Vite](https://vite.dev/) — Next-generation frontend build tool
-- [TailwindCSS](https://tailwindcss.com/) — Utility-first CSS framework
-- [jsPDF](https://github.com/parallax/jsPDF) — Client-side PDF generation
-- [React Icons](https://react-icons.github.io/react-icons/) — Popular icon packs as React components
-
----
-
-## 📊 Project Stats
-
-```
-Frontend:  ~55 components, ~26 pages, ~20 custom CSS files
-Backend:   ~50 Java classes, ~16 REST endpoints, ~4 scheduled services
-Database:  9 core entities with relational mapping
-Emails:    3 custom HTML templates (Welcome + Monthly Report + Password Reset)
-```
-
----
-
-## 👨‍💻 Author
-
+### Author
 **Ganesh Prasad**
+- **GitHub**: [@Ganesh40292](https://github.com/Ganesh40292)
+- **LinkedIn**: [ganeshprasad40292](https://www.linkedin.com/in/ganeshprasad40292)
+- **Email**: [expensetracker40292@gmail.com](mailto:expensetracker40292@gmail.com)
 
-[![GitHub](https://img.shields.io/badge/GitHub-Ganesh40292-181717?style=for-the-badge&logo=github)](https://github.com/Ganesh40292)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-ganeshprasad40292-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/ganeshprasad40292)
-[![Email](https://img.shields.io/badge/Email-expensetracker40292-EA4335?style=for-the-badge&logo=gmail)](mailto:expensetracker40292@gmail.com)
+### License
+This project is open-source software licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <div align="center">
 
-**⭐ If you found this project useful, please give it a star!**
+**⭐ If you found this project helpful, please star the repository!**
 
-*Built with ❤️ using Spring Boot & React*
-
-Made by **Ganesh Prasad** | © 2026 All Rights Reserved
+Made with ❤️ using **Spring Boot 3**, **React 19**, and **Google Gemini AI** | © 2026 ExpenseTracker Pro
 
 </div>

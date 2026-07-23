@@ -42,6 +42,9 @@ public class User extends BaseEntity {
     @Column(name = "monthly_income", precision = 12, scale = 2, columnDefinition = "DECIMAL(12,2) DEFAULT 50000.00")
     private java.math.BigDecimal monthlyIncome = new java.math.BigDecimal("50000.00");
 
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
     @Column(nullable = false)
     private boolean enabled = true;
 
@@ -132,5 +135,13 @@ public class User extends BaseEntity {
 
     public void setMonthlyIncome(java.math.BigDecimal monthlyIncome) {
         this.monthlyIncome = monthlyIncome;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

@@ -13,6 +13,8 @@ public interface TransactionService {
 
     List<TransactionResponse> getAllTransactions();
 
+    List<TransactionResponse> getTrashTransactions();
+
     TransactionResponse getTransactionById(Long id);
 
     TransactionResponse updateTransaction(
@@ -21,4 +23,14 @@ public interface TransactionService {
     );
 
     void deleteTransaction(Long id);
+
+    TransactionResponse restoreTransaction(Long id);
+
+    void permanentDeleteTransaction(Long id);
+
+    List<TransactionResponse> importTransactionsFromCsv(
+            org.springframework.web.multipart.MultipartFile file
+    );
+
+    byte[] exportTransactionsToCsv();
 }

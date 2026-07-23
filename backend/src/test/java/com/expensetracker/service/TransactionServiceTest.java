@@ -113,7 +113,7 @@ class TransactionServiceTest {
     void getAllTransactions_Success() {
         mockCurrentUser();
 
-        when(transactionRepository.findByUserId(testUser.getId())).thenReturn(List.of(testTransaction));
+        when(transactionRepository.findByUserIdAndIsDeletedFalse(testUser.getId())).thenReturn(List.of(testTransaction));
 
         List<TransactionResponse> responses = transactionService.getAllTransactions();
 
@@ -153,6 +153,6 @@ class TransactionServiceTest {
 
         transactionService.deleteTransaction(1L);
 
-        verify(transactionRepository).delete(testTransaction);
+        verify(transactionRepository).save(any(Transaction.class));
     }
 }

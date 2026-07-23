@@ -21,27 +21,26 @@ public class AiIntelligenceController {
     @Autowired
     private AiIntelligenceService aiIntelligenceService;
 
+    @Autowired
+    private com.expensetracker.service.GeminiAiService geminiAiService;
+
     // ── AI Intelligence Dashboard ──
     @GetMapping("/ai/intelligence")
     public ResponseEntity<AiIntelligenceResponse> getAiIntelligence() {
         return ResponseEntity.ok(aiIntelligenceService.getAiIntelligence());
     }
 
-    // ── Budgets API ──
-    @GetMapping("/budgets")
-    public ResponseEntity<List<Budget>> getBudgets() {
-        return ResponseEntity.ok(aiIntelligenceService.getBudgets());
+    // ── Gemini AI Assistant Endpoints ──
+    @PostMapping("/ai/ask")
+    public ResponseEntity<java.util.Map<String, String>> askGemini(@Valid @RequestBody com.expensetracker.dto.request.AskAiRequest request) {
+        String answer = geminiAiService.askGemini(request.getPrompt());
+        return ResponseEntity.ok(java.util.Map.of("answer", answer));
     }
 
-    @PostMapping("/budgets")
-    public ResponseEntity<Budget> saveBudget(@Valid @RequestBody BudgetRequest request) {
-        return ResponseEntity.ok(aiIntelligenceService.saveBudget(request));
-    }
-
-    @DeleteMapping("/budgets/{id}")
-    public ResponseEntity<String> deleteBudget(@PathVariable Long id) {
-        aiIntelligenceService.deleteBudget(id);
-        return ResponseEntity.ok("Budget deleted successfully");
+    @GetMapping("/ai/advisory")
+    public ResponseEntity<java.util.Map<String, String>> getGeminiAdvisory() {
+        String advice = geminiAiService.getFinancialAdvisoryForUser();
+        return ResponseEntity.ok(java.util.Map.of("advice", advice));
     }
 
     // ── Goals API ──

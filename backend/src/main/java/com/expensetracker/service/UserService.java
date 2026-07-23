@@ -18,4 +18,9 @@ public interface UserService {
             Long id,
             UpdatePasswordRequest request
     );
+
+    UserResponse uploadAvatar(
+            Long id,
+            org.springframework.web.multipart.MultipartFile file
+    );
 }

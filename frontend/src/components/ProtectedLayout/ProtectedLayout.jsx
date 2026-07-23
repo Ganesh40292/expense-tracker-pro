@@ -5,6 +5,8 @@ import Navbar from '../Navbar/Navbar';
 import Sidebar from '../Sidebar/Sidebar';
 import AuroraBackground from '../Neon/AuroraBackground';
 import Footer from '../Footer/Footer';
+import CommandPalette from '../CommandPalette/CommandPalette';
+import ExpenseBot from '../ExpenseBot/ExpenseBot';
 import './ProtectedLayout.css'
 
 
@@ -12,6 +14,7 @@ const ProtectedLayout = () => {
     const { isAuthenticated } = useAuth();
     const location = useLocation();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
     // Check if we are exactly on the dashboard page
     const isDashboard = location.pathname === '/dashboard' || location.pathname === '/';
@@ -31,7 +34,9 @@ const ProtectedLayout = () => {
     return (
         <div className="layout">
             <AuroraBackground />
-            <Navbar onToggleSidebar={handleToggleSidebar} />
+            <Navbar onToggleSidebar={handleToggleSidebar} onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
+            <CommandPalette isOpen={commandPaletteOpen} onClose={setCommandPaletteOpen} />
+            <ExpenseBot />
             <div className="layout__body">
                 <Sidebar isOpen={sidebarOpen} onClose={handleCloseSidebar} />
                 <main className="layout__content" style={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>

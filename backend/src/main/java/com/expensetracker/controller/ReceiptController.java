@@ -34,6 +34,16 @@ public class ReceiptController {
     @Autowired
     private OcrService ocrService;
 
+    @Autowired
+    private com.expensetracker.service.GeminiAiService geminiAiService;
+
+    @PostMapping("/scan-gemini")
+    public ResponseEntity<java.util.Map<String, Object>> scanReceiptWithGemini(
+            @RequestParam("file") MultipartFile file) {
+        java.util.Map<String, Object> result = geminiAiService.scanReceiptVision(file);
+        return ResponseEntity.ok(result);
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<ReceiptResponse> uploadReceipt(
             @RequestParam("file") MultipartFile file) {

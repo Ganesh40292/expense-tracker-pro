@@ -15,6 +15,14 @@ public interface TransactionRepository
 
     List<Transaction> findByUserId(Long userId);
 
+    List<Transaction> findByUserIdAndIsDeletedFalse(Long userId);
+
+    List<Transaction> findByUserIdAndIsDeletedTrue(Long userId);
+
+    java.util.Optional<Transaction> findByIdAndUserIdAndIsDeletedFalse(Long id, Long userId);
+
+    java.util.Optional<Transaction> findByIdAndUserIdAndIsDeletedTrue(Long id, Long userId);
+
     List<Transaction> findByType(String type);
 
     List<Transaction> findByCategory(String category);

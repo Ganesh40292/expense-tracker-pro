@@ -13,6 +13,8 @@ import LineChartComponent from '../../components/Charts/LineChartComponent'
 import BubbleChartComponent from '../../components/Charts/BubbleChartComponent'
 import BarChartComponent from '../../components/Charts/BarChartComponent'
 import ExportCenter from '../../components/ExportCenter/ExportCenter'
+import HealthScoreGauge from '../../components/HealthScore/HealthScoreGauge'
+import BillCalendar from '../../components/BillCalendar/BillCalendar'
 import html2canvas from 'html2canvas'
 import {
   FaWallet,
@@ -121,10 +123,31 @@ function TiltCard({ children, variant, className = '' }) {
   )
 }
 
+import { useToast } from '../../context/ToastContext'
+import { useCurrency } from '../../context/CurrencyContext'
+import api from '../../services/api'
+import { CATEGORIES } from '../../utils/constants'
+
 export default function Dashboard() {
   const { user } = useAuth()
   const { transactions, loading, fetchTransactions } = useTransactions()
+  const { showToast } = useToast()
+  const { formatCurrency: contextFormatCurrency } = useCurrency()
   const [activeTab, setActiveTab] = useState('TRENDS')
+
+  const [budgets, setBudgets] = useState([])
+  const [showBudgetModal, setShowBudgetModal] = useState(false)
+  const [budgetForm, setBudgetForm] = useState({ category: CATEGORIES[0], amount: '' })
+
+  const fetchBudgets = async () => {
+    try {
+      const res = await api.get('/budgets')
+      setBudgets(res.data)
+    } catch (err) {
+      console.error('Failed to fetch budgets', err)
+    }
+  }
+
   const convertedTransactions = useMemo(() => {
     const defaultCurrency = user?.defaultCurrency || 'INR';
     return transactions.map(t => {
@@ -465,7 +488,12 @@ export default function Dashboard() {
             initial="hidden"
             animate="visible"
           >
-            {/* ── Stat Cards Bento Grid ── */}
+            {/* ── Financial Health Speed-Gauge Section ── */}
+            <section style={{ marginBottom: '24px' }}>
+              <HealthScoreGauge healthScore={healthScoreStats} />
+            </section>
+
+            {/* ── Stats Grid ── */}
             <motion.section className="ag-stats-grid" variants={containerVariants}>
               {/* Card 1: Balance (Filtered window) */}
               <TiltCard variant="primary">
@@ -549,6 +577,11 @@ export default function Dashboard() {
               </TiltCard>
             </motion.section>
 
+            {/* ── Subscriptions & Bill Calendar Timeline ── */}
+            <section style={{ marginBottom: '24px' }}>
+              <BillCalendar recurringExpenses={recurringExpenses} />
+            </section>
+
             {/* ── Upcoming Payments Panel ── */}
             {upcomingPayments.length > 0 && (
               <motion.section className="ag-analytics-grid" style={{ gridTemplateColumns: '1fr', marginBottom: '24px' }} variants={containerVariants}>
@@ -591,6 +624,135 @@ export default function Dashboard() {
                 </motion.div>
               </motion.section>
             )}
+            {/* ── Category Budget Limits & Warning Alerts ── */}
+            <motion.section className="ag-analytics-grid" style={{ gridTemplateColumns: '1fr', marginBottom: '24px' }} variants={containerVariants}>
+              <motion.div className="ag-panel glass-card" variants={cardVariants}>
+                <div className="ag-panel__header">
+                  <div className="ag-panel__title">
+                    <FaTags size={14} />
+                    <span>Category Budget Tracking & Warnings</span>
+                  </div>
+                  <button
+                    onClick={() => setShowBudgetModal(true)}
+                    className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-xs font-semibold border border-cyan-500/40 transition-all cursor-pointer"
+                  >
+                    + Set Category Budget
+                  </button>
+                </div>
+                <div className="ag-panel__body">
+                  {budgets.length === 0 ? (
+                    <div className="text-center py-6 text-slate-400 text-xs">
+                      No category budgets configured yet. Click "+ Set Category Budget" to set monthly spending targets!
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {budgets.map((b) => {
+                        const pct = b.percentage || 0
+                        const isOver = pct > 100
+                        const isWarning = pct >= 80 && pct <= 100
+                        const colorClass = isOver
+                          ? 'bg-rose-500 shadow-rose-900/50'
+                          : isWarning
+                          ? 'bg-amber-500 shadow-amber-900/50'
+                          : 'bg-emerald-500 shadow-emerald-900/50'
+
+                        return (
+                          <div key={b.id} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 shadow-md flex flex-col justify-between">
+                            <div>
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="font-bold text-sm text-slate-200">{b.category}</span>
+                                {isOver && (
+                                  <span className="px-2 py-0.5 text-[10px] font-extrabold bg-rose-950 text-rose-300 border border-rose-500/50 rounded-full animate-pulse">
+                                    Over Budget!
+                                  </span>
+                                )}
+                                {isWarning && (
+                                  <span className="px-2 py-0.5 text-[10px] font-bold bg-amber-950 text-amber-300 border border-amber-500/50 rounded-full">
+                                    Near Limit
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex justify-between text-xs text-slate-400 mb-2 font-mono">
+                                <span>Spent: {contextFormatCurrency(b.spentAmount)}</span>
+                                <span>Cap: {contextFormatCurrency(b.amount)}</span>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden mb-1">
+                                <div
+                                  className={`h-full transition-all duration-500 rounded-full ${colorClass}`}
+                                  style={{ width: `${Math.min(pct, 100)}%` }}
+                                />
+                              </div>
+                              <div className="text-right text-[11px] font-semibold text-slate-400 font-mono">
+                                {pct.toFixed(1)}% Used
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </motion.section>
+
+            {/* Budget Set Modal */}
+            <AnimatePresence>
+              {showBudgetModal && (
+                <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="w-full max-w-sm bg-slate-900 border border-slate-700/80 rounded-2xl p-6 text-slate-100 shadow-2xl"
+                  >
+                    <h3 className="text-lg font-bold text-cyan-400 mb-4">Set Category Monthly Budget</h3>
+                    <form onSubmit={handleBudgetSubmit} className="space-y-4">
+                      <div>
+                        <label className="block text-xs text-slate-400 mb-1">Select Category</label>
+                        <select
+                          value={budgetForm.category}
+                          onChange={(e) => setBudgetForm({ ...budgetForm, category: e.target.value })}
+                          className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500"
+                        >
+                          {CATEGORIES.map((cat) => (
+                            <option key={cat} value={cat}>{cat}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs text-slate-400 mb-1">Monthly Budget Limit</label>
+                        <input
+                          type="number"
+                          step="1"
+                          min="1"
+                          placeholder="e.g. 5000"
+                          value={budgetForm.amount}
+                          onChange={(e) => setBudgetForm({ ...budgetForm, amount: e.target.value })}
+                          className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 font-mono"
+                          required
+                        />
+                      </div>
+
+                      <div className="flex justify-end gap-3 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => setShowBudgetModal(false)}
+                          className="btn-secondary"
+                        >
+                          Cancel
+                        </button>
+                        <button type="submit" className="btn-primary">
+                          Save Budget
+                        </button>
+                      </div>
+                    </form>
+                  </motion.div>
+                </div>
+              )}
+            </AnimatePresence>
 
             {/* ── Advanced Scoring & Analytics Row ── */}
             <motion.section className="ag-analytics-grid" variants={containerVariants}>

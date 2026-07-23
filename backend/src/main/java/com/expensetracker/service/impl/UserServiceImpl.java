@@ -101,4 +101,35 @@ public class UserServiceImpl implements UserService {
 
         return new ApiResponse(true, "Password updated successfully");
     }
+
+    @Override
+    public UserResponse uploadAvatar(Long id, org.springframework.web.multipart.MultipartFile file) {
+        validateUserOwnership(id);
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (file == null || file.isEmpty()) {
+            throw new BadRequestException("Please select a file to upload");
+        }
+
+        try {
+            String uploadDir = "uploads/avatars/";
+            java.io.File dir = new java.io.File(uploadDir);
+            if (!dir.exists()) dir.mkdirs();
+
+            String filename = "avatar_" + id + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            java.nio.file.Path filepath = java.nio.file.Paths.get(uploadDir, filename);
+            java.nio.file.Files.copy(file.getInputStream(), filepath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+            user.setAvatarUrl("/api/users/avatar/" + filename);
+            userRepository.save(user);
+
+            auditService.log(user.getId(), "AVATAR_UPDATED", "Profile picture updated");
+
+            return UserMapper.mapToUserResponse(user);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to upload avatar: " + e.getMessage(), e);
+        }
+    }
 }

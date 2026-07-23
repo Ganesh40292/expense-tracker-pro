@@ -7,6 +7,7 @@ public class UserResponse {
     private String email;
     private String defaultCurrency;
     private java.math.BigDecimal monthlyIncome;
+    private String avatarUrl;
 
     public UserResponse() {
     }
@@ -49,5 +50,13 @@ public class UserResponse {
 
     public void setMonthlyIncome(java.math.BigDecimal monthlyIncome) {
         this.monthlyIncome = monthlyIncome;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

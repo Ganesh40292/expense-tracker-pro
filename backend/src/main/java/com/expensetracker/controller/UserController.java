@@ -42,4 +42,32 @@ public class UserController {
         ApiResponse response = userService.updatePassword(id, request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/profile/{id}/avatar")
+    public ResponseEntity<UserResponse> uploadAvatar(
+            @PathVariable Long id,
+            @RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+
+        UserResponse response = userService.uploadAvatar(id, file);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/avatar/{filename:.+}")
+    public ResponseEntity<org.springframework.core.io.Resource> getAvatar(@PathVariable String filename) {
+        try {
+            java.nio.file.Path file = java.nio.file.Paths.get("uploads/avatars/").resolve(filename);
+            org.springframework.core.io.Resource resource = new org.springframework.core.io.UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                String contentType = java.nio.file.Files.probeContentType(file);
+                if (contentType == null) contentType = "application/octet-stream";
+                return ResponseEntity.ok()
+                        .contentType(org.springframework.http.MediaType.parseMediaType(contentType))
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

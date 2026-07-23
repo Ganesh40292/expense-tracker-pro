@@ -56,6 +56,12 @@ public class Transaction extends BaseEntity {
     @Column(columnDefinition = "ENUM('COMPLETED', 'PENDING', 'CANCELLED') DEFAULT 'COMPLETED'")
     private TransactionStatus status = TransactionStatus.COMPLETED;
 
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isDeleted = false;
+
+    @Column(name = "deleted_at")
+    private java.time.LocalDateTime deletedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -161,5 +167,21 @@ public class Transaction extends BaseEntity {
 
     public void setReceipt(Receipt receipt) {
         this.receipt = receipt;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted != null && isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public java.time.LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(java.time.LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }
