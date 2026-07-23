@@ -57,6 +57,25 @@
 
 ---
 
+## 📸 Visual Interface Showcase
+
+### 📊 Fintech Analytics Dashboard & Speed Gauge
+![Fintech Analytics Dashboard](docs/screenshots/dashboard.png)
+
+### 🤖 AI Financial Intelligence & Regression Forecast
+![AI Intelligence & Forecast](docs/screenshots/ai_intelligence.png)
+
+### 📸 Google Gemini 2.0 Vision Receipt Scanner
+![Receipt Scanner](docs/screenshots/receipt_scanner.png)
+
+### 💳 Transaction Management & Trash Bin
+![Transactions Table](docs/screenshots/transactions.png)
+
+### 📄 Executive Financial Reports & PDF Download
+![Financial Reports](docs/screenshots/reports.png)
+
+---
+
 ## 2. Architectural Overview
 
 ExpenseTracker Pro implements a decoupled, event-driven client-server architecture:
