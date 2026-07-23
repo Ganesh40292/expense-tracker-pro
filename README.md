@@ -59,6 +59,12 @@
 
 ## 📸 Visual Interface Showcase
 
+### 🔐 Aurora Glassmorphism Login Form
+![Login Page](docs/screenshots/login.png)
+
+### 📝 User Registration Form with Password Toggle
+![Register Page](docs/screenshots/register.png)
+
 ### 📊 Fintech Analytics Dashboard & Speed Gauge
 ![Fintech Analytics Dashboard](docs/screenshots/dashboard.png)
 
@@ -70,6 +76,9 @@
 
 ### 💳 Transaction Management & Trash Bin
 ![Transactions Table](docs/screenshots/transactions.png)
+
+### 🔄 Subscriptions & Recurring Expenses Automation
+![Recurring Expenses](docs/screenshots/recurring.png)
 
 ### 📄 Executive Financial Reports & PDF Download
 ![Financial Reports](docs/screenshots/reports.png)
