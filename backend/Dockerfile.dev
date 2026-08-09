@@ -1,0 +1,26 @@
+# ═══════════════════════════════════════════════════════════
+#  ExpenseTracker Backend — Development Dockerfile
+#  Runs with Spring DevTools for hot-reload
+# ═══════════════════════════════════════════════════════════
+
+FROM maven:3.9-eclipse-temurin-17-alpine
+
+# Install curl for healthcheck
+RUN apk add --no-cache curl
+
+WORKDIR /app
+
+# Copy POM and download dependencies (cached)
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# Copy source (will be overridden by bind mount in dev compose)
+COPY src ./src
+
+# Create uploads directory
+RUN mkdir -p /app/uploads/receipts
+
+EXPOSE 8080
+
+# Run with spring-boot devtools for hot-reload
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.jvmArguments=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"]

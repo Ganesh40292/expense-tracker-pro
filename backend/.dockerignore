@@ -1,0 +1,13 @@
+target
+.env
+.idea
+.vscode
+.git
+.gitignore
+uploads
+*.iml
+*.ipr
+*.iws
+*.md
+.DS_Store
+Thumbs.db

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Expense Tracker</title>
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            color: #333333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        .header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+        .content {
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .content h2 {
+            font-size: 20px;
+            margin-top: 0;
+            color: #1f2937;
+        }
+        .content p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #4b5563;
+            margin-bottom: 24px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #10b981;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #059669;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Expense Tracker</h1>
+        </div>
+        <div class="content">
+            <h2>Welcome aboard, <span th:text="${name}">User</span>!</h2>
+            <p>
+                We're thrilled to have you join our platform. Expense Tracker is your new 
+                financial command center, designed to help you monitor spending, track savings, 
+                and achieve your financial goals with intelligent analytics.
+            </p>
+            <p>
+                Get started today by logging your first transaction and exploring your new 
+                dashboard!
+            </p>
+            <a th:href="${dashboardUrl}" class="btn">Go to Dashboard</a>
+        </div>
+        <div class="footer">
+            <p>&copy; <span th:text="${year}">2026</span> Expense Tracker. All rights reserved.</p>
+            <p>You're receiving this email because you recently created a new account.</p>
+        </div>
+    </div>
+</body>
+</html>

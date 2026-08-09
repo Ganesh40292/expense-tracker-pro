@@ -1,0 +1,80 @@
+@import "../Sidebar/Sidebar.css";
+
+/* ═══════════════════════════════════════════════════════════
+   ADMIN SIDEBAR — Special Neon Themed Overrides
+   ═══════════════════════════════════════════════════════════ */
+
+/* Admin portal title */
+.sidebar__admin-title {
+  padding: 12px 24px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #c084fc; /* light purple */
+  text-shadow: 0 0 10px rgba(192, 132, 252, 0.4);
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+/* Exit/User Portal link container */
+.sidebar__user-portal {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px 12px 0 12px;
+}
+
+/* Exit button custom overrides */
+.sidebar__link--exit {
+  color: var(--text-muted);
+}
+.sidebar__link--exit:hover {
+  color: #38bdf8 !important; /* cyan */
+  background: rgba(56, 189, 248, 0.08) !important;
+  border-color: rgba(56, 189, 248, 0.15) !important;
+}
+.sidebar__link--exit:hover .sidebar__link-icon {
+  color: #38bdf8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2) !important;
+}
+
+/* Admin Link Overrides */
+.sidebar__link--admin.sidebar__link--active {
+  color: #c084fc !important; /* light purple */
+  background: rgba(192, 132, 252, 0.1) !important;
+  border-color: rgba(192, 132, 252, 0.2) !important;
+  box-shadow: 0 0 25px rgba(192, 132, 252, 0.08) !important;
+}
+
+.sidebar__link--admin.sidebar__link--active .sidebar__link-icon {
+  background: rgba(192, 132, 252, 0.18) !important;
+  border-color: rgba(192, 132, 252, 0.35) !important;
+  color: #c084fc !important;
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.4) !important;
+}
+
+.sidebar__link--admin.sidebar__link--active .sidebar__link-glow {
+  background: #c084fc !important;
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.6) !important;
+}
+
+/* Admin Sidebar Glow */
+.sidebar__glow--admin {
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.15), transparent 65%) !important;
+}
+
+/* Pulse line */
+.sidebar__pulse-line--admin {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(192, 132, 252, 0.6),
+    rgba(244, 63, 94, 0.5), /* rose */
+    rgba(56, 189, 248, 0.5), /* cyan */
+    transparent
+  ) !important;
+}
+
+.sidebar__footer-dot--admin {
+  background: #c084fc !important;
+  box-shadow: 0 0 8px #c084fc !important;
+}

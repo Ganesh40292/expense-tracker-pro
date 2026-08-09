@@ -1,0 +1,142 @@
+/* Aurora Glassmorphism + 3D Tilt + Particle AI background */
+
+/* Aurora backdrop */
+.aurora-ai {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.aurora-ai__aurora {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(600px circle at 15% 20%, rgba(99,102,241,0.55) 0%, rgba(99,102,241,0) 60%),
+    radial-gradient(700px circle at 85% 25%, rgba(56,189,248,0.45) 0%, rgba(56,189,248,0) 60%),
+    radial-gradient(700px circle at 30% 85%, rgba(16,185,129,0.35) 0%, rgba(16,185,129,0) 60%),
+    radial-gradient(800px circle at 80% 85%, rgba(139,92,246,0.33) 0%, rgba(139,92,246,0) 62%);
+  filter: blur(34px) saturate(140%);
+  opacity: 0.55;
+  animation: aurora-drift 12s ease-in-out infinite;
+}
+
+
+@keyframes aurora-drift {
+  0% { transform: translate3d(-2%, -1%, 0) scale(1); }
+  50% { transform: translate3d(2%, 1.5%, 0) scale(1.03); }
+  100% { transform: translate3d(-2%, -1%, 0) scale(1); }
+}
+
+.aurora-ai__vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(900px circle at 50% 10%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0.45) 100%),
+    radial-gradient(600px circle at 10% 90%, rgba(99,102,241,0.06) 0%, rgba(99,102,241,0) 60%);
+  opacity: 1;
+}
+
+
+/* Orbs */
+.aurora-ai__orbs span {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 999px;
+  filter: blur(20px);
+  opacity: 0.65;
+  transform: translateZ(0);
+  animation: orb-float 8s ease-in-out infinite;
+}
+
+.aurora-ai__orbs span:nth-child(1) {
+  left: 8%;
+  top: 18%;
+  background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.95), rgba(99,102,241,0));
+  animation-duration: 10s;
+}
+
+.aurora-ai__orbs span:nth-child(2) {
+  left: 76%;
+  top: 22%;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle at 40% 35%, rgba(56,189,248,0.85), rgba(56,189,248,0));
+  animation-duration: 12s;
+}
+
+.aurora-ai__orbs span:nth-child(3) {
+  left: 18%;
+  top: 72%;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle at 50% 50%, rgba(16,185,129,0.65), rgba(16,185,129,0));
+  animation-duration: 14s;
+}
+
+@keyframes orb-float {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(0,-18px,0) scale(1.06); }
+}
+
+/* Particle layer */
+.aurora-ai__particles {
+  position: absolute;
+  inset: 0;
+  opacity: 0.45;
+}
+
+
+.aurora-ai__particle {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow:
+    0 0 10px rgba(99,102,241,0.45),
+    0 0 18px rgba(56,189,248,0.20);
+  transform: translateZ(0);
+  animation: particle-ai-float var(--d) ease-in-out infinite;
+  animation-delay: calc(var(--i) * -120ms);
+}
+
+@keyframes particle-ai-float {
+  0%, 100% { transform: translate3d(0,0,0); opacity: 0.75; }
+  50% { transform: translate3d(0,-18px,0); opacity: 1; }
+}
+
+/* 3D tilt effect for dashboard tiles */
+.tilt-3d {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 160ms ease;
+}
+
+/* Glass emphasis */
+.glass-enhanced {
+  backdrop-filter: blur(18px);
+  background: rgba(255,255,255,0.06) !important;
+  border-color: rgba(99,102,241,0.28) !important;
+  box-shadow:
+    0 24px 90px rgba(0,0,0,0.28),
+    0 0 28px rgba(99,102,241,0.15);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-ai__aurora,
+  .aurora-ai__orbs span,
+  .aurora-ai__particle {
+    animation: none !important;
+  }
+
+  .tilt-3d {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+

@@ -1,0 +1,6 @@
+/* Wrapper tweaks for globally mounting neon background */
+
+.neon-bg {
+  /* neon.css already defines position/z-index/pointer-events */
+}
+

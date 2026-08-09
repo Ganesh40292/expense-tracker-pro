@@ -1,0 +1,17 @@
+{
+  "name": "ExpenseTracker Pro — AI Financial Ecosystem",
+  "short_name": "ExpenseTracker",
+  "description": "Enterprise AI Financial Intelligence Platform with Gemini 2.0 OCR & Forecasting",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#818cf8",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

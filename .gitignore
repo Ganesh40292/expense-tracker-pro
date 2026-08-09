@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+target/
+frontend/dist/
+backend/target/
+
+# Environment and Secrets
+.env
+*.local
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+
+# Workspace & Agent Scratch/Brain
+.brain/
+.system_generated/
+scratch/
