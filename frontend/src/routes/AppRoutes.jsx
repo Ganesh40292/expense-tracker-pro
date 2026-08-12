@@ -21,6 +21,7 @@ import ReceiptScanner from '../pages/Receipts/ReceiptScanner'
 import AiIntelligence from '../pages/AiIntelligence/AiIntelligence'
 import DebtTracker from '../pages/DebtTracker/DebtTracker'
 import AssetsPage from '../pages/Assets/AssetsPage'
+import HelpPage from '../pages/Help/HelpPage'
 
 // Admin pages
 import AdminRoute from './AdminRoute'
@@ -60,6 +61,7 @@ function AppRoutes() {
           <Route path="/intelligence" element={<AiIntelligence />} />
           <Route path="/debt" element={<DebtTracker />} />
           <Route path="/assets" element={<AssetsPage />} />
+          <Route path="/help" element={<HelpPage />} />
 
           <Route path="/transactions/view/:id" element={<TransactionDetails />} />
         </Route>

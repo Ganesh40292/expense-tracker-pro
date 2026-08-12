@@ -91,18 +91,21 @@ const Sidebar = ({ isOpen, onClose }) => {
         {/* ── Help & Support Section ── */}
         <div className="sidebar__help">
           <div className="sidebar__help-title">Help & Support</div>
-          <a
-            href="mailto:support@expensetracker.com"
+          <NavLink
+            to="/help"
             className="sidebar__help-link"
-            title="Email Support"
+            onClick={onClose}
           >
             <FaQuestionCircle size={14} className="sidebar__help-icon" />
-            <span>Help Center</span>
-          </a>
-          <div className="sidebar__help-email">
+            <span>Help Center & FAQs</span>
+          </NavLink>
+          <a
+            href="mailto:support@expensetracker.com"
+            className="sidebar__help-email hover:text-cyan-400 transition-colors"
+          >
             <FaEnvelope size={11} />
             <span>support@expensetracker.com</span>
-          </div>
+          </a>
         </div>
 
         {/* Footer */}
