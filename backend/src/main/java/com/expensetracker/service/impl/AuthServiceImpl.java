@@ -189,6 +189,67 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
+    public AuthResponse googleAuth(String email, String name, String googleId, String avatarUrl, HttpServletRequest httpRequest) {
+        if (email == null || email.isBlank()) {
+            throw new UnauthorizedException("Email is required for Google authentication");
+        }
+
+        User user = userRepository.findByEmail(email).orElse(null);
+
+        if (user == null) {
+            // Register new user authenticated via Google
+            user = new User();
+            user.setEmail(email);
+            user.setName(name != null && !name.isBlank() ? name : email.split("@")[0]);
+            user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+            if (avatarUrl != null) {
+                user.setAvatarUrl(avatarUrl);
+            }
+            userRepository.save(user);
+
+            // Create default email preferences
+            emailPreferenceRepository.save(new EmailPreference(user));
+
+            // Send welcome email
+            emailService.sendWelcomeEmail(user.getEmail(), user.getName());
+        } else {
+            // Existing user login
+            if (!user.isEnabled()) {
+                auditService.log(user.getId(), "LOGIN_BLOCKED", "Google login attempt on deactivated account: " + email, httpRequest);
+                throw new UnauthorizedException("Your account has been deactivated. Please contact support.");
+            }
+
+            if (avatarUrl != null && !avatarUrl.equals(user.getAvatarUrl())) {
+                user.setAvatarUrl(avatarUrl);
+                userRepository.save(user);
+            }
+        }
+
+        String accessToken = jwtUtil.generateToken(user.getEmail());
+        String refreshToken = jwtUtil.createRefreshToken(
+                user,
+                extractDeviceInfo(httpRequest),
+                extractIpAddress(httpRequest)
+        );
+
+        auditService.log(user.getId(), "GOOGLE_LOGIN_SUCCESS", "User logged in via Google", httpRequest);
+
+        AuthResponse response = new AuthResponse(
+                accessToken,
+                refreshToken,
+                "Google authentication successful",
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getDefaultCurrency(),
+                user.getRole().name()
+        );
+        response.setMonthlyIncome(user.getMonthlyIncome());
+        return response;
+    }
+
+    @Override
+    @Transactional
     public AuthResponse refreshToken(String refreshTokenValue) {
 
         RefreshToken refreshToken = jwtUtil.validateRefreshToken(refreshTokenValue);
