@@ -20,10 +20,11 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowCredentials(true);
-        // Allow localhost and whatever FRONTEND_URL is set to in production
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173",
-                "http://localhost:3000",
+        // Allow localhost, Vercel deployments, Render, and explicit FRONTEND_URL
+        configuration.setAllowedOriginPatterns(Arrays.asList(
+                "http://localhost:*",
+                "https://*.vercel.app",
+                "https://*.onrender.com",
                 frontendUrl
         ));
 
