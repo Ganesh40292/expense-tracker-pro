@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaBullseye, FaPlus, FaTrash, FaCoins, FaCalendarAlt, FaArrowLeft } from 'react-icons/fa'
+import { FaBullseye, FaPlus, FaTrash, FaCoins, FaCalendarAlt, FaArrowLeft, FaCheckCircle, FaChartLine, FaPiggyBank } from 'react-icons/fa'
 import { formatCurrency } from '../../utils/formatCurrency'
 import { useToast } from '../../context/ToastContext'
 import './GoalPlanner.css'
@@ -21,7 +21,7 @@ export default function GoalPlanner() {
       id: 2,
       title: 'New M3 MacBook Pro',
       targetAmount: 180000,
-      currentAmount: 120000,
+      currentAmount: 145000,
       deadline: '2026-10-15',
       category: 'GADGETS',
     },
@@ -65,7 +65,7 @@ export default function GoalPlanner() {
     setTargetAmount('')
     setCurrentAmount('')
     setDeadline('')
-    showToast('Savings goal created successfully!', 'success')
+    showToast('Savings milestone created successfully!', 'success')
   }
 
   const handleDeleteGoal = (id) => {
@@ -89,8 +89,11 @@ export default function GoalPlanner() {
 
     setDepositGoalId(null)
     setDepositAmount('')
-    showToast('Deposit added to savings target!', 'success')
+    showToast('Funds deposited into savings target!', 'success')
   }
+
+  const totalTargetVolume = goals.reduce((acc, g) => acc + g.targetAmount, 0)
+  const totalSavedVolume = goals.reduce((acc, g) => acc + g.currentAmount, 0)
 
   return (
     <motion.main
@@ -104,23 +107,58 @@ export default function GoalPlanner() {
         <div>
           <h1 className="flex items-center gap-2.5 text-2xl font-bold text-slate-100">
             <FaBullseye className="text-cyan-400" size={24} />
-            Savings Target & Goal Planner
+            Savings Target & Milestone Planner
           </h1>
           <p className="text-xs text-slate-400">
-            Set custom financial milestones, track circular progress rings, and deposit funds towards your targets
+            Set custom financial goals, monitor glowing progress rings, and deposit funds towards completion
           </p>
         </div>
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={() => setIsAddModalOpen(true)}
-            className="btn-primary text-xs"
+            className="btn-primary text-xs font-bold"
           >
-            <FaPlus size={12} /> Add Savings Goal
+            <FaPlus size={12} /> Add Savings Target
           </button>
           <Link to="/dashboard" className="btn-secondary text-xs">
             <FaArrowLeft size={12} /> Dashboard
           </Link>
+        </div>
+      </div>
+
+      {/* ── Top Summary Hero Cards ── */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="glass-card p-4 border border-cyan-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
+          <div className="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            <FaBullseye size={18} />
+          </div>
+          <div>
+            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Total Target Volume</div>
+            <div className="text-sm font-extrabold text-slate-100 font-mono">{formatCurrency(totalTargetVolume)}</div>
+          </div>
+        </div>
+
+        <div className="glass-card p-4 border border-emerald-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
+          <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <FaPiggyBank size={18} />
+          </div>
+          <div>
+            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Total Saved</div>
+            <div className="text-sm font-extrabold text-emerald-400 font-mono">{formatCurrency(totalSavedVolume)}</div>
+          </div>
+        </div>
+
+        <div className="glass-card p-4 border border-indigo-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
+          <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            <FaChartLine size={18} />
+          </div>
+          <div>
+            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Overall Progress</div>
+            <div className="text-sm font-extrabold text-indigo-300 font-mono">
+              {totalTargetVolume > 0 ? Math.round((totalSavedVolume / totalTargetVolume) * 100) : 0}% Achieved
+            </div>
+          </div>
         </div>
       </div>
 
@@ -131,18 +169,24 @@ export default function GoalPlanner() {
           const circumference = 2 * Math.PI * 40
           const strokeDashoffset = circumference - (circumference * pct) / 100
 
+          let statusBadge = { label: 'In Progress', color: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30' }
+          if (pct >= 100) statusBadge = { label: 'Completed! 🎉', color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' }
+          else if (pct >= 75) statusBadge = { label: 'Almost There', color: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40' }
+
           return (
             <motion.div
               key={goal.id}
               whileHover={{ y: -4 }}
-              className="glass-card p-6 border border-slate-800 flex flex-col justify-between space-y-4 relative overflow-hidden"
+              className="glass-card p-6 border border-slate-800 flex flex-col justify-between space-y-4 relative overflow-hidden transition-all hover:border-cyan-500/40"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="px-2.5 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                    {goal.category}
+                  <span className={`px-2.5 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider rounded-full border ${statusBadge.color}`}>
+                    {statusBadge.label}
                   </span>
-                  <h3 className="text-base font-extrabold text-slate-100 mt-2">{goal.title}</h3>
+                  <h3 className="text-base font-extrabold text-slate-100 mt-2 flex items-center gap-2">
+                    {goal.title}
+                  </h3>
                 </div>
                 <button
                   type="button"
@@ -154,7 +198,7 @@ export default function GoalPlanner() {
                 </button>
               </div>
 
-              {/* Circular Progress Ring + Amounts */}
+              {/* Glowing SVG Circular Ring */}
               <div className="flex items-center gap-6 py-2">
                 <div className="relative w-24 h-24 shrink-0 flex items-center justify-center">
                   <svg className="w-24 h-24 transform -rotate-90">
@@ -162,7 +206,7 @@ export default function GoalPlanner() {
                       cx="48"
                       cy="48"
                       r="40"
-                      stroke="rgba(255,255,255,0.08)"
+                      stroke="rgba(255,255,255,0.06)"
                       strokeWidth="8"
                       fill="transparent"
                     />
@@ -180,34 +224,36 @@ export default function GoalPlanner() {
                       fill="transparent"
                     />
                   </svg>
-                  <span className="absolute text-base font-black text-slate-100 font-mono">
-                    {pct}%
-                  </span>
+                  <div className="absolute text-center">
+                    <span className="text-base font-black text-slate-100 font-mono">
+                      {pct}%
+                    </span>
+                  </div>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-2 flex-1">
                   <div>
-                    <div className="text-[10px] text-slate-400 font-mono uppercase font-bold">Target</div>
-                    <div className="text-sm font-extrabold text-slate-100">{formatCurrency(goal.targetAmount)}</div>
+                    <div className="text-[10px] text-slate-400 font-mono uppercase font-bold">Target Volume</div>
+                    <div className="text-sm font-extrabold text-slate-100 font-mono">{formatCurrency(goal.targetAmount)}</div>
                   </div>
                   <div>
-                    <div className="text-[10px] text-slate-400 font-mono uppercase font-bold">Saved</div>
-                    <div className="text-sm font-bold text-cyan-400">{formatCurrency(goal.currentAmount)}</div>
+                    <div className="text-[10px] text-slate-400 font-mono uppercase font-bold">Current Saved</div>
+                    <div className="text-sm font-bold text-cyan-400 font-mono">{formatCurrency(goal.currentAmount)}</div>
                   </div>
                 </div>
               </div>
 
-              {/* Deadline + Deposit Button */}
+              {/* Deadline & Deposit CTA */}
               <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
+                <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-mono">
                   <FaCalendarAlt size={11} className="text-slate-500" />
-                  <span>Target: {goal.deadline}</span>
+                  <span>By: {goal.deadline}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setDepositGoalId(goal.id)}
                   disabled={pct >= 100}
-                  className="px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                  className="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 shadow-sm"
                 >
                   <FaCoins size={11} /> + Deposit
                 </button>
@@ -226,11 +272,11 @@ export default function GoalPlanner() {
             </h3>
             <form onSubmit={handleCreateGoal} className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Goal Title</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Target Title</label>
                 <input
                   type="text"
-                  placeholder="e.g. Home Downpayment"
-                  className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-100 outline-none"
+                  placeholder="e.g. Dream House Fund"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-100 outline-none focus:border-cyan-400"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
@@ -241,33 +287,33 @@ export default function GoalPlanner() {
                 <input
                   type="number"
                   placeholder="100000"
-                  className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-100 outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-100 outline-none focus:border-cyan-400"
                   value={targetAmount}
                   onChange={(e) => setTargetAmount(e.target.value)}
                   required
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Currently Saved (₹)</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Initial Saved Balance (₹)</label>
                 <input
                   type="number"
                   placeholder="0"
-                  className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-100 outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-100 outline-none focus:border-cyan-400"
                   value={currentAmount}
                   onChange={(e) => setCurrentAmount(e.target.value)}
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Target Date</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Target Completion Date</label>
                 <input
                   type="date"
-                  className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-100 outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-100 outline-none focus:border-cyan-400"
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3">
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
@@ -275,8 +321,8 @@ export default function GoalPlanner() {
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn-primary text-xs">
-                  Create Target
+                <button type="submit" className="btn-primary text-xs font-bold">
+                  <FaCheckCircle size={12} /> Create Target
                 </button>
               </div>
             </form>
@@ -284,12 +330,12 @@ export default function GoalPlanner() {
         </div>
       )}
 
-      {/* ── Quick Deposit Modal ── */}
+      {/* ── Deposit Modal ── */}
       {depositGoalId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
           <div className="glass-card w-full max-w-sm p-6 border border-slate-700 shadow-2xl space-y-4">
             <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-              <FaCoins className="text-cyan-400" /> Add Deposit to Goal
+              <FaCoins className="text-cyan-400" /> Add Funds to Target
             </h3>
             <form onSubmit={handleDeposit} className="space-y-3">
               <div>
@@ -297,7 +343,7 @@ export default function GoalPlanner() {
                 <input
                   type="number"
                   placeholder="5000"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-100 outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-100 outline-none focus:border-cyan-400"
                   value={depositAmount}
                   onChange={(e) => setDepositAmount(e.target.value)}
                   required
@@ -312,7 +358,7 @@ export default function GoalPlanner() {
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn-primary text-xs">
+                <button type="submit" className="btn-primary text-xs font-bold">
                   Confirm Deposit
                 </button>
               </div>

@@ -16,6 +16,8 @@ import {
   FaChevronUp,
   FaLifeRing,
   FaCheckCircle,
+  FaThumbsUp,
+  FaThumbsDown,
 } from 'react-icons/fa'
 import { useToast } from '../../context/ToastContext'
 import './HelpPage.css'
@@ -36,63 +38,49 @@ const faqItems = [
     category: 'getting-started',
     question: 'How do I get started with ExpenseTracker Pro?',
     answer:
-      'After creating an account and logging in, start by exploring your Dashboard. You can add your current assets in Assets & Net Worth, track any existing debts in Debt Tracker, and begin recording your daily income and expense transactions using the "+ Add Transaction" button or the quick Ctrl+K command palette.',
+      'After logging in, start by reviewing your Dashboard. You can add your current assets in Assets & Net Worth, track existing debts in Debt Tracker, and begin recording daily income/expense transactions using "+ Add Transaction" or the Ctrl+K command palette.',
   },
   {
     id: 2,
     category: 'transactions',
     question: 'How do Quick Date Filters work in Transactions?',
     answer:
-      'On the Transactions page, click any of the Quick Filter chips (Today, This Week, This Month, This Year, or Reset All). The system instantly calculates the date range and filters your transaction table with visual cyan active highlighting.',
+      'On the Transactions page, click any of the Quick Filter chips (Today, This Week, This Month, This Year, or Reset All). The system instantly calculates the date range and filters your transaction table with active cyan highlighting.',
   },
   {
     id: 3,
     category: 'transactions',
-    question: 'How do I export my financial data to PDF, Excel, or CSV?',
+    question: 'How do I export data to PDF, Excel, or CSV?',
     answer:
-      'Go to the Reports page from the sidebar. You will find a 1-Click Executive PDF Statement button to immediately generate a styled PDF summary. For CSV or Excel exports, use the Export Center options on the Transactions page.',
+      'Navigate to the Reports page from the sidebar. You will find a 1-Click Executive PDF Statement button to immediately generate a styled PDF summary. For CSV exports, use the Export Center on the Transactions page.',
   },
   {
     id: 4,
     category: 'ai-tools',
     question: 'How does the Gemini 2.0 Multimodal Receipt Scanner work?',
     answer:
-      'Navigate to Receipt Scanner in the sidebar. Drag and drop any printed or digital receipt image (JPG, PNG, WEBP) or PDF file. Our Google Gemini 2.0 Vision engine automatically extracts the merchant name, date, total amount, category, and currency. You can review the extracted values and save it directly as a transaction.',
+      'Navigate to Receipt Scanner in the sidebar. Drag and drop any printed receipt image (JPG, PNG, WEBP) or PDF file. Our Google Gemini 2.0 Vision engine automatically extracts merchant name, date, total amount, category, and currency.',
   },
   {
     id: 5,
     category: 'ai-tools',
     question: 'What is the Linear Regression Forecast model in AI Intelligence?',
     answer:
-      'The AI Intelligence page analyzes your historical spending history using Ordinary Least Squares (OLS) regression to project next month’s expected spending volume. It also computes a 95% statistical confidence interval (min and max boundary) and renders a Cumulative Outflow Volume Area Chart.',
+      'The AI Intelligence page analyzes historical spending using Ordinary Least Squares (OLS) regression to project next month’s expected spending volume, computing a 95% confidence interval.',
   },
   {
     id: 6,
-    category: 'getting-started',
-    question: 'What is the "Largest Exit Point" label on the Dashboard?',
-    answer:
-      'The "Largest Exit Point" in Outflow Diagnostics highlights your single highest monetary expense transaction on record, showing the exact title, date, and amount so you can monitor your largest historical outflow.',
-  },
-  {
-    id: 7,
-    category: 'reports',
-    question: 'How is the Financial Wellness Index calculated?',
-    answer:
-      'The Financial Wellness Index computes a dynamic 0–100 score based on your monthly savings ratio, category budget cap adherence, and spending volatility. Green (80-100) indicates strong solvency, Yellow (50-79) represents moderate stability, and Red (<50) flags elevated cash outflow risks.',
-  },
-  {
-    id: 8,
     category: 'security',
     question: 'How is my account kept secure?',
     answer:
-      'ExpenseTracker Pro uses stateless JWT access tokens with automatic refresh token rotation, bcrypt password hashing, defensive XSS/SQL injection request sanitization, and IP rate limiting. Your deleted data is protected via soft-delete recovery.',
+      'ExpenseTracker Pro uses stateless JWT access tokens with automatic refresh token rotation, bcrypt password hashing, defensive request sanitization, and IP rate limiting.',
   },
   {
-    id: 9,
+    id: 7,
     category: 'shortcuts',
     question: 'What keyboard shortcuts are available?',
     answer:
-      'Press Ctrl + K (or Cmd + K on macOS) anywhere in the application to trigger the global Command Palette. From there, you can type to navigate instantly to any route, filter pages, or initiate quick actions without touching your mouse.',
+      'Press Ctrl + K (or Cmd + K on macOS) anywhere in the application to trigger the global Command Palette to navigate instantly to any route or execute quick actions.',
   },
 ]
 
@@ -101,12 +89,18 @@ export default function HelpPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
   const [expandedFaq, setExpandedFaq] = useState(null)
+  const [helpfulVotes, setHelpfulVotes] = useState({})
   const [contactSubject, setContactSubject] = useState('')
   const [contactMessage, setContactMessage] = useState('')
   const [submittingContact, setSubmittingContact] = useState(false)
 
   const toggleFaq = (id) => {
     setExpandedFaq((prev) => (prev === id ? null : id))
+  }
+
+  const handleVote = (id, type) => {
+    setHelpfulVotes((prev) => ({ ...prev, [id]: type }))
+    showToast(`Thanks for your feedback!`, 'success')
   }
 
   const filteredFaqs = faqItems.filter((item) => {
@@ -129,13 +123,13 @@ export default function HelpPage() {
       setSubmittingContact(false)
       setContactSubject('')
       setContactMessage('')
-      showToast('Support ticket submitted successfully! Our team will respond shortly.', 'success')
+      showToast('Support ticket submitted! Our team will respond via expensetracker40292@gmail.com.', 'success')
     }, 600)
   }
 
   return (
     <motion.main
-      className="page-glass help-page"
+      className="page-glass help-page space-y-6"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -143,52 +137,66 @@ export default function HelpPage() {
       {/* ── Page Header ── */}
       <div className="page-header">
         <div>
-          <h1 className="flex items-center gap-2.5">
+          <h1 className="flex items-center gap-2.5 text-2xl font-bold text-slate-100">
             <FaQuestionCircle className="text-cyan-400" size={24} />
-            Help & Support Center
+            Help & Knowledge Support Center
           </h1>
           <p className="text-xs text-slate-400">
             Search documentation, feature guides, FAQs, or contact our dedicated support team
           </p>
         </div>
-        <Link to="/dashboard" className="btn-secondary">
-          <FaArrowLeft size={12} />
-          Dashboard
+        <Link to="/dashboard" className="btn-secondary text-xs">
+          <FaArrowLeft size={12} /> Dashboard
         </Link>
       </div>
 
       {/* ── Hero Search Box ── */}
-      <div className="help-hero glass-card p-6 mb-8 text-center relative overflow-hidden">
+      <div className="help-hero glass-card p-8 text-center relative overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950/90">
         <div className="help-hero__bg-glow" aria-hidden="true" />
-        <h2 className="text-xl font-bold text-slate-100 mb-2">How can we help you today?</h2>
+        <h2 className="text-2xl font-extrabold text-slate-100 mb-2">How can we assist you today?</h2>
         <p className="text-xs text-slate-400 mb-6 max-w-lg mx-auto">
-          Type a topic or question below to search our instant knowledge base
+          Type keywords or click quick search pills below to find instant solutions
         </p>
 
-        <div className="relative max-w-xl mx-auto">
-          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+        <div className="relative max-w-xl mx-auto mb-4">
+          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400" size={16} />
           <input
             type="text"
-            className="help-search-input w-full pl-12 pr-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700/60 focus:border-cyan-400 text-sm text-slate-100 placeholder-slate-500 transition-all shadow-inner outline-none"
-            placeholder="Search FAQs, features, reports, or OCR scanner..."
+            className="help-search-input w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-950/90 border border-slate-700/80 focus:border-cyan-400 text-sm text-slate-100 placeholder-slate-500 transition-all shadow-lg outline-none"
+            placeholder="Search FAQs, OCR scanner, PDF exports, or keyboard shortcuts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
+
+        {/* Quick Search Chips */}
+        <div className="flex items-center justify-center gap-2 flex-wrap">
+          <span className="text-[10px] uppercase font-mono text-slate-400 font-bold mr-1">Popular:</span>
+          {['OCR Scanner', 'PDF Export', 'Quick Filters', 'Command Palette'].map((chip) => (
+            <button
+              key={chip}
+              type="button"
+              onClick={() => setSearchQuery(chip)}
+              className="px-2.5 py-1 rounded-lg bg-slate-900/80 border border-slate-700/60 hover:border-cyan-400/60 text-[11px] text-slate-300 font-semibold transition-all cursor-pointer"
+            >
+              {chip}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* ── Category Filter Tabs ── */}
-      <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-2">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2">
         {helpCategories.map(({ id, label, icon: Icon }) => {
           const isActive = activeCategory === id
           return (
             <button
               key={id}
               onClick={() => setActiveCategory(id)}
-              className={`px-4 py-2 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all shrink-0 cursor-pointer ${
+              className={`px-4 py-2.5 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all shrink-0 cursor-pointer ${
                 isActive
                   ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
-                  : 'bg-slate-800/50 border-slate-700/50 text-slate-400 hover:text-slate-200 hover:border-slate-600'
+                  : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
               }`}
             >
               <Icon size={14} className={isActive ? 'text-cyan-400' : 'text-slate-400'} />
@@ -231,6 +239,8 @@ export default function HelpPage() {
           ) : (
             filteredFaqs.map((faq) => {
               const isExpanded = expandedFaq === faq.id
+              const vote = helpfulVotes[faq.id]
+
               return (
                 <div
                   key={faq.id}
@@ -244,10 +254,10 @@ export default function HelpPage() {
                     onClick={() => toggleFaq(faq.id)}
                   >
                     <span className="font-semibold text-sm text-slate-100 flex items-center gap-3">
-                      <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
+                      <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_6px_#22d3ee]" />
                       {faq.question}
                     </span>
-                    <span className="p-1 rounded-lg bg-slate-800/60 text-slate-400 shrink-0">
+                    <span className="p-1.5 rounded-lg bg-slate-800/80 text-slate-400 shrink-0">
                       {isExpanded ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
                     </span>
                   </button>
@@ -260,8 +270,35 @@ export default function HelpPage() {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.25 }}
                       >
-                        <div className="px-4 pb-4 pt-1 text-xs text-slate-300 border-t border-slate-800/60 leading-relaxed">
-                          {faq.answer}
+                        <div className="px-4 pb-4 pt-2 text-xs text-slate-300 border-t border-slate-800/80 leading-relaxed space-y-3">
+                          <p>{faq.answer}</p>
+                          <div className="flex items-center justify-between pt-2 border-t border-slate-800/50 text-[11px] text-slate-400">
+                            <span>Was this article helpful?</span>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handleVote(faq.id, 'up')}
+                                className={`p-1.5 rounded-lg border transition-all ${
+                                  vote === 'up'
+                                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                                }`}
+                              >
+                                <FaThumbsUp size={11} />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleVote(faq.id, 'down')}
+                                className={`p-1.5 rounded-lg border transition-all ${
+                                  vote === 'down'
+                                    ? 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+                                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                                }`}
+                              >
+                                <FaThumbsDown size={11} />
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       </motion.div>
                     )}
@@ -274,19 +311,18 @@ export default function HelpPage() {
 
         {/* Contact Support Sidebar Column (1/3 width) */}
         <div className="space-y-6">
-          {/* Quick Contact Direct Link */}
-          <div className="glass-card p-6 space-y-4 border border-cyan-500/30 bg-gradient-to-br from-slate-900/90 to-slate-900/60">
+          <div className="glass-card p-6 space-y-4 border border-cyan-500/30 bg-gradient-to-br from-slate-900/90 to-slate-950/90">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
                 <FaEnvelope size={18} />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-slate-100">Need Custom Support?</h4>
-                <p className="text-[11px] text-slate-400">Direct assistance from our tech team</p>
+                <h4 className="text-sm font-bold text-slate-100">Need Custom Assistance?</h4>
+                <p className="text-[11px] text-slate-400">Direct email support line</p>
               </div>
             </div>
 
-            <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 text-xs text-slate-300 font-mono flex items-center justify-between">
+            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 font-mono flex items-center justify-between">
               <span>expensetracker40292@gmail.com</span>
               <a
                 href="mailto:expensetracker40292@gmail.com"
@@ -298,7 +334,7 @@ export default function HelpPage() {
           </div>
 
           {/* Submit Support Ticket Form */}
-          <div className="glass-card p-6">
+          <div className="glass-card p-6 border border-slate-800">
             <h4 className="text-sm font-bold text-slate-100 mb-1 flex items-center gap-2">
               <FaLifeRing className="text-indigo-400" size={14} /> Submit Support Ticket
             </h4>
@@ -310,8 +346,8 @@ export default function HelpPage() {
                 <input
                   id="contact-subject"
                   type="text"
-                  placeholder="e.g. Question about PDF Report"
-                  className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/60 text-xs text-slate-100 placeholder-slate-500 focus:border-cyan-400 outline-none"
+                  placeholder="e.g. Issue with Bank CSV Import"
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700/60 text-xs text-slate-100 placeholder-slate-500 focus:border-cyan-400 outline-none transition-all"
                   value={contactSubject}
                   onChange={(e) => setContactSubject(e.target.value)}
                   required
@@ -323,8 +359,8 @@ export default function HelpPage() {
                 <textarea
                   id="contact-msg"
                   rows={3}
-                  placeholder="Describe your question or issue..."
-                  className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/60 text-xs text-slate-100 placeholder-slate-500 focus:border-cyan-400 outline-none resize-none"
+                  placeholder="Describe your question or issue in detail..."
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700/60 text-xs text-slate-100 placeholder-slate-500 focus:border-cyan-400 outline-none resize-none transition-all"
                   value={contactMessage}
                   onChange={(e) => setContactMessage(e.target.value)}
                   required
@@ -333,14 +369,14 @@ export default function HelpPage() {
 
               <button
                 type="submit"
-                className="btn-primary w-full justify-center text-xs py-2 mt-2"
+                className="btn-primary w-full justify-center text-xs py-2.5 font-bold mt-2"
                 disabled={submittingContact}
               >
                 {submittingContact ? (
                   'Submitting...'
                 ) : (
                   <>
-                    <FaCheckCircle size={12} /> Submit Ticket
+                    <FaCheckCircle size={12} /> Submit Support Ticket
                   </>
                 )}
               </button>

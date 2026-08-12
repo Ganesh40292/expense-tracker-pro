@@ -13,7 +13,6 @@ import LineChartComponent from '../../components/Charts/LineChartComponent'
 import BubbleChartComponent from '../../components/Charts/BubbleChartComponent'
 import BarChartComponent from '../../components/Charts/BarChartComponent'
 import ExportCenter from '../../components/ExportCenter/ExportCenter'
-import HealthScoreGauge from '../../components/HealthScore/HealthScoreGauge'
 import BillCalendar from '../../components/BillCalendar/BillCalendar'
 import CashFlowCalendar from '../../components/Calendar/CashFlowCalendar'
 import MoMComparisonChart from '../../components/Charts/MoMComparisonChart'
@@ -509,10 +508,6 @@ export default function Dashboard() {
             initial="hidden"
             animate="visible"
           >
-            {/* ── Financial Health Speed-Gauge Section ── */}
-            <section style={{ marginBottom: '24px' }}>
-              <HealthScoreGauge healthScore={healthScoreStats} />
-            </section>
 
             {/* ── Module 1: Daily Logging Streak & Gamification Badges ── */}
             <section className="mb-6">

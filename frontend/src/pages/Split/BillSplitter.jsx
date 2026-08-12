@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { FaUsers, FaPlus, FaTrash, FaCalculator, FaShareAlt, FaCheck, FaArrowLeft, FaReceipt } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaUsers, FaPlus, FaTrash, FaCalculator, FaCheck, FaArrowLeft, FaReceipt, FaCoins, FaUserCheck, FaWhatsapp } from 'react-icons/fa'
 import { formatCurrency } from '../../utils/formatCurrency'
 import { useToast } from '../../context/ToastContext'
 import api from '../../services/api'
@@ -15,6 +15,7 @@ export default function BillSplitter() {
   const [payerName, setPayerName] = useState('You')
   const [participants, setParticipants] = useState(['You', 'Rahul', 'Priya'])
   const [newPerson, setNewPerson] = useState('')
+  const [splitMode, setSplitMode] = useState('EQUAL') // 'EQUAL' or 'CUSTOM'
   const [splitResult, setSplitResult] = useState(null)
   const [addingToTx, setAddingToTx] = useState(false)
 
@@ -31,7 +32,7 @@ export default function BillSplitter() {
 
   const handleRemoveParticipant = (person) => {
     if (participants.length <= 2) {
-      showToast('Minimum 2 participants required', 'warning')
+      showToast('Minimum 2 participants required for group split', 'warning')
       return
     }
     setParticipants((prev) => prev.filter((p) => p !== person))
@@ -55,14 +56,14 @@ export default function BillSplitter() {
       }))
 
     setSplitResult({
-      title: billTitle || 'Group Bill',
+      title: billTitle || 'Group Expense',
       total,
       payer: payerName,
       perPerson,
       owesList,
     })
 
-    showToast('Settlement split calculated!', 'success')
+    showToast('Settlement matrix computed!', 'success')
   }
 
   const handleAddShareToTransactions = async () => {
@@ -108,10 +109,10 @@ export default function BillSplitter() {
         <div>
           <h1 className="flex items-center gap-2.5 text-2xl font-bold text-slate-100">
             <FaUsers className="text-cyan-400" size={24} />
-            Group Bill & Expense Splitter
+            Group Bill & Settlement Calculator
           </h1>
           <p className="text-xs text-slate-400">
-            Split restaurant bills, rent, or trip expenses, generate settlement summaries, and share via WhatsApp
+            Split restaurant bills, rent, or group trip expenses, generate settlement matrices, and export WhatsApp links
           </p>
         </div>
         <Link to="/dashboard" className="btn-secondary text-xs">
@@ -119,21 +120,71 @@ export default function BillSplitter() {
         </Link>
       </div>
 
+      {/* ── Top Summary Hero Bar ── */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="glass-card p-4 border border-cyan-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
+          <div className="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            <FaCalculator size={18} />
+          </div>
+          <div>
+            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Split Strategy</div>
+            <div className="text-sm font-extrabold text-slate-100">Equal Division (1/N)</div>
+          </div>
+        </div>
+
+        <div className="glass-card p-4 border border-indigo-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
+          <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            <FaUserCheck size={18} />
+          </div>
+          <div>
+            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Active Group</div>
+            <div className="text-sm font-extrabold text-slate-100">{participants.length} Participants</div>
+          </div>
+        </div>
+
+        <div className="glass-card p-4 border border-emerald-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
+          <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <FaCoins size={18} />
+          </div>
+          <div>
+            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Computed Per Person</div>
+            <div className="text-sm font-extrabold text-emerald-400 font-mono">
+              {splitResult ? formatCurrency(splitResult.perPerson) : '₹0.00'}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Main Splitter Grid ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        {/* Left Card: Input Bill Form */}
+        {/* Left Form Card */}
         <div className="glass-card p-6 border border-slate-800 space-y-5">
-          <div className="flex items-center gap-2.5 border-b border-slate-800 pb-3">
-            <FaCalculator className="text-cyan-400" size={16} />
-            <h3 className="text-sm font-bold text-slate-100">Bill Details & Participants</h3>
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
+              <FaCalculator className="text-cyan-400" /> Expense & Member Configuration
+            </h3>
+            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
+              <button
+                type="button"
+                onClick={() => setSplitMode('EQUAL')}
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
+                  splitMode === 'EQUAL'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Equal Split
+              </button>
+            </div>
           </div>
 
           <form onSubmit={handleCalculateSplit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Bill Title / Description</label>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">Expense Title / Description</label>
               <input
                 type="text"
-                placeholder="e.g. Dinner at Punjab Grill"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-cyan-400 text-xs text-slate-100 outline-none"
+                placeholder="e.g. Weekend Villa Rental & Dinner"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-cyan-400 text-xs text-slate-100 outline-none transition-all shadow-inner"
                 value={billTitle}
                 onChange={(e) => setBillTitle(e.target.value)}
               />
@@ -144,8 +195,8 @@ export default function BillSplitter() {
                 <label className="block text-xs font-semibold text-slate-300 mb-1">Total Bill Amount (₹)</label>
                 <input
                   type="number"
-                  placeholder="2400"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-cyan-400 text-xs text-slate-100 outline-none"
+                  placeholder="3500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-cyan-400 text-xs text-slate-100 outline-none transition-all shadow-inner"
                   value={totalAmount}
                   onChange={(e) => setTotalAmount(e.target.value)}
                   required
@@ -153,9 +204,9 @@ export default function BillSplitter() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Who Paid the Full Bill?</label>
+                <label className="block text-xs font-semibold text-slate-300 mb-1">Who Paid upfront?</label>
                 <select
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-cyan-400 text-xs text-slate-100 outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-cyan-400 text-xs text-slate-100 outline-none transition-all"
                   value={payerName}
                   onChange={(e) => setPayerName(e.target.value)}
                 >
@@ -170,16 +221,20 @@ export default function BillSplitter() {
 
             {/* Participants list */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-2">
-                Participants ({participants.length})
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-semibold text-slate-300">
+                  Group Members ({participants.length})
+                </label>
+                <span className="text-[10px] text-slate-400 font-mono">Min 2 People</span>
+              </div>
+
               <div className="flex flex-wrap gap-2 mb-3">
                 {participants.map((person) => (
                   <span
                     key={person}
-                    className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-200 flex items-center gap-2"
+                    className="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-xs text-slate-200 flex items-center gap-2 shadow-sm"
                   >
-                    <span>{person}</span>
+                    <span className="font-semibold">{person}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveParticipant(person)}
@@ -194,8 +249,8 @@ export default function BillSplitter() {
               <div className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="Add person name..."
-                  className="flex-1 px-3 py-2 rounded-xl bg-slate-950/80 border border-slate-700/60 text-xs text-slate-100 outline-none"
+                  placeholder="Add friend's name..."
+                  className="flex-1 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-700/60 text-xs text-slate-100 outline-none"
                   value={newPerson}
                   onChange={(e) => setNewPerson(e.target.value)}
                 />
@@ -204,7 +259,7 @@ export default function BillSplitter() {
                   onClick={handleAddParticipant}
                   className="btn-secondary text-xs shrink-0"
                 >
-                  <FaPlus size={11} /> Add
+                  <FaPlus size={11} /> Add Member
                 </button>
               </div>
             </div>
@@ -215,72 +270,83 @@ export default function BillSplitter() {
           </form>
         </div>
 
-        {/* Right Card: Settlement Summary Matrix */}
+        {/* Right Settlement Summary Matrix Card */}
         <div className="glass-card p-6 border border-slate-800 space-y-5">
           <div className="flex items-center gap-2.5 border-b border-slate-800 pb-3">
             <FaReceipt className="text-emerald-400" size={16} />
-            <h3 className="text-sm font-bold text-slate-100">Settlement Summary</h3>
+            <h3 className="text-sm font-bold text-slate-100">Settlement Matrix & Balances</h3>
           </div>
 
           {!splitResult ? (
-            <div className="p-8 text-center text-slate-500 space-y-2">
-              <FaUsers size={32} className="mx-auto text-slate-700" />
-              <p className="text-xs">Fill out the bill details and click Calculate to view who owes whom.</p>
+            <div className="p-10 text-center text-slate-500 space-y-3">
+              <FaUsers size={36} className="mx-auto text-slate-700 animate-pulse" />
+              <p className="text-xs">Configure the group bill on the left and click Calculate to generate settlements.</p>
             </div>
           ) : (
-            <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
-                <div className="flex justify-between text-xs">
-                  <span className="text-slate-400">Total Bill Amount:</span>
-                  <strong className="text-slate-100 font-mono">{formatCurrency(splitResult.total)}</strong>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-slate-400">Paid by:</span>
-                  <strong className="text-cyan-400">{splitResult.payer}</strong>
-                </div>
-                <div className="flex justify-between text-xs pt-2 border-t border-slate-800">
-                  <span className="text-slate-400">Per Person Share:</span>
-                  <strong className="text-emerald-400 font-extrabold font-mono text-sm">
-                    {formatCurrency(splitResult.perPerson)}
-                  </strong>
-                </div>
-              </div>
-
-              {/* Owes List */}
-              <div className="space-y-2">
-                <h4 className="text-xs font-bold text-slate-300">Net Settlements:</h4>
-                {splitResult.owesList.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80 flex items-center justify-between text-xs"
-                  >
-                    <span className="text-slate-300">
-                      <strong className="text-cyan-300">{item.from}</strong> owes <strong className="text-slate-100">{item.to}</strong>
-                    </span>
-                    <span className="font-mono font-bold text-amber-400">{formatCurrency(item.amount)}</span>
+            <AnimatePresence mode="wait">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-4"
+              >
+                {/* Summary Metrics */}
+                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-slate-400">Total Expense Volume:</span>
+                    <strong className="text-slate-100 font-mono">{formatCurrency(splitResult.total)}</strong>
                   </div>
-                ))}
-              </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-slate-400">Upfront Payer:</span>
+                    <strong className="text-cyan-400 flex items-center gap-1">
+                      <FaUserCheck size={11} /> {splitResult.payer}
+                    </strong>
+                  </div>
+                  <div className="flex justify-between text-xs pt-2 border-t border-slate-800">
+                    <span className="text-slate-400">Exact Share Per Person:</span>
+                    <strong className="text-emerald-400 font-extrabold font-mono text-sm">
+                      {formatCurrency(splitResult.perPerson)}
+                    </strong>
+                  </div>
+                </div>
 
-              {/* Action Buttons */}
-              <div className="pt-3 border-t border-slate-800 flex flex-col sm:flex-row gap-3">
-                <button
-                  type="button"
-                  onClick={handleShareWhatsApp}
-                  className="flex-1 py-2.5 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <FaShareAlt size={12} /> Share via WhatsApp
-                </button>
-                <button
-                  type="button"
-                  onClick={handleAddShareToTransactions}
-                  disabled={addingToTx}
-                  className="flex-1 btn-primary py-2.5 justify-center text-xs"
-                >
-                  <FaCheck size={12} /> {addingToTx ? 'Adding...' : 'Add My Share to Transactions'}
-                </button>
-              </div>
-            </div>
+                {/* Individual Owes List */}
+                <div className="space-y-2">
+                  <h4 className="text-xs font-bold text-slate-300">Pending Reimbursements:</h4>
+                  {splitResult.owesList.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between text-xs transition-all hover:border-slate-700"
+                    >
+                      <span className="text-slate-300">
+                        <strong className="text-cyan-300 font-bold">{item.from}</strong> owes <strong className="text-slate-100 font-bold">{item.to}</strong>
+                      </span>
+                      <span className="font-mono font-extrabold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">
+                        {formatCurrency(item.amount)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Actions */}
+                <div className="pt-3 border-t border-slate-800 flex flex-col sm:flex-row gap-3">
+                  <button
+                    type="button"
+                    onClick={handleShareWhatsApp}
+                    className="flex-1 py-2.5 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                  >
+                    <FaWhatsapp size={14} className="text-emerald-400" /> Share via WhatsApp
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleAddShareToTransactions}
+                    disabled={addingToTx}
+                    className="flex-1 btn-primary py-2.5 justify-center text-xs font-bold"
+                  >
+                    <FaCheck size={12} /> {addingToTx ? 'Saving Share...' : 'Add Share to My Log'}
+                  </button>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           )}
         </div>
       </div>
