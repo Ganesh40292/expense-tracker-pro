@@ -9,11 +9,21 @@
 [![Spring Security](https://img.shields.io/badge/Spring_Security-6.3-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)](https://spring.io/projects/spring-security)
 [![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Google Gemini AI](https://img.shields.io/badge/Google_Gemini-2.0_Vision_%26_Flash-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://aistudio.google.com/)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![Vite](https://img.shields.io/badge/Vite-8.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.0-FF0055?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16.0-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Aiven](https://img.shields.io/badge/Aiven-PostgreSQL_Cloud-FF4F00?style=for-the-badge&logo=aiven&logoColor=white)](https://aiven.io/)
+[![Render](https://img.shields.io/badge/Render-Hosted_Backend-46E3B7?style=for-the-badge&logo=render&logoColor=black)](https://render.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-Hosted_Frontend-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+
+---
+
+## 🌐 Live Production Deployments
+
+> [!IMPORTANT]
+> 🚀 **Live Production Application (Vercel)**: [https://expense-tracker-pro-psi.vercel.app](https://expense-tracker-pro-psi.vercel.app)  
+> ⚡ **Live Production Backend API (Render)**: [https://expense-tracker-pro-fenc.onrender.com](https://expense-tracker-pro-fenc.onrender.com)  
+> 📖 **Live Interactive Swagger API Docs**: [https://expense-tracker-pro-fenc.onrender.com/swagger-ui/index.html](https://expense-tracker-pro-fenc.onrender.com/swagger-ui/index.html)  
+> 🛢️ **Managed Cloud Database**: [Aiven PostgreSQL](https://aiven.io/)
 
 ---
 
