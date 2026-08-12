@@ -83,17 +83,6 @@ function Register() {
 
           {error && <div className="auth-error">{error}</div>}
 
-          <div className="space-y-4 my-3">
-            <GoogleAuthButton mode="register" />
-
-            <div className="relative flex items-center justify-center my-4">
-              <div className="border-t border-slate-800 w-full" />
-              <span className="bg-slate-900 px-3 text-[11px] font-mono font-bold text-slate-400 uppercase tracking-widest absolute shrink-0">
-                Or Register With Email
-              </span>
-            </div>
-          </div>
-
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
               <label htmlFor="register-name">Full Name</label>
@@ -171,6 +160,17 @@ function Register() {
               {loading ? 'Creating Account...' : 'Register'}
             </button>
           </form>
+
+          <div className="space-y-4 my-4">
+            <div className="relative flex items-center justify-center my-4">
+              <div className="border-t border-slate-800 w-full" />
+              <span className="bg-slate-900 px-3 text-[11px] font-mono font-bold text-slate-400 uppercase tracking-widest absolute shrink-0">
+                Or Continue With
+              </span>
+            </div>
+
+            <GoogleAuthButton mode="register" />
+          </div>
 
           <p className="auth-footer">
             Already have an account? <Link to="/login">Sign In</Link>

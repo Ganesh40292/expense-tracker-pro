@@ -69,17 +69,6 @@ function Login() {
 
           {error && <div className="auth-error">{error}</div>}
 
-          <div className="space-y-4 my-3">
-            <GoogleAuthButton mode="login" />
-
-            <div className="relative flex items-center justify-center my-4">
-              <div className="border-t border-slate-800 w-full" />
-              <span className="bg-slate-900 px-3 text-[11px] font-mono font-bold text-slate-400 uppercase tracking-widest absolute shrink-0">
-                Or Continue With Email
-              </span>
-            </div>
-          </div>
-
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
               <label htmlFor="login-email">Email</label>
@@ -121,6 +110,17 @@ function Login() {
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
+
+          <div className="space-y-4 my-4">
+            <div className="relative flex items-center justify-center my-4">
+              <div className="border-t border-slate-800 w-full" />
+              <span className="bg-slate-900 px-3 text-[11px] font-mono font-bold text-slate-400 uppercase tracking-widest absolute shrink-0">
+                Or Continue With
+              </span>
+            </div>
+
+            <GoogleAuthButton mode="login" />
+          </div>
 
           <p className="auth-footer">
             Don&apos;t have an account? <Link to="/register">Register</Link>
