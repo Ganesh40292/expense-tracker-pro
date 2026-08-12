@@ -128,34 +128,34 @@ export default function GoalPlanner() {
       </div>
 
       {/* ── Top Summary Hero Cards ── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="glass-card p-4 border border-cyan-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
-          <div className="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-            <FaBullseye size={20} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="glass-card p-6 border border-cyan-500/30 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-950/95 flex items-center gap-4 rounded-3xl shadow-xl">
+          <div className="p-3.5 rounded-2xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+            <FaBullseye size={24} />
           </div>
           <div>
             <div className="text-xs uppercase font-mono text-slate-400 font-bold">Total Target Volume</div>
-            <div className="text-base font-extrabold text-slate-100 font-mono">{formatCurrency(totalTargetVolume)}</div>
+            <div className="text-lg font-extrabold text-slate-100 font-mono mt-0.5">{formatCurrency(totalTargetVolume)}</div>
           </div>
         </div>
 
-        <div className="glass-card p-4 border border-emerald-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
-          <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-            <FaPiggyBank size={18} />
+        <div className="glass-card p-6 border border-emerald-500/30 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-950/95 flex items-center gap-4 rounded-3xl shadow-xl">
+          <div className="p-3.5 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <FaPiggyBank size={22} />
           </div>
           <div>
-            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Total Saved</div>
-            <div className="text-sm font-extrabold text-emerald-400 font-mono">{formatCurrency(totalSavedVolume)}</div>
+            <div className="text-xs uppercase font-mono text-slate-400 font-bold">Total Saved</div>
+            <div className="text-lg font-extrabold text-emerald-400 font-mono mt-0.5">{formatCurrency(totalSavedVolume)}</div>
           </div>
         </div>
 
-        <div className="glass-card p-4 border border-indigo-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
-          <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-            <FaChartLine size={18} />
+        <div className="glass-card p-6 border border-indigo-500/30 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-slate-950/95 flex items-center gap-4 rounded-3xl shadow-xl">
+          <div className="p-3.5 rounded-2xl bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+            <FaChartLine size={22} />
           </div>
           <div>
-            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Overall Progress</div>
-            <div className="text-sm font-extrabold text-indigo-300 font-mono">
+            <div className="text-xs uppercase font-mono text-slate-400 font-bold">Overall Progress</div>
+            <div className="text-lg font-extrabold text-indigo-300 font-mono mt-0.5">
               {totalTargetVolume > 0 ? Math.round((totalSavedVolume / totalTargetVolume) * 100) : 0}% Achieved
             </div>
           </div>
@@ -163,10 +163,10 @@ export default function GoalPlanner() {
       </div>
 
       {/* ── Goals Grid ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {goals.map((goal) => {
           const pct = Math.min(100, Math.round((goal.currentAmount / goal.targetAmount) * 100))
-          const circumference = 2 * Math.PI * 40
+          const circumference = 2 * Math.PI * 52
           const strokeDashoffset = circumference - (circumference * pct) / 100
 
           let statusBadge = { label: 'In Progress', color: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30' }
@@ -176,46 +176,46 @@ export default function GoalPlanner() {
           return (
             <motion.div
               key={goal.id}
-              whileHover={{ y: -4 }}
-              className="glass-card p-6 border border-slate-800 flex flex-col justify-between space-y-4 relative overflow-hidden transition-all hover:border-cyan-500/40"
+              whileHover={{ y: -6 }}
+              className="glass-card p-8 sm:p-9 border border-slate-700/80 rounded-3xl flex flex-col justify-between space-y-6 relative overflow-hidden transition-all hover:border-cyan-400/50 bg-slate-900/90 shadow-2xl"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <span className={`px-2.5 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider rounded-full border ${statusBadge.color}`}>
+                  <span className={`px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider rounded-xl border ${statusBadge.color}`}>
                     {statusBadge.label}
                   </span>
-                  <h3 className="text-base font-extrabold text-slate-100 mt-2 flex items-center gap-2">
+                  <h3 className="text-xl font-black text-slate-100 mt-3 flex items-center gap-2.5">
                     {goal.title}
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleDeleteGoal(goal.id)}
-                  className="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 transition-all cursor-pointer"
+                  className="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 transition-all cursor-pointer"
                   title="Delete Goal"
                 >
-                  <FaTrash size={12} />
+                  <FaTrash size={14} />
                 </button>
               </div>
 
               {/* Glowing SVG Circular Ring */}
               <div className="flex items-center gap-6 py-2">
-                <div className="relative w-24 h-24 shrink-0 flex items-center justify-center">
-                  <svg className="w-24 h-24 transform -rotate-90">
+                <div className="relative w-32 h-32 shrink-0 flex items-center justify-center">
+                  <svg className="w-32 h-32 transform -rotate-90">
                     <circle
-                      cx="48"
-                      cy="48"
-                      r="40"
+                      cx="64"
+                      cy="64"
+                      r="52"
                       stroke="rgba(255,255,255,0.06)"
-                      strokeWidth="8"
+                      strokeWidth="10"
                       fill="transparent"
                     />
                     <motion.circle
-                      cx="48"
-                      cy="48"
-                      r="40"
+                      cx="64"
+                      cy="64"
+                      r="52"
                       stroke={pct >= 100 ? '#10b981' : '#22d3ee'}
-                      strokeWidth="8"
+                      strokeWidth="10"
                       strokeDasharray={circumference}
                       initial={{ strokeDashoffset: circumference }}
                       animate={{ strokeDashoffset }}
@@ -225,37 +225,37 @@ export default function GoalPlanner() {
                     />
                   </svg>
                   <div className="absolute text-center">
-                    <span className="text-base font-black text-slate-100 font-mono">
+                    <span className="text-xl font-black text-slate-100 font-mono">
                       {pct}%
                     </span>
                   </div>
                 </div>
 
-                <div className="space-y-2 flex-1">
+                <div className="space-y-3 flex-1">
                   <div>
-                    <div className="text-[10px] text-slate-400 font-mono uppercase font-bold">Target Volume</div>
-                    <div className="text-sm font-extrabold text-slate-100 font-mono">{formatCurrency(goal.targetAmount)}</div>
+                    <div className="text-xs text-slate-400 font-mono uppercase font-bold">Target Volume</div>
+                    <div className="text-base font-extrabold text-slate-100 font-mono">{formatCurrency(goal.targetAmount)}</div>
                   </div>
                   <div>
-                    <div className="text-[10px] text-slate-400 font-mono uppercase font-bold">Current Saved</div>
-                    <div className="text-sm font-bold text-cyan-400 font-mono">{formatCurrency(goal.currentAmount)}</div>
+                    <div className="text-xs text-slate-400 font-mono uppercase font-bold">Current Saved</div>
+                    <div className="text-base font-bold text-cyan-400 font-mono">{formatCurrency(goal.currentAmount)}</div>
                   </div>
                 </div>
               </div>
 
               {/* Deadline & Deposit CTA */}
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-mono">
-                  <FaCalendarAlt size={11} className="text-slate-500" />
+              <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
+                  <FaCalendarAlt size={13} className="text-slate-500" />
                   <span>By: {goal.deadline}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setDepositGoalId(goal.id)}
                   disabled={pct >= 100}
-                  className="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 shadow-sm"
+                  className="px-5 py-2.5 rounded-2xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 shadow-md"
                 >
-                  <FaCoins size={11} /> + Deposit
+                  <FaCoins size={13} /> + Deposit
                 </button>
               </div>
             </motion.div>

@@ -229,59 +229,59 @@ export default function Profile() {
       </div>
 
       {/* ── 2-Column Balanced Equal Grid (Personal Info + Security) ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
         {/* Left Column: Personal Information */}
-        <div className="glass-card p-6 flex flex-col justify-between h-full border border-slate-800">
+        <div className="glass-card p-8 sm:p-10 flex flex-col justify-between h-full border border-slate-700/80 rounded-3xl text-center bg-slate-900/90 shadow-2xl">
           <div>
-            <div className="flex items-center gap-2.5 mb-5 border-b border-slate-800 pb-3">
-              <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                <FaUser size={14} />
+            <div className="flex flex-col items-center justify-center text-center gap-3 mb-6 border-b border-slate-800 pb-4">
+              <div className="p-3 rounded-2xl bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+                <FaUser size={20} />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-slate-100">Personal Information</h3>
-                <p className="text-[11px] text-slate-400">Update your account name and email address</p>
+                <h3 className="text-lg font-extrabold text-slate-100">Personal Information</h3>
+                <p className="text-sm text-slate-300 mt-0.5">Update your account name and email address</p>
               </div>
             </div>
 
             {message && (
               <motion.div
-                className="profile-success mb-4 p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2"
+                className="profile-success mb-5 p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-sm flex items-center justify-center gap-2"
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <FaCheckCircle size={14} />
+                <FaCheckCircle size={16} />
                 <span>{message}</span>
               </motion.div>
             )}
             {error && (
-              <div className="auth-error mb-4 p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
+              <div className="auth-error mb-5 p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-sm text-center">
                 {error}
               </div>
             )}
 
-            <form id="profile-details-form" onSubmit={handleSubmit} className="space-y-4">
-              <div className="form-group">
-                <label htmlFor="profile-name" className="block text-xs font-semibold text-slate-300 mb-1">
+            <form id="profile-details-form" onSubmit={handleSubmit} className="space-y-5 text-center">
+              <div className="form-group text-center">
+                <label htmlFor="profile-name" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 text-center">
                   Full Name
                 </label>
                 <input
                   id="profile-name"
                   type="text"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-cyan-400 text-xs text-slate-100 outline-none transition-all"
+                  className="w-full px-4 py-3.5 rounded-2xl bg-slate-950 border border-slate-700/80 focus:border-cyan-400 text-sm text-slate-100 outline-none text-center font-semibold transition-all shadow-inner"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="profile-email" className="block text-xs font-semibold text-slate-300 mb-1">
+              <div className="form-group text-center">
+                <label htmlFor="profile-email" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 text-center">
                   Email Address
                 </label>
                 <input
                   id="profile-email"
                   type="email"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-cyan-400 text-xs text-slate-100 outline-none transition-all"
+                  className="w-full px-4 py-3.5 rounded-2xl bg-slate-950 border border-slate-700/80 focus:border-cyan-400 text-sm text-slate-100 outline-none text-center font-mono font-semibold transition-all shadow-inner"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -294,50 +294,50 @@ export default function Profile() {
             <button
               type="submit"
               form="profile-details-form"
-              className="btn-primary w-full justify-center py-2.5 text-xs font-bold"
+              className="btn-primary w-full justify-center py-3.5 text-sm font-bold rounded-2xl shadow-lg"
               disabled={loading}
             >
-              <FaUser size={12} />
+              <FaUser size={14} />
               {loading ? 'Saving Changes...' : 'Update Personal Details'}
             </button>
           </div>
         </div>
 
         {/* Right Column: Password & Security */}
-        <div className="glass-card p-6 flex flex-col justify-between h-full border border-slate-800">
+        <div className="glass-card p-8 sm:p-10 flex flex-col justify-between h-full border border-slate-700/80 rounded-3xl text-center bg-slate-900/90 shadow-2xl">
           <div>
-            <div className="flex items-center gap-2.5 mb-5 border-b border-slate-800 pb-3">
-              <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                <FaLock size={14} />
+            <div className="flex flex-col items-center justify-center text-center gap-3 mb-6 border-b border-slate-800 pb-4">
+              <div className="p-3 rounded-2xl bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+                <FaLock size={20} />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-slate-100">Password & Security</h3>
-                <p className="text-[11px] text-slate-400">Change your account password securely</p>
+                <h3 className="text-lg font-extrabold text-slate-100">Password & Security</h3>
+                <p className="text-sm text-slate-300 mt-0.5">Change your account password securely</p>
               </div>
             </div>
 
             {passwordMessage && (
-              <div className="profile-success mb-4 p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs flex items-center gap-2">
-                <FaCheckCircle size={14} />
+              <div className="profile-success mb-5 p-3.5 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-sm flex items-center justify-center gap-2">
+                <FaCheckCircle size={16} />
                 <span>{passwordMessage}</span>
               </div>
             )}
             {passwordError && (
-              <div className="auth-error mb-4 p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs">
+              <div className="auth-error mb-5 p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-sm text-center">
                 {passwordError}
               </div>
             )}
 
-            <form id="profile-password-form" onSubmit={handlePasswordSubmit} className="space-y-3">
-              <div className="form-group">
-                <label htmlFor="current-pass" className="block text-xs font-semibold text-slate-300 mb-1">
+            <form id="profile-password-form" onSubmit={handlePasswordSubmit} className="space-y-4 text-center">
+              <div className="form-group text-center">
+                <label htmlFor="current-pass" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 text-center">
                   Current Password
                 </label>
                 <input
                   id="current-pass"
                   type="password"
                   placeholder="••••••••"
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-indigo-400 text-xs text-slate-100 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-700/80 focus:border-indigo-400 text-sm text-slate-100 outline-none text-center font-semibold transition-all shadow-inner"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   required
@@ -345,15 +345,15 @@ export default function Profile() {
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="new-pass" className="block text-xs font-semibold text-slate-300 mb-1">
+              <div className="form-group text-center">
+                <label htmlFor="new-pass" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 text-center">
                   New Password
                 </label>
                 <input
                   id="new-pass"
                   type="password"
                   placeholder="••••••••"
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-indigo-400 text-xs text-slate-100 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-700/80 focus:border-indigo-400 text-sm text-slate-100 outline-none text-center font-semibold transition-all shadow-inner"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
@@ -361,15 +361,15 @@ export default function Profile() {
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirm-pass" className="block text-xs font-semibold text-slate-300 mb-1">
+              <div className="form-group text-center">
+                <label htmlFor="confirm-pass" className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 text-center">
                   Confirm New Password
                 </label>
                 <input
                   id="confirm-pass"
                   type="password"
                   placeholder="••••••••"
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-700/60 focus:border-indigo-400 text-xs text-slate-100 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-700/80 focus:border-indigo-400 text-sm text-slate-100 outline-none text-center font-semibold transition-all shadow-inner"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
@@ -379,72 +379,74 @@ export default function Profile() {
             </form>
           </div>
 
-          <div className="pt-4">
+          <div className="pt-6">
             <button
               type="submit"
               form="profile-password-form"
-              className="btn-primary w-full justify-center py-2.5 text-xs font-bold"
+              className="btn-primary w-full justify-center py-3.5 text-sm font-bold rounded-2xl shadow-lg"
               disabled={passwordLoading}
             >
-              <FaLock size={12} />
+              <FaLock size={14} />
               {passwordLoading ? 'Updating Password...' : 'Save New Password'}
             </button>
           </div>
         </div>
       </div>
 
-      {/* ── Module 6: Data Backup, Encryption & Instant Restore ── */}
-      <div className="glass-card p-6 border border-slate-800 bg-slate-900/60">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-4 mb-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <FaDatabase size={18} />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-slate-100">Encrypted Data Backup & Instant Restore</h3>
-              <p className="text-xs text-slate-400">Export your complete financial records as JSON or restore state on new devices</p>
-            </div>
+      {/* ── Module 6: Data Backup, Encryption & Instant Restore (Photo 1 Upgrade) ── */}
+      <div className="glass-card p-8 sm:p-10 border border-slate-700/80 bg-slate-900/90 rounded-3xl shadow-2xl space-y-6 text-center">
+        <div className="flex flex-col items-center justify-center text-center gap-3 border-b border-slate-800 pb-5">
+          <div className="p-3.5 rounded-2xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <FaDatabase size={24} />
+          </div>
+          <div>
+            <h3 className="text-xl font-extrabold text-slate-100">Encrypted Data Backup & Instant Restore</h3>
+            <p className="text-sm text-slate-300 mt-1">
+              Export your complete financial records as JSON or restore your database state onto new devices
+            </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button
-            type="button"
-            onClick={handleDownloadBackup}
-            disabled={backupLoading}
-            className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-emerald-500/40 text-left transition-all group cursor-pointer flex items-center justify-between"
-          >
-            <div>
-              <div className="text-xs font-bold text-slate-200 group-hover:text-emerald-400 flex items-center gap-2">
-                <FaDownload size={13} className="text-emerald-400" />
-                1-Click JSON Backup
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-6 rounded-3xl bg-slate-950/90 border border-slate-800 hover:border-emerald-500/40 text-center transition-all flex flex-col justify-between space-y-4 shadow-lg">
+            <div className="space-y-2">
+              <div className="text-base font-extrabold text-slate-100 flex items-center justify-center gap-2">
+                <FaDownload size={16} className="text-emerald-400" /> 1-Click JSON Backup
               </div>
-              <div className="text-[11px] text-slate-400 mt-1">Download encrypted JSON export of all transactions & assets</div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Download an encrypted JSON backup file containing all your transactions, assets, debts, and recurring bills.
+              </p>
             </div>
-            <span className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold border border-emerald-500/30 shrink-0">
-              {backupLoading ? 'Exporting...' : 'Export JSON'}
-            </span>
-          </button>
+            <button
+              type="button"
+              onClick={handleDownloadBackup}
+              disabled={backupLoading}
+              className="btn-primary w-full justify-center py-3 text-xs font-bold rounded-2xl shadow-md cursor-pointer"
+            >
+              {backupLoading ? 'Exporting...' : 'Export Full JSON Backup'}
+            </button>
+          </div>
 
-          <label className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-cyan-500/40 text-left transition-all group cursor-pointer flex items-center justify-between">
-            <input
-              type="file"
-              accept=".json"
-              onChange={handleRestoreJSON}
-              disabled={restoreLoading}
-              className="hidden"
-            />
-            <div>
-              <div className="text-xs font-bold text-slate-200 group-hover:text-cyan-400 flex items-center gap-2">
-                <FaUpload size={13} className="text-cyan-400" />
-                Restore from Backup
+          <div className="p-6 rounded-3xl bg-slate-950/90 border border-slate-800 hover:border-cyan-500/40 text-center transition-all flex flex-col justify-between space-y-4 shadow-lg">
+            <div className="space-y-2">
+              <div className="text-base font-extrabold text-slate-100 flex items-center justify-center gap-2">
+                <FaUpload size={16} className="text-cyan-400" /> Restore from Backup
               </div>
-              <div className="text-[11px] text-slate-400 mt-1">Upload previously exported JSON backup file</div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Upload a previously exported JSON backup file to instantly restore your financial records.
+              </p>
             </div>
-            <span className="px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 font-mono text-[10px] font-bold border border-cyan-500/30 shrink-0">
-              {restoreLoading ? 'Restoring...' : 'Upload JSON'}
-            </span>
-          </label>
+            <label className="btn-secondary w-full justify-center py-3 text-xs font-bold rounded-2xl shadow-md cursor-pointer inline-flex items-center gap-2">
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleRestoreJSON}
+                disabled={restoreLoading}
+                className="hidden"
+              />
+              {restoreLoading ? 'Restoring Data...' : 'Upload JSON File'}
+            </label>
+          </div>
         </div>
       </div>
     </motion.main>
