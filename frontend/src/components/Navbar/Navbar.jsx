@@ -101,20 +101,19 @@ const Navbar = ({ onToggleSidebar, onOpenCommandPalette }) => {
           </div>
         </Link>
 
-        <div className="navbar__pills" aria-hidden="true">
-          <span className="status-pill">
-            <span className="status-pill__dot" />
-            Live
-          </span>
-
+        <div className="navbar__pills ml-2 md:ml-4">
           <button
             type="button"
             onClick={() => onOpenCommandPalette && onOpenCommandPalette()}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-700/50 hover:border-cyan-500/50 text-slate-300 hover:text-white text-xs font-medium transition-all shadow-inner ml-3 cursor-pointer"
+            className="flex items-center justify-between gap-3 px-4 py-2 w-40 sm:w-60 md:w-72 rounded-xl bg-slate-950/80 border border-slate-700/80 hover:border-cyan-400/80 text-slate-300 hover:text-white text-xs font-medium transition-all shadow-md cursor-pointer group"
           >
-            <span className="text-cyan-400 font-bold">⌘</span>
-            <span className="hidden sm:inline">Search...</span>
-            <kbd className="px-1 py-0.5 text-[10px] bg-slate-800 rounded border border-slate-700 text-slate-400 font-mono">Ctrl K</kbd>
+            <div className="flex items-center gap-2.5">
+              <span className="text-cyan-400 font-bold group-hover:scale-110 transition-transform">⌘</span>
+              <span className="text-slate-300 font-semibold">Search commands & pages...</span>
+            </div>
+            <kbd className="px-1.5 py-0.5 text-[10px] bg-slate-800/90 rounded-md border border-slate-700 text-slate-400 font-mono font-bold shadow-sm">
+              Ctrl K
+            </kbd>
           </button>
         </div>
       </div>

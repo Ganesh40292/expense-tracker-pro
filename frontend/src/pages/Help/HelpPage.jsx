@@ -287,9 +287,9 @@ export default function HelpPage() {
             </div>
 
             <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 text-xs text-slate-300 font-mono flex items-center justify-between">
-              <span>support@expensetracker.com</span>
+              <span>expensetracker40292@gmail.com</span>
               <a
-                href="mailto:support@expensetracker.com"
+                href="mailto:expensetracker40292@gmail.com"
                 className="text-cyan-400 hover:underline text-[11px] font-bold"
               >
                 Send Email

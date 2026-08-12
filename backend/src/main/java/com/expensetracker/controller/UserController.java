@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.expensetracker.security.UserPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -17,38 +20,58 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private Long resolveUserId(String idStr, UserPrincipal userPrincipal) {
+        if (idStr != null && !idStr.equalsIgnoreCase("me") && !idStr.equalsIgnoreCase("undefined")) {
+            try {
+                return Long.parseLong(idStr);
+            } catch (NumberFormatException ignored) {}
+        }
+        if (userPrincipal != null) {
+            return userPrincipal.getId();
+        }
+        throw new IllegalArgumentException("User ID could not be resolved");
+    }
+
     @GetMapping("/profile/{id}")
     public ResponseEntity<UserResponse> getUserProfile(
-            @PathVariable Long id) {
+            @PathVariable String id,
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
-        UserResponse response = userService.getUserProfile(id);
+        Long resolvedId = resolveUserId(id, userPrincipal);
+        UserResponse response = userService.getUserProfile(resolvedId);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/profile/{id}")
     public ResponseEntity<UserResponse> updateUserProfile(
-            @PathVariable Long id,
+            @PathVariable String id,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody UpdateProfileRequest request) {
 
-        UserResponse response = userService.updateUserProfile(id, request);
+        Long resolvedId = resolveUserId(id, userPrincipal);
+        UserResponse response = userService.updateUserProfile(resolvedId, request);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/password/{id}")
     public ResponseEntity<ApiResponse> updatePassword(
-            @PathVariable Long id,
+            @PathVariable String id,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @Valid @RequestBody UpdatePasswordRequest request) {
 
-        ApiResponse response = userService.updatePassword(id, request);
+        Long resolvedId = resolveUserId(id, userPrincipal);
+        ApiResponse response = userService.updatePassword(resolvedId, request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/profile/{id}/avatar")
     public ResponseEntity<UserResponse> uploadAvatar(
-            @PathVariable Long id,
+            @PathVariable String id,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
 
-        UserResponse response = userService.uploadAvatar(id, file);
+        Long resolvedId = resolveUserId(id, userPrincipal);
+        UserResponse response = userService.uploadAvatar(resolvedId, file);
         return ResponseEntity.ok(response);
     }
 

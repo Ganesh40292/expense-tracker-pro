@@ -8,6 +8,7 @@ import useAuth from '../../hooks/useAuth'
 import { useToast } from '../../context/ToastContext'
 import { useCurrency } from '../../context/CurrencyContext'
 import ExportCenter from '../../components/ExportCenter/ExportCenter'
+import CsvAutoMapperModal from '../../components/CsvMapper/CsvAutoMapperModal'
 import api from '../../services/api'
 import { CATEGORIES, TRANSACTION_TYPES } from '../../utils/constants'
 import {
@@ -674,6 +675,12 @@ function Transactions() {
         onClose={() => setIsExportCenterOpen(false)}
         transactions={filteredTransactions}
         user={user}
+      />
+
+      <CsvAutoMapperModal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        onImportSuccess={fetchTransactions}
       />
     </motion.main>
   )

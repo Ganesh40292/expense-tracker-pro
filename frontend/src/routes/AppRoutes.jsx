@@ -22,6 +22,9 @@ import AiIntelligence from '../pages/AiIntelligence/AiIntelligence'
 import DebtTracker from '../pages/DebtTracker/DebtTracker'
 import AssetsPage from '../pages/Assets/AssetsPage'
 import HelpPage from '../pages/Help/HelpPage'
+import GoalPlanner from '../pages/Goals/GoalPlanner'
+import BillSplitter from '../pages/Split/BillSplitter'
+import AnalyticsHub from '../pages/Analytics/AnalyticsHub'
 
 // Admin pages
 import AdminRoute from './AdminRoute'
@@ -62,6 +65,9 @@ function AppRoutes() {
           <Route path="/debt" element={<DebtTracker />} />
           <Route path="/assets" element={<AssetsPage />} />
           <Route path="/help" element={<HelpPage />} />
+          <Route path="/goals" element={<GoalPlanner />} />
+          <Route path="/split" element={<BillSplitter />} />
+          <Route path="/analysis" element={<AnalyticsHub />} />
 
           <Route path="/transactions/view/:id" element={<TransactionDetails />} />
         </Route>

@@ -15,7 +15,10 @@ import BarChartComponent from '../../components/Charts/BarChartComponent'
 import ExportCenter from '../../components/ExportCenter/ExportCenter'
 import HealthScoreGauge from '../../components/HealthScore/HealthScoreGauge'
 import BillCalendar from '../../components/BillCalendar/BillCalendar'
+import CashFlowCalendar from '../../components/Calendar/CashFlowCalendar'
+import MoMComparisonChart from '../../components/Charts/MoMComparisonChart'
 import html2canvas from 'html2canvas'
+import { getGamificationMetrics } from '../../services/gamificationService'
 import {
   FaWallet,
   FaArrowUp,
@@ -511,6 +514,43 @@ export default function Dashboard() {
               <HealthScoreGauge healthScore={healthScoreStats} />
             </section>
 
+            {/* ── Module 1: Daily Logging Streak & Gamification Badges ── */}
+            <section className="mb-6">
+              <div className="glass-card p-4 flex flex-col md:flex-row items-center justify-between gap-4 border border-indigo-500/20 bg-gradient-to-r from-slate-900/90 via-indigo-950/40 to-slate-900/90">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 font-extrabold text-lg flex items-center justify-center shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+                    🔥 {getGamificationMetrics(transactions).streak}
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-slate-100 flex items-center gap-2">
+                      <span>Daily Logging Streak</span>
+                      <span className="px-2 py-0.5 text-[9px] font-mono font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/40">
+                        {getGamificationMetrics(transactions).streak} Days Active
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400">Keep logging daily transactions to maintain your financial discipline streak!</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 overflow-x-auto max-w-full pb-1">
+                  {getGamificationMetrics(transactions).badges.map((badge) => (
+                    <div
+                      key={badge.id}
+                      title={`${badge.title}: ${badge.description} (${badge.progress})`}
+                      className={`px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 shrink-0 transition-all ${
+                        badge.unlocked
+                          ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300 shadow-[0_0_10px_rgba(52,211,153,0.2)]'
+                          : 'bg-slate-950/60 border-slate-800 text-slate-500 opacity-60'
+                      }`}
+                    >
+                      <span>{badge.icon}</span>
+                      <span>{badge.title}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
             {/* ── Stats Grid ── */}
             <motion.section className="ag-stats-grid" variants={containerVariants}>
               {/* Card 1: Balance (Filtered window) */}
@@ -598,6 +638,12 @@ export default function Dashboard() {
             {/* ── Subscriptions & Bill Calendar Timeline ── */}
             <section style={{ marginBottom: '24px' }}>
               <BillCalendar recurringExpenses={recurringExpenses} />
+            </section>
+
+            {/* ── Module 4: 30-Day Cash Flow Calendar & MoM Comparison Grid ── */}
+            <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <CashFlowCalendar transactions={transactions} />
+              <MoMComparisonChart transactions={transactions} />
             </section>
 
             {/* ── Upcoming Payments Panel ── */}

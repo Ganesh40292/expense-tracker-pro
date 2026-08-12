@@ -4,11 +4,12 @@ import { BrowserRouter } from 'react-router-dom';
 import Dashboard from './Dashboard';
 
 // Global ResizeObserver mock for JSDOM
-globalThis.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+globalThis.ResizeObserver = ResizeObserverMock
 
 // Mock framer-motion
 vi.mock('framer-motion', async (importOriginal) => {

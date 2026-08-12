@@ -12,6 +12,9 @@ import {
   FaCalculator,
   FaQuestionCircle,
   FaEnvelope,
+  FaBullseye,
+  FaUsers,
+  FaChartLine,
 } from 'react-icons/fa'
 import useAuth from '../../hooks/useAuth'
 import './Sidebar.css'
@@ -36,6 +39,9 @@ const Sidebar = ({ isOpen, onClose }) => {
   const navItems = [
     { to: '/dashboard', icon: FaHome, label: 'Dashboard' },
     { to: '/transactions', icon: FaExchangeAlt, label: 'Transactions' },
+    { to: '/analysis', icon: FaChartLine, label: 'Master Analytics' },
+    { to: '/goals', icon: FaBullseye, label: 'Savings Goals' },
+    { to: '/split', icon: FaUsers, label: 'Bill Splitter' },
     { to: '/assets', icon: FaCoins, label: 'Assets & Net Worth' },
     { to: '/debt', icon: FaCalculator, label: 'Debt Tracker' },
     { to: '/receipts', icon: FaReceipt, label: 'Receipt Scanner' },
@@ -100,11 +106,11 @@ const Sidebar = ({ isOpen, onClose }) => {
             <span>Help Center & FAQs</span>
           </NavLink>
           <a
-            href="mailto:support@expensetracker.com"
+            href="mailto:expensetracker40292@gmail.com"
             className="sidebar__help-email hover:text-cyan-400 transition-colors"
           >
             <FaEnvelope size={11} />
-            <span>support@expensetracker.com</span>
+            <span>expensetracker40292@gmail.com</span>
           </a>
         </div>
 
