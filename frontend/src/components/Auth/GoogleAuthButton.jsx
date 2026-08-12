@@ -119,15 +119,15 @@ export default function GoogleAuthButton({ mode = 'login' }) {
   }
 
   return (
-    <div className="w-full space-y-2">
-      {error && <div className="text-xs text-rose-400 text-center">{error}</div>}
+    <div className="google-auth-container">
+      {error && <div className="auth-error" style={{ marginBottom: '8px', textAlign: 'center' }}>{error}</div>}
       <button
         type="button"
         onClick={handleTriggerGoogleAuth}
         disabled={loading}
-        className="w-full py-3.5 px-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-400 text-slate-100 text-sm font-bold flex items-center justify-center gap-3 transition-all shadow-lg hover:shadow-cyan-500/10 cursor-pointer disabled:opacity-50"
+        className="google-btn"
       >
-        <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+        <svg style={{ width: '20px', height: '20px', flexShrink: 0 }} viewBox="0 0 24 24">
           <path
             fill="#4285F4"
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

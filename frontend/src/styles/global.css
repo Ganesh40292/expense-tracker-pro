@@ -571,7 +571,11 @@ a:hover {
 }
 
 .auth-card .btn-primary {
-  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
   padding: 14px 24px;
   font-size: 15px;
   font-weight: 700;
@@ -607,6 +611,99 @@ a:hover {
 .auth-card .btn-primary:active {
   transform: translateY(0);
   box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+}
+
+/* Password Input Wrapper & Toggle Button */
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 44px !important;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent !important;
+  border: none !important;
+  color: var(--auth-text-secondary, #7c8db5);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  z-index: 2;
+  box-shadow: none !important;
+}
+
+.password-toggle-btn:hover {
+  color: #22d3ee;
+}
+
+/* Auth Divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0 16px;
+  position: relative;
+  width: 100%;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+.auth-divider span {
+  padding: 0 14px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--auth-text-secondary, #7c8db5);
+  background: rgba(12, 17, 35, 0.95);
+}
+
+/* Google Auth Button */
+.google-auth-container {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.google-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 20px;
+  min-height: 48px;
+  border-radius: var(--radius-lg, 12px);
+  background: rgba(15, 20, 45, 0.85);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  color: #f0f4ff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.google-btn:hover {
+  background: rgba(25, 32, 70, 0.95);
+  border-color: rgba(34, 211, 238, 0.5);
+  box-shadow: 0 4px 24px rgba(34, 211, 238, 0.2);
+  transform: translateY(-1px);
 }
 
 .auth-error {

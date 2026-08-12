@@ -110,22 +110,20 @@ function Register() {
 
             <div className="form-group">
               <label htmlFor="register-password">Password</label>
-              <div className="relative flex items-center">
+              <div className="password-input-wrapper">
                 <input
                   id="register-password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Min 6 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  style={{ paddingRight: '2.5rem' }}
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 text-slate-400 hover:text-cyan-400 transition-colors p-1"
+                  className="password-toggle-btn"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
                 >
                   {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
                 </button>
@@ -134,22 +132,20 @@ function Register() {
 
             <div className="form-group">
               <label htmlFor="register-confirm">Confirm Password</label>
-              <div className="relative flex items-center">
+              <div className="password-input-wrapper">
                 <input
                   id="register-confirm"
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirm your password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  style={{ paddingRight: '2.5rem' }}
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 text-slate-400 hover:text-cyan-400 transition-colors p-1"
+                  className="password-toggle-btn"
                   aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
                 >
                   {showConfirmPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
                 </button>
@@ -161,16 +157,11 @@ function Register() {
             </button>
           </form>
 
-          <div className="space-y-4 my-4">
-            <div className="relative flex items-center justify-center my-4">
-              <div className="border-t border-slate-800 w-full" />
-              <span className="bg-slate-900 px-3 text-[11px] font-mono font-bold text-slate-400 uppercase tracking-widest absolute shrink-0">
-                Or Continue With
-              </span>
-            </div>
-
-            <GoogleAuthButton mode="register" />
+          <div className="auth-divider">
+            <span>Or Continue With</span>
           </div>
+
+          <GoogleAuthButton mode="register" />
 
           <p className="auth-footer">
             Already have an account? <Link to="/login">Sign In</Link>
