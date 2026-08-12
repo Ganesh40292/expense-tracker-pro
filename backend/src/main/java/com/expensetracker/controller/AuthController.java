@@ -43,6 +43,20 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> googleAuth(
+            @RequestBody Map<String, String> payload,
+            HttpServletRequest httpRequest) {
+
+        String email = payload.get("email");
+        String name = payload.get("name");
+        String googleId = payload.get("googleId");
+        String avatarUrl = payload.get("avatarUrl");
+
+        AuthResponse response = authService.googleAuth(email, name, googleId, avatarUrl, httpRequest);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refreshToken(
             @Valid @RequestBody RefreshTokenRequest request) {

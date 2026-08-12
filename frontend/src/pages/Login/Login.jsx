@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import useAuth from '../../hooks/useAuth'
 import { login } from '../../services/authService'
+import GoogleAuthButton from '../../components/Auth/GoogleAuthButton'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -67,6 +68,17 @@ function Login() {
           <p className="auth-subtitle">Sign in to your expense tracker</p>
 
           {error && <div className="auth-error">{error}</div>}
+
+          <div className="space-y-4 my-3">
+            <GoogleAuthButton mode="login" />
+
+            <div className="relative flex items-center justify-center my-4">
+              <div className="border-t border-slate-800 w-full" />
+              <span className="bg-slate-900 px-3 text-[11px] font-mono font-bold text-slate-400 uppercase tracking-widest absolute shrink-0">
+                Or Continue With Email
+              </span>
+            </div>
+          </div>
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">

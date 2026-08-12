@@ -12,6 +12,8 @@ public interface AuthService {
 
     AuthResponse loginUser(LoginRequest request, HttpServletRequest httpRequest);
 
+    AuthResponse googleAuth(String email, String name, String googleId, String avatarUrl, HttpServletRequest httpRequest);
+
     AuthResponse refreshToken(String refreshToken);
 
     void logout(String refreshToken);
