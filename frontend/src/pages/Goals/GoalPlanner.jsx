@@ -109,7 +109,7 @@ export default function GoalPlanner() {
             <FaBullseye className="text-cyan-400" size={24} />
             Savings Target & Milestone Planner
           </h1>
-          <p className="text-xs text-slate-400">
+          <p className="text-sm text-slate-300">
             Set custom financial goals, monitor glowing progress rings, and deposit funds towards completion
           </p>
         </div>
@@ -117,12 +117,12 @@ export default function GoalPlanner() {
           <button
             type="button"
             onClick={() => setIsAddModalOpen(true)}
-            className="btn-primary text-xs font-bold"
+            className="btn-primary text-sm font-bold px-4 py-2.5"
           >
-            <FaPlus size={12} /> Add Savings Target
+            <FaPlus size={13} /> Add Savings Target
           </button>
-          <Link to="/dashboard" className="btn-secondary text-xs">
-            <FaArrowLeft size={12} /> Dashboard
+          <Link to="/dashboard" className="btn-secondary text-sm px-4 py-2.5">
+            <FaArrowLeft size={13} /> Dashboard
           </Link>
         </div>
       </div>
@@ -131,11 +131,11 @@ export default function GoalPlanner() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="glass-card p-4 border border-cyan-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
           <div className="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-            <FaBullseye size={18} />
+            <FaBullseye size={20} />
           </div>
           <div>
-            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Total Target Volume</div>
-            <div className="text-sm font-extrabold text-slate-100 font-mono">{formatCurrency(totalTargetVolume)}</div>
+            <div className="text-xs uppercase font-mono text-slate-400 font-bold">Total Target Volume</div>
+            <div className="text-base font-extrabold text-slate-100 font-mono">{formatCurrency(totalTargetVolume)}</div>
           </div>
         </div>
 

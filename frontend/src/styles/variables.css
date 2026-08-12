@@ -64,6 +64,14 @@
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
+  /* Standardized Font Hierarchy */
+  --font-size-h1: 1.75rem;     /* 28px — Page Headers */
+  --font-size-h2: 1.375rem;    /* 22px — Section Headers */
+  --font-size-h3: 1.125rem;    /* 18px — Card / Panel Titles */
+  --font-size-h4: 1rem;        /* 16px — Subhead / Widget Titles */
+  --font-size-body: 0.9375rem; /* 15px — All Body, Inputs, Table Cells, Buttons */
+  --font-size-meta: 0.8125rem; /* 13px — Footers, Timestamps, Captions, Badges */
+
   /* ── Motion ── */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);

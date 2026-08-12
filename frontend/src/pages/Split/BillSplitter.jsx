@@ -111,12 +111,12 @@ export default function BillSplitter() {
             <FaUsers className="text-cyan-400" size={24} />
             Group Bill & Settlement Calculator
           </h1>
-          <p className="text-xs text-slate-400">
+          <p className="text-sm text-slate-300">
             Split restaurant bills, rent, or group trip expenses, generate settlement matrices, and export WhatsApp links
           </p>
         </div>
-        <Link to="/dashboard" className="btn-secondary text-xs">
-          <FaArrowLeft size={12} /> Dashboard
+        <Link to="/dashboard" className="btn-secondary text-sm px-4 py-2.5">
+          <FaArrowLeft size={13} /> Dashboard
         </Link>
       </div>
 
@@ -124,11 +124,11 @@ export default function BillSplitter() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="glass-card p-4 border border-cyan-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950/90 flex items-center gap-3">
           <div className="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-            <FaCalculator size={18} />
+            <FaCalculator size={20} />
           </div>
           <div>
-            <div className="text-[10px] uppercase font-mono text-slate-400 font-bold">Split Strategy</div>
-            <div className="text-sm font-extrabold text-slate-100">Equal Division (1/N)</div>
+            <div className="text-xs uppercase font-mono text-slate-400 font-bold">Split Strategy</div>
+            <div className="text-base font-extrabold text-slate-100">Equal Division (1/N)</div>
           </div>
         </div>
 

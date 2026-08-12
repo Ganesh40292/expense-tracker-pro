@@ -21,14 +21,56 @@
 }
 
 html {
+  font-size: 16px;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  line-height: 1.6;
+  font-size: var(--font-size-body, 15px);
+  line-height: 1.5;
   background: var(--bg);
+  color: var(--text);
   overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════
+   STANDARDIZED TYPOGRAPHY HIERARCHY
+   ══════════════════════════════════════ */
+
+/* 1. Page & Section Headers (H1, H2, H3, H4) */
+h1, .text-h1 {
+  font-size: var(--font-size-h1, 28px) !important;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+h2, .text-h2 {
+  font-size: var(--font-size-h2, 22px) !important;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h3, .text-h3 {
+  font-size: var(--font-size-h3, 18px) !important;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+h4, .text-h4 {
+  font-size: var(--font-size-h4, 16px) !important;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* 2. Body Text, Inputs, Buttons, Form Labels, Table Cells */
+p, label, input, select, textarea, button, td, th {
+  font-size: var(--font-size-body, 15px);
+}
+
+/* 3. Footers, Metadata, Captions, Timestamps */
+footer, .footer, .sidebar__footer, .text-meta, .caption, small {
+  font-size: var(--font-size-meta, 13px) !important;
 }
 
 /* ── Media overflow protection ── */
