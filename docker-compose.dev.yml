@@ -1,14 +1,14 @@
 # ═══════════════════════════════════════════════════════════
-#  ExpenseTracker — Development Override
+#  ExpenseTracker — Development Override (PostgreSQL)
 #  Run: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 # ═══════════════════════════════════════════════════════════
 
 services:
 
-  # ── MySQL (same as base, just expose for local tools) ───
-  mysql:
+  # ── PostgreSQL (expose for local tools) ─────────────────
+  postgres:
     ports:
-      - "3306:3306"
+      - "5432:5432"
 
   # ── Backend with hot-reload ─────────────────────────────
   backend:
@@ -18,9 +18,9 @@ services:
     container_name: expense-backend-dev
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-expense_tracker}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      DB_USERNAME: ${DB_USERNAME:-root}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-expense_tracker}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-Ganesh}
       SHOW_SQL: "true"
       PORT: 8080
       JWT_SECRET: ${JWT_SECRET:-DevSecretKeyThatIsAtLeast32BytesLong!!}

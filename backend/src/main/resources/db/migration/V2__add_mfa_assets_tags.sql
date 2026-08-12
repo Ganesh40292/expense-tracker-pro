@@ -1,9 +1,9 @@
 -- ═══════════════════════════════════════════════════════════
--- Flyway V2 Schema Migration — Assets & Investments Tracking
+-- Flyway V2 Schema Migration — Assets & Investments Tracking (PostgreSQL)
 -- ═══════════════════════════════════════════════════════════
 
 CREATE TABLE IF NOT EXISTS assets (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL,
     name VARCHAR(150) NOT NULL,
     type VARCHAR(50) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS assets (
     purchase_value DECIMAL(15, 2),
     currency VARCHAR(10) DEFAULT 'INR',
     notes TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+);

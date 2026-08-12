@@ -1,29 +1,29 @@
-# 🌐 Cloud Production Deployment Guide
+# 🌐 Cloud Production Deployment Guide (PostgreSQL)
 
 This guide walks you through deploying **ExpenseTracker Pro** across 3 cloud platforms:
-- 🛢️ **Database**: [Aiven](https://aiven.io/) (Managed MySQL)
+- 🛢️ **Database**: [Aiven](https://aiven.io/) (Managed PostgreSQL)
 - 🚀 **Backend**: [Render](https://render.com/) (Spring Boot 3 Java Service)
 - ⚡ **Frontend**: [Vercel](https://vercel.com/) (Vite + React Single-Page Application)
 
 ---
 
-## 📍 Step 1: Deploy Database on Aiven (MySQL)
+## 📍 Step 1: Deploy Database on Aiven (PostgreSQL)
 
 1. Sign up/Log in to [Aiven Console](https://console.aiven.io/).
-2. Click **Create Service** $\rightarrow$ Select **MySQL**.
-3. Choose the **Free Plan** or **Startup Plan** and select your preferred region (e.g. `aws-ap-south-1` Mumbai or `aws-eu-west-1`).
-4. Name your service (e.g. `expensetracker-db`) and click **Create Service**.
+2. Click **Create Service** $\rightarrow$ Select **PostgreSQL**.
+3. Choose the **Free Plan** and select your preferred region (e.g. `aws-ap-south-1` Mumbai or `aws-eu-west-1`).
+4. Name your service (e.g. `expensetracker-pg-db`) and click **Create Service**.
 5. Once running (takes ~2 minutes), copy the connection credentials from your Aiven Overview panel:
-   - **Host**: `expensetracker-db-xxx.aivencloud.com`
-   - **Port**: `24443` (or given port)
+   - **Host**: `expensetracker-pg-db-xxx.aivencloud.com`
+   - **Port**: `24432` (or given port)
    - **Database Name**: `defaultdb` (or `expense_tracker`)
    - **User**: `avnadmin`
    - **Password**: `<YOUR_AIVEN_PASSWORD>`
-   - **SSL Mode**: `REQUIRED`
+   - **SSL Mode**: `require`
 
 6. Form your JDBC Connection URL:
    ```env
-   jdbc:mysql://<HOST>:<PORT>/defaultdb?sslmode=REQUIRED
+   jdbc:postgresql://<HOST>:<PORT>/defaultdb?sslmode=require
    ```
 
 ---
@@ -36,15 +36,14 @@ This guide walks you through deploying **ExpenseTracker Pro** across 3 cloud pla
 4. Configure the Web Service settings:
    - **Name**: `expensetracker-api`
    - **Root Directory**: `backend`
-   - **Environment**: `Docker` (or `Java`)
-   - **Region**: Same as Aiven database region (e.g. Singapore / Frankfurt)
+   - **Environment**: `Docker`
    - **Branch**: `main`
 
 5. Add **Environment Variables** under Render Settings:
 
    | Key | Example Value | Description |
    | :--- | :--- | :--- |
-   | `DB_URL` | `jdbc:mysql://<AIVEN_HOST>:<PORT>/defaultdb?sslmode=REQUIRED` | Aiven MySQL JDBC URL |
+   | `DB_URL` | `jdbc:postgresql://<AIVEN_HOST>:<PORT>/defaultdb?sslmode=require` | Aiven PostgreSQL JDBC URL |
    | `DB_USERNAME` | `avnadmin` | Aiven Database User |
    | `DB_PASSWORD` | `<YOUR_AIVEN_PASSWORD>` | Aiven Database Password |
    | `JWT_SECRET` | `ExpenseTrackerSuperSecretKeyThatIsAtLeast32BytesLong2026!!` | Secret key for JWT auth |
@@ -52,7 +51,7 @@ This guide walks you through deploying **ExpenseTracker Pro** across 3 cloud pla
    | `GEMINI_API_KEY` | `AIzaSy...` | Gemini 2.0 Multimodal API Key |
    | `PORT` | `8080` | Render port |
 
-6. Click **Create Web Service**. Render will automatically build the container and run Flyway database migrations.
+6. Click **Create Web Service**. Render will automatically build the container and run Flyway database migrations for PostgreSQL.
 7. Once deployed, note down your backend live URL: `https://expensetracker-api.onrender.com`.
 
 ---
@@ -74,21 +73,4 @@ This guide walks you through deploying **ExpenseTracker Pro** across 3 cloud pla
    | :--- | :--- | :--- |
    | `VITE_API_URL` | `https://expensetracker-api.onrender.com/api` | Your Render backend live API URL |
 
-6. Click **Deploy**. Vercel will build and host your single-page app globally with automatic SSL.
-
----
-
-## 📋 Quick Environment Variables Cheat Sheet
-
-```env
-# ── Render Backend Env Vars ──
-DB_URL=jdbc:mysql://expensetracker-db-xxx.aivencloud.com:24443/defaultdb?sslmode=REQUIRED
-DB_USERNAME=avnadmin
-DB_PASSWORD=YOUR_AIVEN_PASSWORD
-JWT_SECRET=ExpenseTrackerSuperSecretKeyThatIsAtLeast32BytesLong2026!!
-FRONTEND_URL=https://expense-tracker-pro.vercel.app
-GEMINI_API_KEY=YOUR_GEMINI_KEY
-
-# ── Vercel Frontend Env Var ──
-VITE_API_URL=https://expensetracker-api.onrender.com/api
-```
+6. Click **Deploy**. Vercel will build and host your single-page app globally.

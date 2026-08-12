@@ -1,11 +1,11 @@
 # ═══════════════════════════════════════════════════════════
-#  ExpenseTracker — Production Override
+#  ExpenseTracker — Production Override (PostgreSQL)
 #  Run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 # ═══════════════════════════════════════════════════════════
 
 services:
 
-  mysql:
+  postgres:
     restart: always
     deploy:
       resources:
