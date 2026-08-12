@@ -13,6 +13,9 @@ backend/target/
 # Environment and Secrets
 .env
 *.local
+credentials.txt
+secrets.txt
+*_credentials.txt
 
 # IDE and OS
 .vscode/
